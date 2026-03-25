@@ -1,0 +1,73 @@
+<Solution>
+  <Folder Name="/Apps/">
+    <Project Path="src/Apps/DarwinDeutsch.Maui/DarwinDeutsch.Maui.csproj">
+      <Deploy Solution="Debug|*" />
+    </Project>
+    <Project Path="src/Apps/DarwinLingua.ImportTool/DarwinLingua.ImportTool.csproj" />
+  </Folder>
+  <Folder Name="/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/DarwinLingua.Contracts/DarwinLingua.Contracts.csproj" />
+    <Project Path="src/BuildingBlocks/DarwinLingua.SharedKernel/DarwinLingua.SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/Docs/">
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Docs/AllDocs/">
+    <File Path="docs/00- Docs.md" />
+    <File Path="docs/00- Solution Folders.md" />
+    <File Path="docs/00- Stracture.md" />
+    <File Path="docs/01- Product-Vision.md" />
+    <File Path="docs/02- Product-Scope.md" />
+    <File Path="docs/03- Product-Phases.md" />
+    <File Path="docs/11- Content-Strategy.md" />
+    <File Path="docs/12- AI-Content-Format.md" />
+    <File Path="docs/13- Entry Structure.json" />
+    <File Path="docs/14- Import-Rules.md" />
+    <File Path="docs/15- Topic-Seed-Ideas.md" />
+    <File Path="docs/21- Early Product Decisions.md" />
+    <File Path="docs/22- Domain-Model.md" />
+    <File Path="docs/23- Domain-Rules.md" />
+    <File Path="docs/24- Entity-Relationships.md" />
+    <File Path="docs/25- Phase-1-Domain-Cut.md" />
+    <File Path="docs/26- Bounded-Contexts.md" />
+    <File Path="docs/31- Solution-Architecture.md" />
+    <File Path="docs/32- Storage-Strategy.md" />
+    <File Path="docs/33- Offline-Strategy.md" />
+    <File Path="docs/34- Import-Workflow.md" />
+    <File Path="docs/41- Phase-1-Use-Cases.md" />
+  </Folder>
+  <Folder Name="/Modules/" />
+  <Folder Name="/Modules/Catalog/">
+    <Project Path="src/Modules/Catalog/DarwinLingua.Catalog.Application/DarwinLingua.Catalog.Application.csproj" />
+    <Project Path="src/Modules/Catalog/DarwinLingua.Catalog.Domain/DarwinLingua.Catalog.Domain.csproj" />
+    <Project Path="src/Modules/Catalog/DarwinLingua.Catalog.Infrastructure/DarwinLingua.Catalog.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Modules/ContentOps/">
+    <Project Path="src/Modules/ContentOps/DarwinLingua.ContentOps.Application/DarwinLingua.ContentOps.Application.csproj" />
+    <Project Path="src/Modules/ContentOps/DarwinLingua.ContentOps.Domain/DarwinLingua.ContentOps.Domain.csproj" />
+    <Project Path="src/Modules/ContentOps/DarwinLingua.ContentOps.Infrastructure/DarwinLingua.ContentOps.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Modules/Learning/">
+    <Project Path="src/Modules/Learning/DarwinLingua.Learning.Application/DarwinLingua.Learning.Application.csproj" />
+    <Project Path="src/Modules/Learning/DarwinLingua.Learning.Domain/DarwinLingua.Learning.Domain.csproj" />
+    <Project Path="src/Modules/Learning/DarwinLingua.Learning.Infrastructure/DarwinLingua.Learning.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Modules/Localization/">
+    <Project Path="src/Modules/Localization/DarwinLingua.Localization.Application/DarwinLingua.Localization.Application.csproj" />
+    <Project Path="src/Modules/Localization/DarwinLingua.Localization.Domain/DarwinLingua.Localization.Domain.csproj" />
+    <Project Path="src/Modules/Localization/DarwinLingua.Localization.Infrastructure/DarwinLingua.Localization.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/Modules/Practice/" />
+  <Folder Name="/Modules/ResourceDirectory/" />
+  <Folder Name="/Presentation/" />
+  <Folder Name="/tests/">
+    <Project Path="tests/Modules/Catalog/DarwinLingua.Catalog.Application.Tests/DarwinLingua.Catalog.Application.Tests.csproj" />
+    <Project Path="tests/Modules/Catalog/DarwinLingua.Catalog.Domain.Tests/DarwinLingua.Catalog.Domain.Tests.csproj" />
+    <Project Path="tests/Modules/Catalog/DarwinLingua.Catalog.Infrastructure.Tests/DarwinLingua.Catalog.Infrastructure.Tests.csproj" />
+    <Project Path="tests/Modules/ContentOps/DarwinLingua.ContentOps.Application.Tests/DarwinLingua.ContentOps.Application.Tests.csproj" />
+    <Project Path="tests/Modules/ContentOps/DarwinLingua.ContentOps.Infrastructure.Tests/DarwinLingua.ContentOps.Infrastructure.Tests.csproj" />
+    <Project Path="tests/Modules/Learning/DarwinLingua.Learning.Application.Tests/DarwinLingua.Learning.Application.Tests.csproj" />
+    <Project Path="tests/Modules/Learning/DarwinLingua.Learning.Domain.Tests/DarwinLingua.Learning.Domain.Tests.csproj" />
+    <Project Path="tests/Modules/Localization/DarwinLingua.Localization.Domain.Tests/DarwinLingua.Localization.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,55 @@
+{
+  "word": "Bahnhof",
+  "normalizedWord": "bahnhof",
+  "language": "de",
+  "cefrLevel": "A1",
+  "partOfSpeech": "noun",
+  "article": "der",
+  "plural": "Bahnhöfe",
+  "topics": ["travel", "transport"],
+  "usageLabels": ["daily-life"],
+  "meanings": [
+    {
+      "language": "fa",
+      "text": "ایستگاه قطار"
+    },
+    {
+      "language": "en",
+      "text": "train station"
+    }
+  ],
+  "examples": [
+    {
+      "baseText": "Der Bahnhof ist nicht weit von hier.",
+      "translations": [
+        {
+          "language": "fa",
+          "text": "ایستگاه قطار از اینجا خیلی دور نیست."
+        },
+        {
+          "language": "en",
+          "text": "The train station is not far from here."
+        }
+      ]
+    },
+    {
+      "baseText": "Wir treffen uns vor dem Bahnhof.",
+      "translations": [
+        {
+          "language": "fa",
+          "text": "ما جلوی ایستگاه قطار همدیگر را می‌بینیم."
+        },
+        {
+          "language": "en",
+          "text": "We meet in front of the train station."
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "language": "en",
+      "text": "Common everyday noun used in travel contexts."
+    }
+  ]
+}
