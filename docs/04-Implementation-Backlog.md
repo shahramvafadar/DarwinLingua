@@ -201,7 +201,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [-] add domain tests for aggregate invariants
 - [-] add application tests for main use cases
 - [x] add infrastructure tests for persistence mappings
-- [-] add import workflow tests
+- [x] add import workflow tests
 - [x] cover successful package import with SQLite-backed integration testing
 - [x] cover duplicate `packageId` rejection with SQLite-backed integration testing
 - [x] cover SQLite search-index bootstrap and prefix-first ranking with integration tests
