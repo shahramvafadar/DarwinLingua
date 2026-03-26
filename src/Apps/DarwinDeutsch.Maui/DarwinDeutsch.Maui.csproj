@@ -16,8 +16,6 @@
 		<RootNamespace>DarwinDeutsch.Maui</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
 
 		<!-- Enable XAML source generation for faster build times and improved performance.
 		     This generates C# code from XAML at compile time instead of runtime inflation.
@@ -66,8 +64,32 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Strings\AppStrings.resx">
+			<Generator>MSBuild:Compile</Generator>
+			<LastGenOutput>AppStrings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\AppStrings.de.resx">
+			<Generator>MSBuild:Compile</Generator>
+			<LastGenOutput>AppStrings.Designer.cs</LastGenOutput>
+			<DependentUpon>AppStrings.resx</DependentUpon>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\BuildingBlocks\DarwinLingua.Infrastructure\DarwinLingua.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Modules\Catalog\DarwinLingua.Catalog.Application\DarwinLingua.Catalog.Application.csproj" />
+		<ProjectReference Include="..\..\Modules\Catalog\DarwinLingua.Catalog.Infrastructure\DarwinLingua.Catalog.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Modules\ContentOps\DarwinLingua.ContentOps.Application\DarwinLingua.ContentOps.Application.csproj" />
+		<ProjectReference Include="..\..\Modules\ContentOps\DarwinLingua.ContentOps.Infrastructure\DarwinLingua.ContentOps.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Modules\Learning\DarwinLingua.Learning.Application\DarwinLingua.Learning.Application.csproj" />
+		<ProjectReference Include="..\..\Modules\Learning\DarwinLingua.Learning.Infrastructure\DarwinLingua.Learning.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Modules\Localization\DarwinLingua.Localization.Application\DarwinLingua.Localization.Application.csproj" />
+		<ProjectReference Include="..\..\Modules\Localization\DarwinLingua.Localization.Infrastructure\DarwinLingua.Localization.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

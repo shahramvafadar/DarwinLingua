@@ -3,8 +3,23 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Catalog\DarwinLingua.Catalog.Application\DarwinLingua.Catalog.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\Catalog\DarwinLingua.Catalog.Infrastructure\DarwinLingua.Catalog.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\DarwinLingua.Infrastructure\DarwinLingua.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\ContentOps\DarwinLingua.ContentOps.Application\DarwinLingua.ContentOps.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\ContentOps\DarwinLingua.ContentOps.Infrastructure\DarwinLingua.ContentOps.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Learning\DarwinLingua.Learning.Application\DarwinLingua.Learning.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\Learning\DarwinLingua.Learning.Infrastructure\DarwinLingua.Learning.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Localization\DarwinLingua.Localization.Application\DarwinLingua.Localization.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\Localization\DarwinLingua.Localization.Infrastructure\DarwinLingua.Localization.Infrastructure.csproj" />
+  </ItemGroup>
 
 </Project>

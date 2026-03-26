@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppTitle" xml:space="preserve">
+    <value>Darwin Deutsch</value>
+  </data>
+  <data name="HomeTabTitle" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="SettingsTabTitle" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="HomeHeadline" xml:space="preserve">
+    <value>Grundlage für lokales Sprachlernen</value>
+  </data>
+  <data name="HomeIntro" xml:space="preserve">
+    <value>Die App initialisiert jetzt ihre lokale Datenbank beim Start und lädt die ersten stabilen Sprachreferenzdaten.</value>
+  </data>
+  <data name="HomeCurrentUiLanguageLabel" xml:space="preserve">
+    <value>Aktuelle UI-Sprache</value>
+  </data>
+  <data name="HomeSupportedLanguagesLabel" xml:space="preserve">
+    <value>Gesäte Plattformsprachen</value>
+  </data>
+  <data name="HomeNoLanguages" xml:space="preserve">
+    <value>Keine aktiven Sprachen gefunden.</value>
+  </data>
+  <data name="SettingsHeadline" xml:space="preserve">
+    <value>Spracheinstellungen</value>
+  </data>
+  <data name="SettingsDescription" xml:space="preserve">
+    <value>Die App verwendet standardmäßig die Gerätesprache, wenn sie unterstützt wird. Hier kann die UI-Sprache überschrieben werden.</value>
+  </data>
+  <data name="SettingsUiLanguageLabel" xml:space="preserve">
+    <value>UI-Sprache</value>
+  </data>
+  <data name="LanguageOptionEnglish" xml:space="preserve">
+    <value>Englisch</value>
+  </data>
+  <data name="LanguageOptionGerman" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+</root>

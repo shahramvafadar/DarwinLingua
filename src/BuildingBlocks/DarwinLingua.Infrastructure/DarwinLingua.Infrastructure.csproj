@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DarwinLingua.SharedKernel\DarwinLingua.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\Modules\Localization\DarwinLingua.Localization.Domain\DarwinLingua.Localization.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -7,34 +7,35 @@
   </Folder>
   <Folder Name="/BuildingBlocks/">
     <Project Path="src/BuildingBlocks/DarwinLingua.Contracts/DarwinLingua.Contracts.csproj" />
+    <Project Path="src/BuildingBlocks/DarwinLingua.Infrastructure/DarwinLingua.Infrastructure.csproj" />
     <Project Path="src/BuildingBlocks/DarwinLingua.SharedKernel/DarwinLingua.SharedKernel.csproj" />
   </Folder>
   <Folder Name="/Docs/">
     <File Path="README.md" />
   </Folder>
   <Folder Name="/Docs/AllDocs/">
-    <File Path="docs/00- Docs.md" />
-    <File Path="docs/00- Solution Folders.md" />
-    <File Path="docs/00- Stracture.md" />
-    <File Path="docs/01- Product-Vision.md" />
-    <File Path="docs/02- Product-Scope.md" />
-    <File Path="docs/03- Product-Phases.md" />
-    <File Path="docs/11- Content-Strategy.md" />
-    <File Path="docs/12- AI-Content-Format.md" />
-    <File Path="docs/13- Entry Structure.json" />
-    <File Path="docs/14- Import-Rules.md" />
-    <File Path="docs/15- Topic-Seed-Ideas.md" />
-    <File Path="docs/21- Early Product Decisions.md" />
-    <File Path="docs/22- Domain-Model.md" />
-    <File Path="docs/23- Domain-Rules.md" />
-    <File Path="docs/24- Entity-Relationships.md" />
-    <File Path="docs/25- Phase-1-Domain-Cut.md" />
-    <File Path="docs/26- Bounded-Contexts.md" />
-    <File Path="docs/31- Solution-Architecture.md" />
-    <File Path="docs/32- Storage-Strategy.md" />
-    <File Path="docs/33- Offline-Strategy.md" />
-    <File Path="docs/34- Import-Workflow.md" />
-    <File Path="docs/41- Phase-1-Use-Cases.md" />
+    <File Path="docs/00-Documentation-Index.md" />
+    <File Path="docs/01-Product-Vision.md" />
+    <File Path="docs/02-Product-Scope.md" />
+    <File Path="docs/03-Product-Phases.md" />
+    <File Path="docs/04-Implementation-Backlog.md" />
+    <File Path="docs/11-Content-Strategy.md" />
+    <File Path="docs/12-Content-Package-Format.md" />
+    <File Path="docs/13-Entry-Structure.json" />
+    <File Path="docs/14-Import-Rules.md" />
+    <File Path="docs/15-Topic-Seed-Ideas.md" />
+    <File Path="docs/21-Early-Product-Decisions.md" />
+    <File Path="docs/22-Domain-Model.md" />
+    <File Path="docs/23-Domain-Rules.md" />
+    <File Path="docs/24-Entity-Relationships.md" />
+    <File Path="docs/25-Phase-1-Domain-Cut.md" />
+    <File Path="docs/26-Bounded-Contexts.md" />
+    <File Path="docs/31-Solution-Architecture.md" />
+    <File Path="docs/32-Storage-Strategy.md" />
+    <File Path="docs/33-Offline-Strategy.md" />
+    <File Path="docs/34-Import-Workflow.md" />
+    <File Path="docs/35-Engineering-Standards.md" />
+    <File Path="docs/41-Phase-1-Use-Cases.md" />
   </Folder>
   <Folder Name="/Modules/" />
   <Folder Name="/Modules/Catalog/">
@@ -68,6 +69,7 @@
     <Project Path="tests/Modules/ContentOps/DarwinLingua.ContentOps.Infrastructure.Tests/DarwinLingua.ContentOps.Infrastructure.Tests.csproj" />
     <Project Path="tests/Modules/Learning/DarwinLingua.Learning.Application.Tests/DarwinLingua.Learning.Application.Tests.csproj" />
     <Project Path="tests/Modules/Learning/DarwinLingua.Learning.Domain.Tests/DarwinLingua.Learning.Domain.Tests.csproj" />
+    <Project Path="tests/Modules/Localization/DarwinLingua.Localization.Application.Tests/DarwinLingua.Localization.Application.Tests.csproj" />
     <Project Path="tests/Modules/Localization/DarwinLingua.Localization.Domain.Tests/DarwinLingua.Localization.Domain.Tests.csproj" />
   </Folder>
 </Solution>
