@@ -105,7 +105,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [x] implement database initialization flow
 - [x] create migration-based startup initialization
 - [x] define database file location strategy per platform
-- [ ] add basic transactional support for write workflows
+- [x] add basic transactional support for write workflows
 
 ### 7. Reference Data and Seeding
 
