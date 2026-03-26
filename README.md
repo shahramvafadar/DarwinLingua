@@ -26,6 +26,7 @@ The repository is currently **in active Phase 1 implementation**, not feature-co
 - localization coverage checks now enforce English/German `AppStrings` resource-key parity in automated tests
 - infrastructure mapping tests now verify key EF Core uniqueness/index constraints for Phase 1 persistence entities
 - import workflow tests now cover mixed valid/invalid entries and duplicate-entry skipping behavior within a package
+- practical smoke tests now guard the MAUI startup path to ensure DB initialization and localization initialization remain wired
 - important Phase 1 workflows such as broader UI/UX foundation work and release hardening are still not implemented yet
 
 The current import contract maps one imported entry to one imported sense with meanings and examples.
