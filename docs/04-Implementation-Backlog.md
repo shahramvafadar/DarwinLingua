@@ -58,7 +58,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [x] define package version management strategy
 - [x] define solution-wide nullable and warnings policy
 - [x] set up formatting and analysis defaults
-- [ ] add CI pipeline for restore, build, and tests
+- [x] add CI pipeline for restore, build, and tests
 
 ### 2. Documentation and Standards Adoption
 

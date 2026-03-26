@@ -29,6 +29,7 @@ The repository is currently **in active Phase 1 implementation**, not feature-co
 - practical smoke tests now guard the MAUI startup path to ensure DB initialization and localization initialization remain wired
 - domain tests now cover additional aggregate invariants and state-transition rules for catalog and learning entities
 - application-layer tests now cover core ContentOps import failure paths such as file-read errors, parser errors, and duplicate package rejection
+- CI workflow now runs restore/build/test for non-MAUI projects and all test projects on GitHub Actions
 - important Phase 1 workflows such as broader UI/UX foundation work and release hardening are still not implemented yet
 
 The current import contract maps one imported entry to one imported sense with meanings and examples.
