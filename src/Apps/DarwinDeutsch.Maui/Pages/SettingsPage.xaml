@@ -19,6 +19,22 @@
                         ItemDisplayBinding="{Binding DisplayName}"
                         SelectedIndexChanged="OnLanguagePickerSelectedIndexChanged" />
             </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+                <Label x:Name="PrimaryMeaningLanguageCaptionLabel"
+                       Style="{StaticResource Title2}" />
+                <Picker x:Name="PrimaryMeaningLanguagePicker"
+                        ItemDisplayBinding="{Binding DisplayName}"
+                        SelectedIndexChanged="OnPrimaryMeaningLanguagePickerSelectedIndexChanged" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+                <Label x:Name="SecondaryMeaningLanguageCaptionLabel"
+                       Style="{StaticResource Title2}" />
+                <Picker x:Name="SecondaryMeaningLanguagePicker"
+                        ItemDisplayBinding="{Binding DisplayName}"
+                        SelectedIndexChanged="OnSecondaryMeaningLanguagePickerSelectedIndexChanged" />
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

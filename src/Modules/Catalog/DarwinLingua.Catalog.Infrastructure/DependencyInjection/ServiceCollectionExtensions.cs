@@ -1,4 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
+using DarwinLingua.Catalog.Application.Abstractions;
+using DarwinLingua.Catalog.Infrastructure.Repositories;
+using DarwinLingua.Catalog.Infrastructure.Seed;
+using DarwinLingua.Infrastructure.Persistence.Abstractions;
 
 namespace DarwinLingua.Catalog.Infrastructure.DependencyInjection;
 
@@ -15,6 +19,10 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCatalogInfrastructure(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
+
+        services.AddScoped<ITopicRepository, TopicRepository>();
+        services.AddScoped<IWordEntryRepository, WordEntryRepository>();
+        services.AddSingleton<IDatabaseSeeder, CatalogReferenceDataSeeder>();
 
         return services;
     }

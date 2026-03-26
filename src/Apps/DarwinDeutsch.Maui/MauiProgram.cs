@@ -50,6 +50,12 @@ public static class MauiProgram
             .AddSingleton<IAppLocalizationService, AppLocalizationService>()
             .AddSingleton<AppShell>()
             .AddSingleton<HomePage>()
+            .AddSingleton<TopicsPage>()
+            .AddSingleton<FavoritesPage>()
+            .AddTransient<TopicWordsPage>()
+            .AddTransient<CefrWordsPage>()
+            .AddTransient<SearchWordsPage>()
+            .AddTransient<WordDetailPage>()
             .AddSingleton<SettingsPage>();
 
 #if DEBUG
@@ -71,10 +77,10 @@ public static class MauiProgram
     {
         ArgumentNullException.ThrowIfNull(app);
 
-        IAppLocalizationService localizationService = app.Services.GetRequiredService<IAppLocalizationService>();
-        localizationService.Initialize();
-
         IDatabaseInitializer databaseInitializer = app.Services.GetRequiredService<IDatabaseInitializer>();
         databaseInitializer.InitializeAsync(CancellationToken.None).GetAwaiter().GetResult();
+
+        IAppLocalizationService localizationService = app.Services.GetRequiredService<IAppLocalizationService>();
+        localizationService.InitializeAsync(CancellationToken.None).GetAwaiter().GetResult();
     }
 }

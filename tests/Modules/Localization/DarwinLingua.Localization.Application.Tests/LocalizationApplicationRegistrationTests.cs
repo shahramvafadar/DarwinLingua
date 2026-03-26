@@ -1,8 +1,8 @@
 using DarwinLingua.Localization.Application.Abstractions;
 using DarwinLingua.Localization.Application.DependencyInjection;
 using DarwinLingua.Localization.Domain.Entities;
-using DarwinLingua.Localization.Domain.ValueObjects;
 using Microsoft.Extensions.DependencyInjection;
+using DarwinLingua.SharedKernel.Globalization;
 
 namespace DarwinLingua.Localization.Application.Tests;
 

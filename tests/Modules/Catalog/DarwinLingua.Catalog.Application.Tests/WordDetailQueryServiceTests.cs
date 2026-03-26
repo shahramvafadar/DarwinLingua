@@ -1,0 +1,121 @@
+using DarwinLingua.Catalog.Application.Abstractions;
+using DarwinLingua.Catalog.Application.DependencyInjection;
+using DarwinLingua.Catalog.Application.Models;
+using DarwinLingua.Catalog.Domain.Entities;
+using DarwinLingua.SharedKernel.Content;
+using DarwinLingua.SharedKernel.Globalization;
+using DarwinLingua.SharedKernel.Lexicon;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace DarwinLingua.Catalog.Application.Tests;
+
+/// <summary>
+/// Verifies the lexical detail query behavior.
+/// </summary>
+public sealed class WordDetailQueryServiceTests
+{
+    /// <summary>
+    /// Verifies that the detail query maps senses, examples, and localized topic names.
+    /// </summary>
+    [Fact]
+    public async Task GetWordDetailsAsync_ShouldReturnMappedDetailModel()
+    {
+        Guid topicId = Guid.NewGuid();
+        Topic topic = new(topicId, "shopping", 10, true, DateTime.UtcNow);
+        topic.AddOrUpdateLocalization(Guid.NewGuid(), LanguageCode.From("en"), "Shopping", DateTime.UtcNow);
+        topic.AddOrUpdateLocalization(Guid.NewGuid(), LanguageCode.From("de"), "Einkaufen", DateTime.UtcNow);
+
+        WordEntry word = new(
+            Guid.NewGuid(),
+            Guid.NewGuid(),
+            "Kasse",
+            LanguageCode.From("de"),
+            CefrLevel.A1,
+            PartOfSpeech.Noun,
+            PublicationStatus.Active,
+            ContentSourceType.Manual,
+            DateTime.UtcNow,
+            article: "die",
+            pluralForm: "Kassen");
+
+        WordSense sense = word.AddSense(
+            Guid.NewGuid(),
+            1,
+            true,
+            PublicationStatus.Active,
+            DateTime.UtcNow,
+            shortDefinitionDe: "Ort zum Bezahlen");
+        sense.AddTranslation(Guid.NewGuid(), LanguageCode.From("en"), "checkout", true, DateTime.UtcNow);
+        sense.AddTranslation(Guid.NewGuid(), LanguageCode.From("fa"), "صندوق", false, DateTime.UtcNow);
+        ExampleSentence example = sense.AddExample(
+            Guid.NewGuid(),
+            1,
+            "Ich bezahle an der Kasse.",
+            true,
+            DateTime.UtcNow);
+        example.AddTranslation(Guid.NewGuid(), LanguageCode.From("en"), "I pay at the checkout.", DateTime.UtcNow);
+        example.AddTranslation(Guid.NewGuid(), LanguageCode.From("fa"), "من در صندوق پرداخت می‌کنم.", DateTime.UtcNow);
+        word.AddTopic(Guid.NewGuid(), topicId, true, DateTime.UtcNow);
+
+        ServiceCollection services = new();
+        services.AddCatalogApplication();
+        services.AddSingleton<IWordEntryRepository>(new FakeWordEntryRepository(word));
+        services.AddSingleton<ITopicRepository>(new FakeTopicRepository([topic]));
+
+        await using ServiceProvider serviceProvider = services.BuildServiceProvider();
+        IWordDetailQueryService queryService = serviceProvider.GetRequiredService<IWordDetailQueryService>();
+
+        WordDetailModel? result = await queryService.GetWordDetailsAsync(
+            word.PublicId,
+            "en",
+            "fa",
+            "de",
+            CancellationToken.None);
+
+        Assert.NotNull(result);
+        Assert.Equal("Kasse", result!.Lemma);
+        Assert.Equal("die", result.Article);
+        Assert.Contains("Einkaufen", result.Topics);
+
+        WordSenseDetailModel senseResult = Assert.Single(result.Senses);
+        Assert.Equal("checkout", senseResult.PrimaryMeaning);
+        Assert.Equal("صندوق", senseResult.SecondaryMeaning);
+
+        ExampleSentenceDetailModel exampleResult = Assert.Single(senseResult.Examples);
+        Assert.Equal("I pay at the checkout.", exampleResult.PrimaryMeaning);
+        Assert.Equal("من در صندوق پرداخت می‌کنم.", exampleResult.SecondaryMeaning);
+    }
+
+    private sealed class FakeWordEntryRepository(WordEntry word) : IWordEntryRepository
+    {
+        public Task<IReadOnlyList<WordEntry>> GetActiveByTopicKeyAsync(string topicKey, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<IReadOnlyList<WordEntry>>([word]);
+        }
+
+        public Task<WordEntry?> GetByPublicIdAsync(Guid publicId, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(word.PublicId == publicId ? word : null);
+        }
+
+        public Task<IReadOnlyList<WordEntry>> GetActiveByCefrAsync(CefrLevel cefrLevel, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<IReadOnlyList<WordEntry>>(word.PrimaryCefrLevel == cefrLevel ? [word] : []);
+        }
+
+        public Task<IReadOnlyList<WordEntry>> SearchActiveByLemmaAsync(string normalizedLemmaQuery, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<IReadOnlyList<WordEntry>>(word.NormalizedLemma.Contains(normalizedLemmaQuery, StringComparison.Ordinal)
+                ? [word]
+                : []);
+        }
+    }
+
+    private sealed class FakeTopicRepository(IReadOnlyList<Topic> topics) : ITopicRepository
+    {
+        public Task<IReadOnlyList<Topic>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return Task.FromResult(topics);
+        }
+    }
+}

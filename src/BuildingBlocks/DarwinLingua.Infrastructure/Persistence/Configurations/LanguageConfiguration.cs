@@ -1,7 +1,7 @@
 using DarwinLingua.Localization.Domain.Entities;
-using DarwinLingua.Localization.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using DarwinLingua.SharedKernel.Globalization;
 
 namespace DarwinLingua.Infrastructure.Persistence.Configurations;
 

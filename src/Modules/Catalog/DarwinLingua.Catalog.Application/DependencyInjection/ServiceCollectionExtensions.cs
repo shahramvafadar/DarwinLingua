@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using DarwinLingua.Catalog.Application.Abstractions;
+using DarwinLingua.Catalog.Application.Services;
 
 namespace DarwinLingua.Catalog.Application.DependencyInjection;
 
@@ -15,6 +17,10 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCatalogApplication(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
+
+        services.AddScoped<ITopicQueryService, TopicQueryService>();
+        services.AddScoped<IWordDetailQueryService, WordDetailQueryService>();
+        services.AddScoped<IWordQueryService, WordQueryService>();
 
         return services;
     }

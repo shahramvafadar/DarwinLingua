@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using DarwinLingua.SharedKernel.Exceptions;
 
-namespace DarwinLingua.Localization.Domain.ValueObjects;
+namespace DarwinLingua.SharedKernel.Globalization;
 
 /// <summary>
 /// Represents a normalized language code used across the platform.

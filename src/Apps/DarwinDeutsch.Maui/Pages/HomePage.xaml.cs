@@ -1,17 +1,23 @@
 using DarwinDeutsch.Maui.Resources.Strings;
 using DarwinDeutsch.Maui.Services.Localization;
+using DarwinLingua.Catalog.Application.Abstractions;
+using DarwinLingua.Catalog.Application.Models;
+using DarwinLingua.Learning.Application.Abstractions;
+using DarwinLingua.Learning.Application.Models;
 using DarwinLingua.Localization.Application.Abstractions;
 using DarwinLingua.Localization.Application.Models;
 
 namespace DarwinDeutsch.Maui.Pages;
 
 /// <summary>
-/// Displays the first real application screen backed by localized strings and seeded reference data.
+/// Displays the current foundation state backed by localized strings, seeded reference data, and persisted user preferences.
 /// </summary>
 public partial class HomePage : ContentPage
 {
     private readonly IAppLocalizationService _appLocalizationService;
+    private readonly ITopicQueryService _topicQueryService;
     private readonly ILanguageQueryService _languageQueryService;
+    private readonly IUserLearningProfileService _userLearningProfileService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HomePage"/> class.
@@ -20,15 +26,21 @@ public partial class HomePage : ContentPage
     /// <param name="languageQueryService">The service that reads seeded language reference data.</param>
     public HomePage(
         IAppLocalizationService appLocalizationService,
-        ILanguageQueryService languageQueryService)
+        ITopicQueryService topicQueryService,
+        ILanguageQueryService languageQueryService,
+        IUserLearningProfileService userLearningProfileService)
     {
         ArgumentNullException.ThrowIfNull(appLocalizationService);
+        ArgumentNullException.ThrowIfNull(topicQueryService);
         ArgumentNullException.ThrowIfNull(languageQueryService);
+        ArgumentNullException.ThrowIfNull(userLearningProfileService);
 
         InitializeComponent();
 
         _appLocalizationService = appLocalizationService;
+        _topicQueryService = topicQueryService;
         _languageQueryService = languageQueryService;
+        _userLearningProfileService = userLearningProfileService;
 
         _appLocalizationService.CultureChanged += OnCultureChanged;
 
@@ -43,7 +55,7 @@ public partial class HomePage : ContentPage
         base.OnAppearing();
 
         ApplyLocalizedText();
-        await RefreshLanguageListAsync().ConfigureAwait(true);
+        await RefreshReferenceDataAsync().ConfigureAwait(true);
     }
 
     /// <summary>
@@ -57,7 +69,7 @@ public partial class HomePage : ContentPage
 
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            await RefreshLanguageListAsync().ConfigureAwait(true);
+            await RefreshReferenceDataAsync().ConfigureAwait(true);
         });
     }
 
@@ -72,21 +84,92 @@ public partial class HomePage : ContentPage
         CurrentLanguageCaptionLabel.Text = AppStrings.HomeCurrentUiLanguageLabel;
         CurrentLanguageValueLabel.Text = _appLocalizationService.CurrentCulture.NativeName;
         SupportedLanguagesCaptionLabel.Text = AppStrings.HomeSupportedLanguagesLabel;
+        MeaningLanguagesCaptionLabel.Text = AppStrings.HomeMeaningLanguagesLabel;
+        TopicsCaptionLabel.Text = AppStrings.HomeTopicsLabel;
+        CefrBrowseCaptionLabel.Text = AppStrings.HomeCefrBrowseLabel;
+        SearchCaptionLabel.Text = AppStrings.HomeSearchLabel;
+        SearchButton.Text = AppStrings.HomeSearchButton;
     }
 
     /// <summary>
     /// Loads the active language rows that were seeded into the local database.
     /// </summary>
     /// <returns>A task that completes when the page values are refreshed.</returns>
-    private async Task RefreshLanguageListAsync()
+    private async Task RefreshReferenceDataAsync()
     {
         IReadOnlyList<SupportedLanguageModel> supportedLanguages = await _languageQueryService
             .GetActiveLanguagesAsync(CancellationToken.None)
+            .ConfigureAwait(true);
+        UserLearningProfileModel profile = await _userLearningProfileService
+            .GetCurrentProfileAsync(CancellationToken.None)
+            .ConfigureAwait(true);
+
+        IReadOnlyList<TopicListItemModel> topics = await _topicQueryService
+            .GetTopicsAsync(_appLocalizationService.CurrentCulture.TwoLetterISOLanguageName, CancellationToken.None)
             .ConfigureAwait(true);
 
         SupportedLanguagesValueLabel.Text = supportedLanguages.Count == 0
             ? AppStrings.HomeNoLanguages
             : string.Join(Environment.NewLine, supportedLanguages.Select(language =>
                 $"{language.NativeName} ({language.Code})"));
+
+        string primaryMeaningLanguage = ResolveLanguageDisplayName(
+            supportedLanguages,
+            profile.PreferredMeaningLanguage1);
+        string? secondaryMeaningLanguage = profile.PreferredMeaningLanguage2 is null
+            ? null
+            : ResolveLanguageDisplayName(supportedLanguages, profile.PreferredMeaningLanguage2);
+
+        MeaningLanguagesValueLabel.Text = secondaryMeaningLanguage is null
+            ? primaryMeaningLanguage
+            : $"{primaryMeaningLanguage}, {secondaryMeaningLanguage}";
+
+        TopicsValueLabel.Text = topics.Count == 0
+            ? AppStrings.HomeNoTopics
+            : string.Join(Environment.NewLine, topics.Select(topic => topic.DisplayName));
+    }
+
+    /// <summary>
+    /// Resolves a human-readable language name from the active language reference data.
+    /// </summary>
+    private static string ResolveLanguageDisplayName(
+        IReadOnlyList<SupportedLanguageModel> supportedLanguages,
+        string languageCode)
+    {
+        ArgumentNullException.ThrowIfNull(supportedLanguages);
+        ArgumentException.ThrowIfNullOrWhiteSpace(languageCode);
+
+        SupportedLanguageModel? language = supportedLanguages
+            .SingleOrDefault(candidate => string.Equals(
+                candidate.Code,
+                languageCode,
+                StringComparison.OrdinalIgnoreCase));
+
+        return language is null
+            ? languageCode
+            : $"{language.NativeName} ({language.Code})";
+    }
+
+    /// <summary>
+    /// Navigates to the selected CEFR browse page.
+    /// </summary>
+    private async void OnCefrBrowseClicked(object? sender, EventArgs e)
+    {
+        if (sender is not Button button || string.IsNullOrWhiteSpace(button.Text))
+        {
+            return;
+        }
+
+        string cefrLevel = Uri.EscapeDataString(button.Text);
+        await Shell.Current.GoToAsync($"{nameof(CefrWordsPage)}?cefrLevel={cefrLevel}")
+            .ConfigureAwait(true);
+    }
+
+    /// <summary>
+    /// Navigates to the lexical search page.
+    /// </summary>
+    private async void OnSearchClicked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(SearchWordsPage)).ConfigureAwait(true);
     }
 }

@@ -92,3 +92,11 @@ The import workflow should be hosted separately from the learner-facing MAUI app
 ## Decision 14 - Engineering Quality Bar
 
 Phase 1 code is not throwaway code. It must be written to production quality standards, including null-safety, localization discipline, testability, and documentation comments in English.
+
+---
+
+## Decision 15 - Local Profile Strategy for Phase 1
+
+Phase 1 should use a single local learning profile per app installation.
+
+This keeps the first release aligned with the local-first requirement and avoids introducing account or multi-user complexity before the core product is stable.

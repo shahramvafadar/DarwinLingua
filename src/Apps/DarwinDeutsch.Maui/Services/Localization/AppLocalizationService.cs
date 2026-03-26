@@ -1,5 +1,7 @@
 using System.Globalization;
 using DarwinDeutsch.Maui.Resources.Strings;
+using DarwinLingua.Learning.Application.Abstractions;
+using DarwinLingua.Learning.Application.Models;
 
 namespace DarwinDeutsch.Maui.Services.Localization;
 
@@ -8,8 +10,19 @@ namespace DarwinDeutsch.Maui.Services.Localization;
 /// </summary>
 internal sealed class AppLocalizationService : IAppLocalizationService
 {
-    private const string UiLanguagePreferenceKey = "preferences.ui-language";
     private static readonly string[] SupportedCultureNames = ["en", "de"];
+    private readonly IUserLearningProfileService _userLearningProfileService;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AppLocalizationService"/> class.
+    /// </summary>
+    /// <param name="userLearningProfileService">The learning profile service used to persist UI language selection.</param>
+    public AppLocalizationService(IUserLearningProfileService userLearningProfileService)
+    {
+        ArgumentNullException.ThrowIfNull(userLearningProfileService);
+
+        _userLearningProfileService = userLearningProfileService;
+    }
 
     /// <inheritdoc />
     public event EventHandler? CultureChanged;
@@ -28,23 +41,26 @@ internal sealed class AppLocalizationService : IAppLocalizationService
     }
 
     /// <inheritdoc />
-    public void Initialize()
+    public async Task InitializeAsync(CancellationToken cancellationToken)
     {
-        string? persistedCultureName = Preferences.Default.Get<string?>(UiLanguagePreferenceKey, null);
-        CultureInfo selectedCulture = ResolveSupportedCulture(
-            persistedCultureName is null ? CultureInfo.CurrentUICulture : new CultureInfo(persistedCultureName));
+        string requestedCultureName = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+        UserLearningProfileModel profile = await _userLearningProfileService
+            .EnsureLocalProfileExistsAsync(requestedCultureName, cancellationToken)
+            .ConfigureAwait(false);
+        CultureInfo selectedCulture = ResolveSupportedCulture(new CultureInfo(profile.UiLanguageCode));
 
         ApplyCulture(selectedCulture, raiseEvent: false);
     }
 
     /// <inheritdoc />
-    public void SetCulture(string cultureName)
+    public async Task SetCultureAsync(string cultureName, CancellationToken cancellationToken)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(cultureName);
 
         CultureInfo selectedCulture = ResolveSupportedCulture(new CultureInfo(cultureName));
-
-        Preferences.Default.Set(UiLanguagePreferenceKey, selectedCulture.Name);
+        await _userLearningProfileService
+            .UpdateUiLanguagePreferenceAsync(selectedCulture.TwoLetterISOLanguageName, cancellationToken)
+            .ConfigureAwait(false);
 
         ApplyCulture(selectedCulture, raiseEvent: true);
     }

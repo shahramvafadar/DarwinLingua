@@ -1,6 +1,6 @@
 using DarwinLingua.Localization.Domain.Entities;
-using DarwinLingua.Localization.Domain.ValueObjects;
 using DarwinLingua.SharedKernel.Exceptions;
+using DarwinLingua.SharedKernel.Globalization;
 
 namespace DarwinLingua.Localization.Domain.Tests;
 

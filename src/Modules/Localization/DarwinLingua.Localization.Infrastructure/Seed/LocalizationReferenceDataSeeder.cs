@@ -1,8 +1,8 @@
 using DarwinLingua.Infrastructure.Persistence;
 using DarwinLingua.Infrastructure.Persistence.Abstractions;
 using DarwinLingua.Localization.Domain.Entities;
-using DarwinLingua.Localization.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
+using DarwinLingua.SharedKernel.Globalization;
 
 namespace DarwinLingua.Localization.Infrastructure.Seed;
 

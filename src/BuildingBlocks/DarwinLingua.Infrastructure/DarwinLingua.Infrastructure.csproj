@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Catalog\DarwinLingua.Catalog.Domain\DarwinLingua.Catalog.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\Learning\DarwinLingua.Learning.Domain\DarwinLingua.Learning.Domain.csproj" />
     <ProjectReference Include="..\DarwinLingua.SharedKernel\DarwinLingua.SharedKernel.csproj" />
     <ProjectReference Include="..\..\Modules\Localization\DarwinLingua.Localization.Domain\DarwinLingua.Localization.Domain.csproj" />
   </ItemGroup>

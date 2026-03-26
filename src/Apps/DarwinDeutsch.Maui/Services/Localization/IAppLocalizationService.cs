@@ -26,11 +26,11 @@ public interface IAppLocalizationService
     /// <summary>
     /// Initializes the UI culture from persisted settings or the current device culture.
     /// </summary>
-    void Initialize();
+    Task InitializeAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Changes the active UI culture and persists the selection.
     /// </summary>
     /// <param name="cultureName">The selected supported culture name.</param>
-    void SetCulture(string cultureName);
+    Task SetCultureAsync(string cultureName, CancellationToken cancellationToken);
 }

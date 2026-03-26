@@ -11,6 +11,8 @@ public partial class AppShell : Shell
 {
     private readonly IAppLocalizationService _appLocalizationService;
     private readonly ShellContent _homeContent;
+    private readonly ShellContent _browseContent;
+    private readonly ShellContent _favoritesContent;
     private readonly ShellContent _settingsContent;
 
     /// <summary>
@@ -22,10 +24,14 @@ public partial class AppShell : Shell
     public AppShell(
         IAppLocalizationService appLocalizationService,
         HomePage homePage,
+        TopicsPage topicsPage,
+        FavoritesPage favoritesPage,
         SettingsPage settingsPage)
     {
         ArgumentNullException.ThrowIfNull(appLocalizationService);
         ArgumentNullException.ThrowIfNull(homePage);
+        ArgumentNullException.ThrowIfNull(topicsPage);
+        ArgumentNullException.ThrowIfNull(favoritesPage);
         ArgumentNullException.ThrowIfNull(settingsPage);
 
         InitializeComponent();
@@ -38,17 +44,36 @@ public partial class AppShell : Shell
             Content = homePage,
         };
 
+        _browseContent = new ShellContent
+        {
+            Route = "browse",
+            Content = topicsPage,
+        };
+
+        _favoritesContent = new ShellContent
+        {
+            Route = "favorites",
+            Content = favoritesPage,
+        };
+
         _settingsContent = new ShellContent
         {
             Route = "settings",
             Content = settingsPage,
         };
 
+        Routing.RegisterRoute(nameof(TopicWordsPage), typeof(TopicWordsPage));
+        Routing.RegisterRoute(nameof(CefrWordsPage), typeof(CefrWordsPage));
+        Routing.RegisterRoute(nameof(SearchWordsPage), typeof(SearchWordsPage));
+        Routing.RegisterRoute(nameof(WordDetailPage), typeof(WordDetailPage));
+
         Items.Add(new TabBar
         {
             Items =
             {
                 _homeContent,
+                _browseContent,
+                _favoritesContent,
                 _settingsContent,
             },
         });
@@ -75,6 +100,8 @@ public partial class AppShell : Shell
     {
         Title = AppStrings.AppTitle;
         _homeContent.Title = AppStrings.HomeTabTitle;
+        _browseContent.Title = AppStrings.BrowseTabTitle;
+        _favoritesContent.Title = AppStrings.FavoritesTabTitle;
         _settingsContent.Title = AppStrings.SettingsTabTitle;
     }
 }

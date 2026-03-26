@@ -1,0 +1,104 @@
+using DarwinDeutsch.Maui.Resources.Strings;
+using DarwinLingua.Learning.Application.Abstractions;
+using DarwinLingua.Learning.Application.Models;
+
+namespace DarwinDeutsch.Maui.Pages;
+
+/// <summary>
+/// Displays the current user's favorited lexical entries.
+/// </summary>
+public partial class FavoritesPage : ContentPage
+{
+    private readonly IUserFavoriteWordService _userFavoriteWordService;
+    private readonly IUserLearningProfileService _userLearningProfileService;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FavoritesPage"/> class.
+    /// </summary>
+    public FavoritesPage(
+        IUserFavoriteWordService userFavoriteWordService,
+        IUserLearningProfileService userLearningProfileService)
+    {
+        ArgumentNullException.ThrowIfNull(userFavoriteWordService);
+        ArgumentNullException.ThrowIfNull(userLearningProfileService);
+
+        InitializeComponent();
+
+        _userFavoriteWordService = userFavoriteWordService;
+        _userLearningProfileService = userLearningProfileService;
+    }
+
+    /// <summary>
+    /// Refreshes the page when it becomes visible.
+    /// </summary>
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        await RefreshAsync().ConfigureAwait(true);
+    }
+
+    /// <summary>
+    /// Loads the current favorites using the active meaning-language preference.
+    /// </summary>
+    private async Task RefreshAsync()
+    {
+        Title = AppStrings.FavoritesPageTitle;
+        HeadlineLabel.Text = AppStrings.FavoritesPageHeadline;
+        DescriptionLabel.Text = AppStrings.FavoritesPageDescription;
+        EmptyStateLabel.Text = AppStrings.FavoritesPageEmpty;
+
+        UserLearningProfileModel profile = await _userLearningProfileService
+            .GetCurrentProfileAsync(CancellationToken.None)
+            .ConfigureAwait(true);
+
+        IReadOnlyList<FavoriteWordListItemModel> favoriteWords = await _userFavoriteWordService
+            .GetFavoriteWordsAsync(profile.PreferredMeaningLanguage1, CancellationToken.None)
+            .ConfigureAwait(true);
+
+        FavoritesCollectionView.ItemsSource = favoriteWords
+            .Select(word => new FavoriteWordItemViewModel(
+                word.PublicId,
+                BuildLemmaLine(word),
+                word.PrimaryMeaning ?? AppStrings.TopicWordsPageMeaningUnavailable,
+                $"{word.PartOfSpeech} · {word.CefrLevel}"))
+            .ToArray();
+
+        EmptyStateLabel.IsVisible = favoriteWords.Count == 0;
+        FavoritesCollectionView.IsVisible = favoriteWords.Count > 0;
+    }
+
+    /// <summary>
+    /// Navigates to the selected lexical-entry detail page.
+    /// </summary>
+    private async void OnFavoritesSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.FirstOrDefault() is not FavoriteWordItemViewModel selectedWord)
+        {
+            return;
+        }
+
+        FavoritesCollectionView.SelectedItem = null;
+
+        string wordPublicId = Uri.EscapeDataString(selectedWord.PublicId.ToString());
+        await Shell.Current.GoToAsync($"{nameof(WordDetailPage)}?wordPublicId={wordPublicId}")
+            .ConfigureAwait(true);
+    }
+
+    /// <summary>
+    /// Builds the browse headline shown for a lexical entry.
+    /// </summary>
+    private static string BuildLemmaLine(FavoriteWordListItemModel word)
+    {
+        ArgumentNullException.ThrowIfNull(word);
+
+        return string.IsNullOrWhiteSpace(word.Article)
+            ? word.Lemma
+            : $"{word.Article} {word.Lemma}";
+    }
+
+    /// <summary>
+    /// Represents the UI model used by the favorites collection view.
+    /// </summary>
+    private sealed record FavoriteWordItemViewModel(Guid PublicId, string Lemma, string PrimaryMeaning, string MetadataLine);
+}

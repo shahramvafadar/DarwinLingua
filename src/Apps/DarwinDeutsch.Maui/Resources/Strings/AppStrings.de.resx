@@ -21,6 +21,12 @@
   <data name="SettingsTabTitle" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
+  <data name="FavoritesTabTitle" xml:space="preserve">
+    <value>Favoriten</value>
+  </data>
+  <data name="BrowseTabTitle" xml:space="preserve">
+    <value>Themen</value>
+  </data>
   <data name="HomeHeadline" xml:space="preserve">
     <value>Grundlage für lokales Sprachlernen</value>
   </data>
@@ -33,8 +39,107 @@
   <data name="HomeSupportedLanguagesLabel" xml:space="preserve">
     <value>Gesäte Plattformsprachen</value>
   </data>
+  <data name="HomeMeaningLanguagesLabel" xml:space="preserve">
+    <value>Bedeutungssprachen</value>
+  </data>
   <data name="HomeNoLanguages" xml:space="preserve">
     <value>Keine aktiven Sprachen gefunden.</value>
+  </data>
+  <data name="HomeTopicsLabel" xml:space="preserve">
+    <value>Gesäte Themen zum Browsen</value>
+  </data>
+  <data name="HomeCefrBrowseLabel" xml:space="preserve">
+    <value>Nach CEFR durchsuchen</value>
+  </data>
+  <data name="HomeSearchLabel" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="HomeSearchButton" xml:space="preserve">
+    <value>Suche öffnen</value>
+  </data>
+  <data name="HomeNoTopics" xml:space="preserve">
+    <value>Keine Themen gefunden.</value>
+  </data>
+  <data name="TopicsPageHeadline" xml:space="preserve">
+    <value>Themen durchsuchen</value>
+  </data>
+  <data name="TopicsPageDescription" xml:space="preserve">
+    <value>Diese Seite zeigt die aktuellen stabilen Phase-1-Themen aus der lokalen SQLite-Datenbank.</value>
+  </data>
+  <data name="TopicsPageEmpty" xml:space="preserve">
+    <value>Derzeit sind keine Themen verfügbar.</value>
+  </data>
+  <data name="TopicWordsPageTitle" xml:space="preserve">
+    <value>Wörter zum Thema</value>
+  </data>
+  <data name="TopicWordsPageHeadlineFormat" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="TopicWordsPageDescription" xml:space="preserve">
+    <value>Diese Seite zeigt aktive Wörter zum ausgewählten Thema unter Verwendung der aktuellen primären Bedeutungssprache.</value>
+  </data>
+  <data name="TopicWordsPageEmpty" xml:space="preserve">
+    <value>Für dieses Thema sind derzeit keine Wörter verfügbar.</value>
+  </data>
+  <data name="TopicWordsPageMeaningUnavailable" xml:space="preserve">
+    <value>Für die ausgewählte Sprache ist keine Bedeutung verfügbar.</value>
+  </data>
+  <data name="WordDetailTitle" xml:space="preserve">
+    <value>Wortdetails</value>
+  </data>
+  <data name="WordDetailAddFavoriteButton" xml:space="preserve">
+    <value>Zu Favoriten hinzufügen</value>
+  </data>
+  <data name="WordDetailRemoveFavoriteButton" xml:space="preserve">
+    <value>Favorit entfernen</value>
+  </data>
+  <data name="WordDetailTopicsLabel" xml:space="preserve">
+    <value>Themen</value>
+  </data>
+  <data name="WordDetailNoTopics" xml:space="preserve">
+    <value>Diesem Wort sind keine Themen zugeordnet.</value>
+  </data>
+  <data name="WordDetailNotFound" xml:space="preserve">
+    <value>Das ausgewählte Wort konnte nicht geladen werden.</value>
+  </data>
+  <data name="CefrWordsPageTitle" xml:space="preserve">
+    <value>CEFR-Wörter</value>
+  </data>
+  <data name="CefrWordsPageHeadlineFormat" xml:space="preserve">
+    <value>{0}-Wörter</value>
+  </data>
+  <data name="CefrWordsPageDescription" xml:space="preserve">
+    <value>Diese Seite zeigt aktive Wörter, gefiltert nach dem ausgewählten CEFR-Niveau.</value>
+  </data>
+  <data name="CefrWordsPageEmpty" xml:space="preserve">
+    <value>Für dieses CEFR-Niveau sind derzeit keine Wörter verfügbar.</value>
+  </data>
+  <data name="SearchWordsPageTitle" xml:space="preserve">
+    <value>Wörter suchen</value>
+  </data>
+  <data name="SearchWordsPageHeadline" xml:space="preserve">
+    <value>Deutsche Wörter suchen</value>
+  </data>
+  <data name="SearchWordsPageDescription" xml:space="preserve">
+    <value>Durchsuche den lokalen Wortschatzkatalog nach deutschem Lemma.</value>
+  </data>
+  <data name="SearchWordsPagePlaceholder" xml:space="preserve">
+    <value>Ein deutsches Wort eingeben</value>
+  </data>
+  <data name="SearchWordsPageEmpty" xml:space="preserve">
+    <value>Keine Wörter passen zur aktuellen Suchanfrage.</value>
+  </data>
+  <data name="FavoritesPageTitle" xml:space="preserve">
+    <value>Lieblingswörter</value>
+  </data>
+  <data name="FavoritesPageHeadline" xml:space="preserve">
+    <value>Deine Lieblingswörter</value>
+  </data>
+  <data name="FavoritesPageDescription" xml:space="preserve">
+    <value>Diese Seite zeigt Wörter, die du als Favoriten markiert hast, in deiner aktuellen primären Bedeutungssprache.</value>
+  </data>
+  <data name="FavoritesPageEmpty" xml:space="preserve">
+    <value>Du hast noch keine Lieblingswörter hinzugefügt.</value>
   </data>
   <data name="SettingsHeadline" xml:space="preserve">
     <value>Spracheinstellungen</value>
@@ -44,6 +149,15 @@
   </data>
   <data name="SettingsUiLanguageLabel" xml:space="preserve">
     <value>UI-Sprache</value>
+  </data>
+  <data name="SettingsPrimaryMeaningLanguageLabel" xml:space="preserve">
+    <value>Primäre Bedeutungssprache</value>
+  </data>
+  <data name="SettingsSecondaryMeaningLanguageLabel" xml:space="preserve">
+    <value>Sekundäre Bedeutungssprache</value>
+  </data>
+  <data name="SettingsSecondaryMeaningLanguageNone" xml:space="preserve">
+    <value>Keine zweite Sprache</value>
   </data>
   <data name="LanguageOptionEnglish" xml:space="preserve">
     <value>Englisch</value>

@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using DarwinLingua.Learning.Application.Abstractions;
+using DarwinLingua.Learning.Application.Services;
 
 namespace DarwinLingua.Learning.Application.DependencyInjection;
 
@@ -15,6 +17,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddLearningApplication(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
+
+        services.AddScoped<IUserLearningProfileService, UserLearningProfileService>();
+        services.AddScoped<IUserFavoriteWordService, UserFavoriteWordService>();
 
         return services;
     }

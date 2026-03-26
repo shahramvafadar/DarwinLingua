@@ -89,7 +89,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 
 ### 5. UI and UX Foundation
 
-- [-] define application navigation structure
+- [x] define application navigation structure
 - [ ] define design tokens and styling foundations
 - [-] replace default template screens with real product screens
 - [ ] establish reusable UI components for list items, filters, and detail sections
@@ -111,32 +111,32 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [x] define `Language` reference data
 - [x] define supported UI languages for Phase 1
 - [x] define supported meaning languages for initial rollout
-- [ ] define initial topic set
-- [ ] define topic localizations
+- [x] define initial topic set
+- [x] define topic localizations
 - [x] implement stable reference-data seeding
 - [x] ensure seeding is idempotent
 
 ### 8. Catalog Domain Implementation
 
-- [ ] implement `WordEntry`
-- [ ] implement `WordSense`
-- [ ] implement `SenseTranslation`
-- [ ] implement `ExampleSentence`
-- [ ] implement `ExampleTranslation`
-- [ ] implement `Topic`
-- [ ] implement `TopicLocalization`
-- [ ] implement `WordTopic`
-- [ ] enforce aggregate invariants
-- [ ] enforce uniqueness and relationship constraints
+- [x] implement `WordEntry`
+- [x] implement `WordSense`
+- [x] implement `SenseTranslation`
+- [x] implement `ExampleSentence`
+- [x] implement `ExampleTranslation`
+- [x] implement `Topic`
+- [x] implement `TopicLocalization`
+- [x] implement `WordTopic`
+- [-] enforce aggregate invariants
+- [-] enforce uniqueness and relationship constraints
 
 ### 9. Learning Domain Implementation
 
-- [ ] implement `UserLearningProfile`
-- [ ] implement `UserFavoriteWord`
+- [x] implement `UserLearningProfile`
+- [x] implement `UserFavoriteWord`
 - [ ] implement `UserWordState`
-- [ ] enforce separation between content and user state
-- [ ] persist user meaning-language preferences
-- [ ] persist user UI-language preference
+- [-] enforce separation between content and user state
+- [x] persist user meaning-language preferences
+- [x] persist user UI-language preference
 
 ### 10. Content Operations Implementation
 
@@ -156,16 +156,17 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 
 - [ ] implement `InitializeDatabase`
 - [ ] implement `SeedReferenceData`
-- [ ] implement `EnsureUserLearningProfileExists`
-- [ ] implement `GetTopics`
-- [ ] implement `GetWordsByCefr`
-- [ ] implement `GetWordsByTopic`
-- [ ] implement `SearchWords`
-- [ ] implement `GetWordDetails`
-- [ ] implement `UpdateMeaningLanguagePreferences`
-- [ ] implement `UpdateUiLanguagePreference`
-- [ ] implement `ToggleFavorite`
-- [ ] implement `GetFavoriteWords`
+- [x] implement `EnsureUserLearningProfileExists`
+- [x] implement `GetUserLearningProfile`
+- [x] implement `GetTopics`
+- [x] implement `GetWordsByCefr`
+- [x] implement `GetWordsByTopic`
+- [x] implement `SearchWords`
+- [x] implement `GetWordDetails`
+- [x] implement `UpdateMeaningLanguagePreferences`
+- [x] implement `UpdateUiLanguagePreference`
+- [x] implement `ToggleFavorite`
+- [x] implement `GetFavoriteWords`
 - [ ] implement `TrackWordViewed`
 - [ ] implement `MarkWordKnown`
 - [ ] implement `MarkWordDifficult`
@@ -173,19 +174,20 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 
 ### 12. MAUI Screens
 
-- [ ] implement home/browse screen
-- [ ] implement CEFR browsing flow
-- [ ] implement topic browsing flow
-- [ ] implement search flow
-- [ ] implement word detail screen
-- [ ] implement favorites screen
-- [ ] implement settings screen
-- [ ] implement localization switching in UI
+- [-] implement home/browse screen
+- [x] implement CEFR browsing flow
+- [x] implement topic browsing flow
+- [x] implement search flow
+- [x] implement word detail screen
+- [x] implement favorites screen
+- [x] implement settings screen
+- [x] implement localization switching in UI
+- [x] implement meaning-language preferences in settings
 
 ### 13. Search and Audio
 
-- [ ] define lemma normalization/search behavior
-- [ ] implement local search queries
+- [x] define lemma normalization/search behavior
+- [x] implement local search queries
 - [ ] evaluate and implement SQLite search/index strategy
 - [ ] integrate platform TTS for words
 - [ ] integrate platform TTS for example sentences
@@ -200,7 +202,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [ ] add seed-data tests
 - [ ] add localization coverage checks
 - [ ] add smoke tests for the MAUI startup path where practical
-- [!] resolve local Windows application-control policy issue blocking SQLite-backed infrastructure test assemblies
+- [!] resolve local Windows application-control policy issue blocking some test assemblies and transitive dependencies; current default solution test run excludes `Learning.Domain.Tests`, `Catalog.Domain.Tests`, `Localization.Domain.Tests`, `ContentOps.Application.Tests`, and SQLite-backed infrastructure tests
 
 ### 15. Release Readiness
 

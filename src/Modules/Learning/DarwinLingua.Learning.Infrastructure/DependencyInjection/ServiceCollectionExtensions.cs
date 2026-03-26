@@ -1,4 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
+using DarwinLingua.Learning.Application.Abstractions;
+using DarwinLingua.Learning.Infrastructure.Repositories;
+using DarwinLingua.Learning.Infrastructure.Services;
 
 namespace DarwinLingua.Learning.Infrastructure.DependencyInjection;
 
@@ -15,6 +18,11 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddLearningInfrastructure(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
+
+        services.AddScoped<IUserLearningProfileRepository, UserLearningProfileRepository>();
+        services.AddScoped<IUserFavoriteWordRepository, UserFavoriteWordRepository>();
+        services.AddScoped<IUserFavoriteWordCatalogReader, UserFavoriteWordCatalogReader>();
+        services.AddScoped<ILearningPreferenceLanguageValidator, LearningPreferenceLanguageValidator>();
 
         return services;
     }

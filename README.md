@@ -5,7 +5,7 @@
 [![SQLite](https://img.shields.io/badge/SQLite-Phase%201%20Local%20Storage-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Future%20Server%20Default-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Architecture](https://img.shields.io/badge/Architecture-Modular%20Monolith-0A7EA4)](#architecture)
-[![Status](https://img.shields.io/badge/Status-Documentation%20Ready-F39C12)](#current-status)
+[![Status](https://img.shields.io/badge/Status-Foundation%20In%20Progress-F39C12)](#current-status)
 
 Darwin Lingua is a modular language-learning platform built with `.NET 10` and `.NET MAUI`.
 
@@ -13,14 +13,17 @@ The first learner-facing product is **Darwin Deutsch**, a German-learning applic
 
 ## Current Status
 
-The repository is currently **documentation-ready and scaffolded**, not feature-complete.
+The repository is currently **in active Phase 1 implementation**, not feature-complete.
 
 - the product direction, domain, storage, offline, and import strategy are documented
 - the solution structure exists under `src/`
-- the MAUI app is still near template level
-- the import tool and tests are still mostly placeholders
+- the MAUI app now has startup initialization, local SQLite bootstrapping, UI localization, persisted local learning-profile preferences, CEFR browsing, topic browsing, German lemma search, word details, a favorites tab, and settings-based language selection
+- the catalog module now contains the first real lexical aggregate model for words, senses, translations, examples, topic links, browse/search queries, and detail-query foundations
+- the learning module now persists local favorite words separately from catalog content and exposes favorite toggle/list workflows
+- the import tool can bootstrap the shared local database and reference seeds
+- important Phase 1 workflows such as lightweight user word state, richer import execution, audio, and release hardening are still not implemented yet
 
-The next step after this documentation pass is implementation based on the backlog.
+The next high-priority slices are `UserWordState` and the real `ImportContentPackage` workflow based on the backlog.
 
 ## Product Direction
 
