@@ -36,7 +36,7 @@ Build a useful vocabulary application with multilingual support and audio.
 - search words
 - word detail screen
 - multilingual meanings
-- support for one or two selected meaning languages
+- support for one or two user-selected meaning languages at a time from the seeded starter language set
 - example sentences
 - word audio
 - sentence audio
@@ -48,7 +48,7 @@ Build a useful vocabulary application with multilingual support and audio.
 ### Success Criteria
 
 - user can discover words quickly
-- user can understand meanings in selected languages
+- user can understand meanings in selected languages from the seeded starter language catalog
 - user can hear word and sentence pronunciation
 - system can import content reliably
 - basic app UX is stable on Android, Windows, and iOS

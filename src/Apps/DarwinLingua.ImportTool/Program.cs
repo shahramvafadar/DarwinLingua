@@ -10,6 +10,8 @@ using DarwinLingua.Learning.Application.DependencyInjection;
 using DarwinLingua.Learning.Infrastructure.DependencyInjection;
 using DarwinLingua.Localization.Application.DependencyInjection;
 using DarwinLingua.Localization.Infrastructure.DependencyInjection;
+using DarwinLingua.Practice.Application.DependencyInjection;
+using DarwinLingua.Practice.Infrastructure.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -117,6 +119,8 @@ internal static class Program
             .AddLearningApplication()
             .AddLearningInfrastructure()
             .AddLocalizationApplication()
-            .AddLocalizationInfrastructure();
+            .AddLocalizationInfrastructure()
+            .AddPracticeApplication()
+            .AddPracticeInfrastructure();
     }
 }

@@ -13,7 +13,7 @@ The first learner-facing product is **Darwin Deutsch**, a German-learning applic
 
 ## Current Status
 
-The repository is currently **in active Phase 1 implementation**, not feature-complete.
+The repository is currently **in active Phase 1 release validation and early Phase 2 implementation**, not feature-complete.
 
 - the product direction, domain, storage, offline, and import strategy are documented
 - the solution structure exists under `src/`
@@ -22,6 +22,8 @@ The repository is currently **in active Phase 1 implementation**, not feature-co
 - the catalog module now contains the first real lexical aggregate model for words, senses, translations, examples, topic links, browse/search queries, and detail-query foundations
 - the learning module now persists local favorite words and lightweight user word state separately from catalog content, including favorite toggle/list workflows, view tracking, and known/difficult markers with clear actions
 - the import tool can bootstrap the shared local database, apply reference seeds, import canonical JSON content packages, skip duplicates conservatively, reject repeated `packageId` values, and return an operator-facing summary
+- starter reference-data seeding now includes meaning-language support for `en`, `fa`, `ru`, `ar`, `pl`, `tr`, `ro`, `sq`, `ckb`, and `kmr`, while UI localization remains English/German
+- the sample Phase 1 content package now provides twelve German seed words across `A1` through `C2` with meanings in the seeded starter language set
 - SQLite-backed integration tests now cover reference-data seeding presence and idempotency for Phase 1 language/topic seed workflows
 - release-readiness integration tests now validate clean-install database initialization and successful import of the sample Phase 1 content package
 - release-readiness performance tests now validate starter-dataset import time and local browse/search responsiveness within pragmatic bounds
@@ -42,6 +44,7 @@ The repository is currently **in active Phase 1 implementation**, not feature-co
 - the browse tab now functions as a dedicated browse hub with CEFR shortcuts, topic discovery, and direct links into search and favorites
 - shared MAUI style resources now define baseline design tokens for spacing, typography, touch targets, and semantic surface/text colors
 - the canonical modular-monolith Phase 1 project/reference structure is now locked and documented in the solution architecture guide
+- the new `Practice` module now starts Phase 2 with a first local practice/progress overview use case over existing catalog and learning data
 
 The current import contract maps one imported entry to one imported sense with meanings and examples.
 
@@ -112,6 +115,7 @@ Active Phase 1 contexts:
 - `Learning`
 - `ContentOps`
 - `Localization`
+- `Practice` (early Phase 2 foundation)
 
 Deferred but designed:
 

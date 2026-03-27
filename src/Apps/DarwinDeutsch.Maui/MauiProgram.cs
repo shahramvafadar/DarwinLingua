@@ -11,6 +11,8 @@ using DarwinLingua.Learning.Application.DependencyInjection;
 using DarwinLingua.Learning.Infrastructure.DependencyInjection;
 using DarwinLingua.Localization.Application.DependencyInjection;
 using DarwinLingua.Localization.Infrastructure.DependencyInjection;
+using DarwinLingua.Practice.Application.DependencyInjection;
+using DarwinLingua.Practice.Infrastructure.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -48,6 +50,8 @@ public static class MauiProgram
             .AddLearningInfrastructure()
             .AddLocalizationApplication()
             .AddLocalizationInfrastructure()
+            .AddPracticeApplication()
+            .AddPracticeInfrastructure()
             .AddSingleton<ISpeechPlaybackService, SpeechPlaybackService>()
             .AddSingleton<IAppLocalizationService, AppLocalizationService>()
             .AddSingleton<AppShell>()

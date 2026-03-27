@@ -224,19 +224,52 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 
 ---
 
-## Phase 2 Backlog Placeholder
+## Phase 2 Backlog
 
-Phase 2 focuses on turning content into repeatable learning behavior.
+Phase 2 focuses on turning imported content into repeatable learning behavior while keeping the product local-first.
 
-Planned areas:
+### 16. Phase 2 Planning and Module Foundation
 
-- review engine
-- flashcards
-- quiz modes
-- spaced repetition
-- recent activity and progress
+- [x] define the ordered Phase 2 backlog and execution slices
+- [x] add the `Practice` bounded-context projects to the solution structure
+- [x] wire `Practice` module registration into the current MAUI and import-tool hosts
+- [x] implement the first `GetPracticeOverview` use case for progress and review-entry visibility
+- [x] add integration coverage for practice-overview queries over imported sample content
 
-Detailed task planning should be added only after Phase 1 is stable.
+### 17. Practice Scheduling and Review Rules
+
+- [ ] define deterministic review-candidate prioritization rules
+- [ ] define the persistent practice-attempt and review-scheduling model
+- [ ] implement spaced-repetition scheduling updates after answers
+- [ ] persist wrong-answer counters and recent-attempt history
+- [ ] add tests for scheduling transitions and prioritization behavior
+
+### 18. Practice Application Use Cases
+
+- [x] implement `GetPracticeOverview`
+- [ ] implement `GetReviewQueue`
+- [ ] implement `StartReviewSession`
+- [ ] implement `SubmitFlashcardAnswer`
+- [ ] implement `SubmitQuizAnswer`
+- [ ] implement `GetRecentActivity`
+- [ ] implement `GetLearningProgressSnapshot`
+
+### 19. Practice UI
+
+- [ ] add a localized practice entry point to the MAUI navigation flow
+- [ ] implement the practice overview screen
+- [ ] implement the flashcard session flow
+- [ ] implement the quiz session flow
+- [ ] implement answer feedback and session-summary states
+- [ ] keep all new learner-facing text localized in `AppStrings.resx` and `AppStrings.de.resx`
+
+### 20. Phase 2 Quality and Release Readiness
+
+- [ ] add application tests for review and quiz use cases
+- [ ] add infrastructure tests for practice queries and persistence
+- [ ] add MAUI smoke tests for practice navigation
+- [ ] validate practice flows on target devices
+- [ ] validate performance on realistic early-learning datasets
 
 ---
 

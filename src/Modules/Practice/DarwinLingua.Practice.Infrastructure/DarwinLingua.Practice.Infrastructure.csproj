@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\DarwinLingua.Infrastructure\DarwinLingua.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\DarwinLingua.SharedKernel\DarwinLingua.SharedKernel.csproj" />
+    <ProjectReference Include="..\DarwinLingua.Practice.Application\DarwinLingua.Practice.Application.csproj" />
+    <ProjectReference Include="..\DarwinLingua.Practice.Domain\DarwinLingua.Practice.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

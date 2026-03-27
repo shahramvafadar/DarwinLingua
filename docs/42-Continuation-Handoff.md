@@ -39,19 +39,22 @@ Use it when:
 - Automated release-readiness coverage now also validates import and browse/search responsiveness on a realistic starter dataset size.
 - MAUI smoke coverage now also guards localized shell/page wiring and ensures core learner flows stay free of direct network dependencies.
 - The canonical Phase 1 project/reference structure is now locked to the current modular-monolith layout documented in `docs/31-Solution-Architecture.md`.
+- Starter localization reference data now seeds meaning-language support for `en`, `fa`, `ru`, `ar`, `pl`, `tr`, `ro`, `sq`, `ckb`, and `kmr`, with `en`/`de` still serving as the initial UI-language pair.
+- The canonical Phase 1 sample content package now contains twelve German seed words across CEFR `A1`-`C2`, each carrying meanings in the seeded starter language set.
+- Phase 2 has officially started with the new `Practice` bounded context and an initial `GetPracticeOverview` use case backed by local user-word-state and catalog content.
 - CI (`.github/workflows/ci.yml`) runs restore/build/test on non-MAUI projects and test projects.
 
 ---
 
 ## Recommended Next Implementation Slice
 
-Focus next on the remaining Phase 1 release-execution work. The main engineering implementation slices are effectively complete; the remaining gaps are manual validation and final sign-off capture.
+Focus next on Phase 2 practice behavior while keeping the remaining Phase 1 manual release checks visible.
 
 Suggested scope:
 
-1. Execute the manual device worksheet for offline behavior, English UI, German UI, and TTS validation.
-2. Capture accepted known issues and the final release recommendation in the release-notes template.
-3. If manual findings require code changes, keep all new user-facing labels localized through `AppStrings` and rerun the Windows checks.
+1. Define deterministic review-candidate prioritization and persistent practice-attempt storage.
+2. Implement `GetReviewQueue` and the first answer-submission workflow on top of the new `Practice` module.
+3. Keep the remaining manual device worksheet items for offline behavior, English UI, German UI, and TTS queued for final Phase 1 sign-off.
 
 ---
 
@@ -60,11 +63,12 @@ Suggested scope:
 Use the following prompt to resume implementation in a fresh chat:
 
 ```text
-Continue DarwinLingua Phase 1 implementation from the latest commit.
+Continue DarwinLingua implementation from the latest commit.
 
 Context:
 - Read and follow docs/04-Implementation-Backlog.md and docs/42-Continuation-Handoff.md first.
-- Prioritize executing the remaining manual Phase 1 validation worksheet and capturing release sign-off results.
+- Phase 1 release validation still has manual device-bound checks open, but Phase 2 implementation has now started.
+- Prioritize the next ordered Phase 2 items under the Practice backlog, starting with review prioritization and queue/session foundations.
 - Keep all user-facing text localized via AppStrings resources for any newly added UI.
 - After code changes, update backlog/docs status accurately.
 - Run the full local Windows .NET checks after changes.
