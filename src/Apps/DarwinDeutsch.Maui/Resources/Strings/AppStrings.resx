@@ -225,4 +225,43 @@
   <data name="CommonStateError" xml:space="preserve">
     <value>Something went wrong. Please try again.</value>
   </data>
+  <data name="LexiconMetadataFormat" xml:space="preserve">
+    <value>{0} · {1}</value>
+  </data>
+  <data name="PartOfSpeechNoun" xml:space="preserve">
+    <value>Noun</value>
+  </data>
+  <data name="PartOfSpeechVerb" xml:space="preserve">
+    <value>Verb</value>
+  </data>
+  <data name="PartOfSpeechAdjective" xml:space="preserve">
+    <value>Adjective</value>
+  </data>
+  <data name="PartOfSpeechAdverb" xml:space="preserve">
+    <value>Adverb</value>
+  </data>
+  <data name="PartOfSpeechPronoun" xml:space="preserve">
+    <value>Pronoun</value>
+  </data>
+  <data name="PartOfSpeechPreposition" xml:space="preserve">
+    <value>Preposition</value>
+  </data>
+  <data name="PartOfSpeechConjunction" xml:space="preserve">
+    <value>Conjunction</value>
+  </data>
+  <data name="PartOfSpeechInterjection" xml:space="preserve">
+    <value>Interjection</value>
+  </data>
+  <data name="PartOfSpeechNumeral" xml:space="preserve">
+    <value>Numeral</value>
+  </data>
+  <data name="PartOfSpeechPhrase" xml:space="preserve">
+    <value>Phrase</value>
+  </data>
+  <data name="PartOfSpeechExpression" xml:space="preserve">
+    <value>Expression</value>
+  </data>
+  <data name="PartOfSpeechOther" xml:space="preserve">
+    <value>Other</value>
+  </data>
 </root>

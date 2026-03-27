@@ -1,4 +1,5 @@
 using DarwinDeutsch.Maui.Resources.Strings;
+using DarwinDeutsch.Maui.Services.Localization;
 using DarwinLingua.Catalog.Application.Abstractions;
 using DarwinLingua.Catalog.Application.Models;
 using DarwinLingua.Learning.Application.Abstractions;
@@ -54,8 +55,11 @@ public partial class CefrWordsPage : ContentPage
     /// </summary>
     private async Task RefreshAsync()
     {
-        Title = string.IsNullOrWhiteSpace(CefrLevel) ? AppStrings.CefrWordsPageTitle : CefrLevel;
-        HeadlineLabel.Text = string.Format(AppStrings.CefrWordsPageHeadlineFormat, CefrLevel);
+        string resolvedCefrLevel = string.IsNullOrWhiteSpace(CefrLevel) ? AppStrings.CefrWordsPageTitle : CefrLevel;
+        Title = resolvedCefrLevel;
+        HeadlineLabel.Text = string.IsNullOrWhiteSpace(CefrLevel)
+            ? AppStrings.CefrWordsPageTitle
+            : string.Format(AppStrings.CefrWordsPageHeadlineFormat, resolvedCefrLevel);
         DescriptionLabel.Text = AppStrings.CefrWordsPageDescription;
         CefrQuickFilterView.Caption = AppStrings.HomeCefrBrowseLabel;
         CefrQuickFilterView.SelectedLevel = CefrLevel;
@@ -86,7 +90,7 @@ public partial class CefrWordsPage : ContentPage
                     word.PublicId,
                     string.IsNullOrWhiteSpace(word.Article) ? word.Lemma : $"{word.Article} {word.Lemma}",
                     word.PrimaryMeaning ?? AppStrings.TopicWordsPageMeaningUnavailable,
-                    $"{word.PartOfSpeech} · {word.CefrLevel}"))
+                    LexiconDisplayText.FormatMetadata(word.PartOfSpeech, word.CefrLevel)))
                 .ToArray());
         }
         catch

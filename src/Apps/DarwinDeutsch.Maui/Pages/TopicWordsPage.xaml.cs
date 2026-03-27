@@ -1,4 +1,5 @@
 using DarwinDeutsch.Maui.Resources.Strings;
+using DarwinDeutsch.Maui.Services.Localization;
 using DarwinLingua.Catalog.Application.Abstractions;
 using DarwinLingua.Catalog.Application.Models;
 using DarwinLingua.Learning.Application.Abstractions;
@@ -67,8 +68,9 @@ public partial class TopicWordsPage : ContentPage
     /// </summary>
     private async Task RefreshAsync()
     {
-        Title = string.IsNullOrWhiteSpace(TopicTitle) ? AppStrings.TopicWordsPageTitle : TopicTitle;
-        HeadlineLabel.Text = string.Format(AppStrings.TopicWordsPageHeadlineFormat, TopicTitle);
+        string resolvedTopicTitle = string.IsNullOrWhiteSpace(TopicTitle) ? AppStrings.TopicWordsPageTitle : TopicTitle;
+        Title = resolvedTopicTitle;
+        HeadlineLabel.Text = string.Format(AppStrings.TopicWordsPageHeadlineFormat, resolvedTopicTitle);
         DescriptionLabel.Text = AppStrings.TopicWordsPageDescription;
         EmptyStateLabel.Text = AppStrings.TopicWordsPageEmpty;
         LoadingStateLabel.Text = AppStrings.CommonStateLoading;
@@ -97,7 +99,7 @@ public partial class TopicWordsPage : ContentPage
                     word.PublicId,
                     BuildLemmaLine(word),
                     word.PrimaryMeaning ?? AppStrings.TopicWordsPageMeaningUnavailable,
-                    $"{word.PartOfSpeech} · {word.CefrLevel}"))
+                    LexiconDisplayText.FormatMetadata(word.PartOfSpeech, word.CefrLevel)))
                 .ToArray());
         }
         catch

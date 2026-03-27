@@ -1,4 +1,5 @@
 using DarwinDeutsch.Maui.Resources.Strings;
+using DarwinDeutsch.Maui.Services.Localization;
 using DarwinLingua.Catalog.Application.Abstractions;
 using DarwinLingua.Catalog.Application.Models;
 using DarwinLingua.Learning.Application.Abstractions;
@@ -109,7 +110,7 @@ public partial class SearchWordsPage : ContentPage
                     word.PublicId,
                     string.IsNullOrWhiteSpace(word.Article) ? word.Lemma : $"{word.Article} {word.Lemma}",
                     word.PrimaryMeaning ?? AppStrings.TopicWordsPageMeaningUnavailable,
-                    $"{word.PartOfSpeech} · {word.CefrLevel}"))
+                    LexiconDisplayText.FormatMetadata(word.PartOfSpeech, word.CefrLevel)))
                 .ToArray());
         }
         catch

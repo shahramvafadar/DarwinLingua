@@ -1,5 +1,6 @@
 using DarwinDeutsch.Maui.Resources.Strings;
 using DarwinDeutsch.Maui.Services.Audio;
+using DarwinDeutsch.Maui.Services.Localization;
 using DarwinLingua.Catalog.Application.Abstractions;
 using DarwinLingua.Catalog.Application.Models;
 using DarwinLingua.Learning.Application.Abstractions;
@@ -130,7 +131,7 @@ public partial class WordDetailPage : ContentPage
         HeadlineLabel.Text = BuildHeadline(word);
         SpeakWordButton.Text = AppStrings.WordDetailSpeakWordButton;
         SpeakWordButton.IsVisible = true;
-        MetadataLabel.Text = $"{word.PartOfSpeech} · {word.CefrLevel}";
+        MetadataLabel.Text = LexiconDisplayText.FormatMetadata(word.PartOfSpeech, word.CefrLevel);
         FavoriteButton.Text = _isFavorite
             ? AppStrings.WordDetailRemoveFavoriteButton
             : AppStrings.WordDetailAddFavoriteButton;

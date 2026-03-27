@@ -253,6 +253,71 @@ public static class AppStrings
     public static string WordDetailNoTopics => GetRequiredString(nameof(WordDetailNoTopics));
 
     /// <summary>
+    /// Gets the localized format string for lexical metadata lines.
+    /// </summary>
+    public static string LexiconMetadataFormat => GetRequiredString(nameof(LexiconMetadataFormat));
+
+    /// <summary>
+    /// Gets the localized display label for noun parts of speech.
+    /// </summary>
+    public static string PartOfSpeechNoun => GetRequiredString(nameof(PartOfSpeechNoun));
+
+    /// <summary>
+    /// Gets the localized display label for verb parts of speech.
+    /// </summary>
+    public static string PartOfSpeechVerb => GetRequiredString(nameof(PartOfSpeechVerb));
+
+    /// <summary>
+    /// Gets the localized display label for adjective parts of speech.
+    /// </summary>
+    public static string PartOfSpeechAdjective => GetRequiredString(nameof(PartOfSpeechAdjective));
+
+    /// <summary>
+    /// Gets the localized display label for adverb parts of speech.
+    /// </summary>
+    public static string PartOfSpeechAdverb => GetRequiredString(nameof(PartOfSpeechAdverb));
+
+    /// <summary>
+    /// Gets the localized display label for pronoun parts of speech.
+    /// </summary>
+    public static string PartOfSpeechPronoun => GetRequiredString(nameof(PartOfSpeechPronoun));
+
+    /// <summary>
+    /// Gets the localized display label for preposition parts of speech.
+    /// </summary>
+    public static string PartOfSpeechPreposition => GetRequiredString(nameof(PartOfSpeechPreposition));
+
+    /// <summary>
+    /// Gets the localized display label for conjunction parts of speech.
+    /// </summary>
+    public static string PartOfSpeechConjunction => GetRequiredString(nameof(PartOfSpeechConjunction));
+
+    /// <summary>
+    /// Gets the localized display label for interjection parts of speech.
+    /// </summary>
+    public static string PartOfSpeechInterjection => GetRequiredString(nameof(PartOfSpeechInterjection));
+
+    /// <summary>
+    /// Gets the localized display label for numeral parts of speech.
+    /// </summary>
+    public static string PartOfSpeechNumeral => GetRequiredString(nameof(PartOfSpeechNumeral));
+
+    /// <summary>
+    /// Gets the localized display label for phrase parts of speech.
+    /// </summary>
+    public static string PartOfSpeechPhrase => GetRequiredString(nameof(PartOfSpeechPhrase));
+
+    /// <summary>
+    /// Gets the localized display label for expression parts of speech.
+    /// </summary>
+    public static string PartOfSpeechExpression => GetRequiredString(nameof(PartOfSpeechExpression));
+
+    /// <summary>
+    /// Gets the localized display label for uncategorized parts of speech.
+    /// </summary>
+    public static string PartOfSpeechOther => GetRequiredString(nameof(PartOfSpeechOther));
+
+    /// <summary>
     /// Gets the localized not-found state for the word-detail page.
     /// </summary>
     public static string WordDetailNotFound => GetRequiredString(nameof(WordDetailNotFound));

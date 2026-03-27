@@ -84,7 +84,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [x] add English UI resource files
 - [x] add German UI resource files
 - [x] create localization access pattern for the MAUI app
-- [-] ensure all user-facing strings come from resources
+- [x] ensure all user-facing strings come from resources
 - [x] implement device-language-based default culture selection
 - [x] implement user override of UI language in settings
 - [x] persist selected UI language locally

@@ -1,4 +1,5 @@
 using DarwinDeutsch.Maui.Resources.Strings;
+using DarwinDeutsch.Maui.Services.Localization;
 using DarwinLingua.Learning.Application.Abstractions;
 using DarwinLingua.Learning.Application.Models;
 
@@ -67,7 +68,7 @@ public partial class FavoritesPage : ContentPage
                     word.PublicId,
                     BuildLemmaLine(word),
                     word.PrimaryMeaning ?? AppStrings.TopicWordsPageMeaningUnavailable,
-                    $"{word.PartOfSpeech} · {word.CefrLevel}"))
+                    LexiconDisplayText.FormatMetadata(word.PartOfSpeech, word.CefrLevel)))
                 .ToArray();
 
             EmptyStateLabel.IsVisible = favoriteWords.Count == 0;

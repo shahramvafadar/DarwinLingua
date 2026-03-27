@@ -19,6 +19,7 @@ Use it when:
 - Home now includes dashboard quick actions for search, topic browse, and favorites in addition to CEFR shortcuts.
 - Catalog domain hardening is complete for Phase 1 aggregate invariants, uniqueness constraints, and topic-link relationship constraints.
 - Learning-domain separation is now enforced at the persistence boundary: local user-state rows stay decoupled from catalog-content foreign keys and survive content-row deletion.
+- Current MAUI user-facing labels and lexical metadata text are now routed through `AppStrings` resource catalogs for both English and German.
 - Shared MAUI reusable controls currently include:
   - `WordListItemView`
   - `TopicListItemView`
@@ -33,15 +34,14 @@ Use it when:
 
 ## Recommended Next Implementation Slice
 
-Focus next on Phase 1 items still marked in progress, especially **remaining UI/UX foundation work** and **localization cleanup of remaining user-facing strings**.
+Focus next on Phase 1 items still marked in progress, especially **remaining UI/UX foundation work**.
 
 Suggested scope:
 
 1. Continue replacing remaining template-era UI surfaces with final product-oriented layouts.
-2. Finish replacing any remaining inline UI copy with `AppStrings` / `AppStrings.de`.
-3. Expand MAUI smoke coverage where practical around reusable controls and navigation-critical flows.
-4. Keep all user-facing labels localized through `AppStrings`.
-5. Update `docs/04-Implementation-Backlog.md` and `README.md` to reflect actual completion state.
+2. Expand MAUI smoke coverage where practical around reusable controls and navigation-critical flows.
+3. Keep all new user-facing labels localized through `AppStrings`.
+4. Update `docs/04-Implementation-Backlog.md` and `README.md` to reflect actual completion state.
 
 ---
 
@@ -54,8 +54,8 @@ Continue DarwinLingua Phase 1 implementation from the latest commit.
 
 Context:
 - Read and follow docs/04-Implementation-Backlog.md and docs/42-Continuation-Handoff.md first.
-- Prioritize Phase 1 backlog items still marked in progress, especially remaining UI/UX foundation and localization-cleanup tasks.
-- Keep all user-facing text localized via AppStrings resources.
+- Prioritize Phase 1 backlog items still marked in progress, especially remaining UI/UX foundation work.
+- Keep all user-facing text localized via AppStrings resources for any newly added UI.
 - After code changes, update backlog/docs status accurately.
 - Run the full local Windows .NET checks after changes.
 
