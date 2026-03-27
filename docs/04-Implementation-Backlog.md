@@ -136,7 +136,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [x] implement `UserLearningProfile`
 - [x] implement `UserFavoriteWord`
 - [x] implement `UserWordState`
-- [-] enforce separation between content and user state
+- [x] enforce separation between content and user state
 - [x] persist user meaning-language preferences
 - [x] persist user UI-language preference
 

@@ -162,6 +162,8 @@ public sealed class PersistenceMappingConfigurationTests
                 ?? throw new Xunit.Sdk.XunitException("Language mapping is missing from the model.");
             IEntityType favoriteEntity = dbContext.Model.FindEntityType(typeof(UserFavoriteWord))
                 ?? throw new Xunit.Sdk.XunitException("UserFavoriteWord mapping is missing from the model.");
+            IEntityType userWordStateEntity = dbContext.Model.FindEntityType(typeof(UserWordState))
+                ?? throw new Xunit.Sdk.XunitException("UserWordState mapping is missing from the model.");
 
             Assert.Contains(
                 languageEntity.GetIndexes(),
@@ -175,6 +177,13 @@ public sealed class PersistenceMappingConfigurationTests
                     index.IsUnique &&
                     index.Properties.Select(property => property.Name).SequenceEqual(
                         [nameof(UserFavoriteWord.UserId), nameof(UserFavoriteWord.WordEntryPublicId)]));
+
+            Assert.Contains(
+                userWordStateEntity.GetIndexes(),
+                index =>
+                    index.IsUnique &&
+                    index.Properties.Select(property => property.Name).SequenceEqual(
+                        [nameof(UserWordState.UserId), nameof(UserWordState.WordEntryPublicId)]));
         }
         finally
         {
@@ -219,6 +228,48 @@ public sealed class PersistenceMappingConfigurationTests
                 foreignKey =>
                     foreignKey.PrincipalEntityType.ClrType == typeof(Topic) &&
                     foreignKey.Properties.Select(property => property.Name).SequenceEqual([nameof(WordTopic.TopicId)]));
+        }
+        finally
+        {
+            if (serviceProvider is not null)
+            {
+                await serviceProvider.DisposeAsync();
+            }
+
+            TryDeleteFile(databasePath);
+        }
+    }
+
+    /// <summary>
+    /// Verifies that user-state tables remain decoupled from catalog-content foreign keys.
+    /// </summary>
+    [Fact]
+    public async Task Model_ShouldKeepUserStateTablesSeparateFromCatalogContentForeignKeys()
+    {
+        string databasePath = Path.Combine(Path.GetTempPath(), $"darwin-lingua-mapping-user-state-{Guid.NewGuid():N}.db");
+        ServiceProvider? serviceProvider = null;
+
+        try
+        {
+            serviceProvider = BuildServiceProvider(databasePath);
+            IDbContextFactory<DarwinLinguaDbContext> dbContextFactory =
+                serviceProvider.GetRequiredService<IDbContextFactory<DarwinLinguaDbContext>>();
+
+            await using DarwinLinguaDbContext dbContext = await dbContextFactory
+                .CreateDbContextAsync(CancellationToken.None);
+
+            IEntityType favoriteEntity = dbContext.Model.FindEntityType(typeof(UserFavoriteWord))
+                ?? throw new Xunit.Sdk.XunitException("UserFavoriteWord mapping is missing from the model.");
+            IEntityType userWordStateEntity = dbContext.Model.FindEntityType(typeof(UserWordState))
+                ?? throw new Xunit.Sdk.XunitException("UserWordState mapping is missing from the model.");
+
+            Assert.DoesNotContain(
+                favoriteEntity.GetForeignKeys(),
+                foreignKey => foreignKey.PrincipalEntityType.ClrType == typeof(WordEntry));
+
+            Assert.DoesNotContain(
+                userWordStateEntity.GetForeignKeys(),
+                foreignKey => foreignKey.PrincipalEntityType.ClrType == typeof(WordEntry));
         }
         finally
         {
