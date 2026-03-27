@@ -28,14 +28,14 @@
     <Color x:Key="Gray950">#141414</Color>
 
     <!-- Accessibility and semantic UI color tokens -->
-    <Color x:Key="ColorTextPrimaryLight">{StaticResource Gray900}</Color>
-    <Color x:Key="ColorTextPrimaryDark">{StaticResource White}</Color>
-    <Color x:Key="ColorTextMutedLight">{StaticResource Gray500}</Color>
-    <Color x:Key="ColorTextMutedDark">{StaticResource Gray300}</Color>
-    <Color x:Key="ColorSurfaceLight">{StaticResource White}</Color>
-    <Color x:Key="ColorSurfaceDark">{StaticResource Gray900}</Color>
-    <Color x:Key="ColorCardStrokeLight">{StaticResource Gray200}</Color>
-    <Color x:Key="ColorCardStrokeDark">{StaticResource Gray500}</Color>
+    <Color x:Key="ColorTextPrimaryLight">#212121</Color>
+    <Color x:Key="ColorTextPrimaryDark">#FFFFFF</Color>
+    <Color x:Key="ColorTextMutedLight">#6E6E6E</Color>
+    <Color x:Key="ColorTextMutedDark">#ACACAC</Color>
+    <Color x:Key="ColorSurfaceLight">#FFFFFF</Color>
+    <Color x:Key="ColorSurfaceDark">#212121</Color>
+    <Color x:Key="ColorCardStrokeLight">#C8C8C8</Color>
+    <Color x:Key="ColorCardStrokeDark">#6E6E6E</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>

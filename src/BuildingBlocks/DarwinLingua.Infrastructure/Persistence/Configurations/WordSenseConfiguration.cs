@@ -51,6 +51,11 @@ internal sealed class WordSenseConfiguration : IEntityTypeConfiguration<WordSens
         builder.HasIndex(sense => new { sense.WordEntryId, sense.SenseOrder })
             .IsUnique();
 
+        builder.HasIndex(sense => sense.WordEntryId)
+            .HasDatabaseName("IX_WordSenses_PrimaryPerWordEntry")
+            .IsUnique()
+            .HasFilter($"[{nameof(WordSense.IsPrimarySense)}] = 1");
+
         builder.HasMany(sense => sense.Translations)
             .WithOne()
             .HasForeignKey(translation => translation.WordSenseId)

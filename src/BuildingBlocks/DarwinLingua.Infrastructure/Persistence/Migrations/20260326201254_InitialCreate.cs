@@ -235,6 +235,12 @@ namespace DarwinLingua.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_WordTopics", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_WordTopics_Topics_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_WordTopics_WordEntries_WordEntryId",
                         column: x => x.WordEntryId,
                         principalTable: "WordEntries",
@@ -328,6 +334,13 @@ namespace DarwinLingua.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ExampleSentences_PrimaryPerSense",
+                table: "ExampleSentences",
+                column: "WordSenseId",
+                unique: true,
+                filter: "[IsPrimaryExample] = 1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ExampleTranslations_ExampleSentenceId_LanguageCode",
                 table: "ExampleTranslations",
                 columns: new[] { "ExampleSentenceId", "LanguageCode" },
@@ -344,6 +357,13 @@ namespace DarwinLingua.Infrastructure.Persistence.Migrations
                 table: "SenseTranslations",
                 columns: new[] { "WordSenseId", "LanguageCode" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SenseTranslations_PrimaryPerSense",
+                table: "SenseTranslations",
+                column: "WordSenseId",
+                unique: true,
+                filter: "[IsPrimary] = 1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TopicLocalizations_TopicId_LanguageCode",
@@ -409,10 +429,29 @@ namespace DarwinLingua.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_WordSenses_PrimaryPerWordEntry",
+                table: "WordSenses",
+                column: "WordEntryId",
+                unique: true,
+                filter: "[IsPrimarySense] = 1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WordTopics_PrimaryPerWordEntry",
+                table: "WordTopics",
+                column: "WordEntryId",
+                unique: true,
+                filter: "[IsPrimaryTopic] = 1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WordTopics_WordEntryId_TopicId",
                 table: "WordTopics",
                 columns: new[] { "WordEntryId", "TopicId" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WordTopics_TopicId",
+                table: "WordTopics",
+                column: "TopicId");
         }
 
         /// <inheritdoc />

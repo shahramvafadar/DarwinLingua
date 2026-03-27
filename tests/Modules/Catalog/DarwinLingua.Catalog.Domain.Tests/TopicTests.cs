@@ -25,6 +25,24 @@ public sealed class TopicTests
     }
 
     /// <summary>
+    /// Verifies that a conflicting localization identifier is rejected for an existing language row.
+    /// </summary>
+    [Fact]
+    public void AddOrUpdateLocalization_ShouldRejectMismatchedIdentifierForExistingLanguage()
+    {
+        Topic topic = new(Guid.NewGuid(), "shopping", 10, true, DateTime.UtcNow);
+        Guid localizationId = Guid.NewGuid();
+
+        topic.AddOrUpdateLocalization(localizationId, LanguageCode.From("en"), "Shopping", DateTime.UtcNow);
+
+        Assert.Throws<DomainRuleException>(() => topic.AddOrUpdateLocalization(
+            Guid.NewGuid(),
+            LanguageCode.From("en"),
+            "Everyday Shopping",
+            DateTime.UtcNow));
+    }
+
+    /// <summary>
     /// Verifies that invalid topic keys are rejected.
     /// </summary>
     [Fact]

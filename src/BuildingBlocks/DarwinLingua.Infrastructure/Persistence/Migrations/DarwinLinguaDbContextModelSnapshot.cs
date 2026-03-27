@@ -47,6 +47,11 @@ namespace DarwinLingua.Infrastructure.Persistence.Migrations
                     b.HasIndex("WordSenseId", "SentenceOrder")
                         .IsUnique();
 
+                    b.HasIndex("WordSenseId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_ExampleSentences_PrimaryPerSense")
+                        .HasFilter("[IsPrimaryExample] = 1");
+
                     b.ToTable("ExampleSentences", (string)null);
                 });
 
@@ -113,6 +118,11 @@ namespace DarwinLingua.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("WordSenseId", "LanguageCode")
                         .IsUnique();
+
+                    b.HasIndex("WordSenseId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_SenseTranslations_PrimaryPerSense")
+                        .HasFilter("[IsPrimary] = 1");
 
                     b.ToTable("SenseTranslations", (string)null);
                 });
@@ -310,6 +320,11 @@ namespace DarwinLingua.Infrastructure.Persistence.Migrations
                     b.HasIndex("WordEntryId", "SenseOrder")
                         .IsUnique();
 
+                    b.HasIndex("WordEntryId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_WordSenses_PrimaryPerWordEntry")
+                        .HasFilter("[IsPrimarySense] = 1");
+
                     b.ToTable("WordSenses", (string)null);
                 });
 
@@ -334,6 +349,13 @@ namespace DarwinLingua.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("WordEntryId", "TopicId")
                         .IsUnique();
+
+                    b.HasIndex("TopicId");
+
+                    b.HasIndex("WordEntryId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_WordTopics_PrimaryPerWordEntry")
+                        .HasFilter("[IsPrimaryTopic] = 1");
 
                     b.ToTable("WordTopics", (string)null);
                 });
@@ -645,6 +667,12 @@ namespace DarwinLingua.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("DarwinLingua.Catalog.Domain.Entities.WordTopic", b =>
                 {
+                    b.HasOne("DarwinLingua.Catalog.Domain.Entities.Topic", null)
+                        .WithMany()
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("DarwinLingua.Catalog.Domain.Entities.WordEntry", null)
                         .WithMany("Topics")
                         .HasForeignKey("WordEntryId")

@@ -128,8 +128,8 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [x] implement `Topic`
 - [x] implement `TopicLocalization`
 - [x] implement `WordTopic`
-- [-] enforce aggregate invariants
-- [-] enforce uniqueness and relationship constraints
+- [x] enforce aggregate invariants
+- [x] enforce uniqueness and relationship constraints
 
 ### 9. Learning Domain Implementation
 

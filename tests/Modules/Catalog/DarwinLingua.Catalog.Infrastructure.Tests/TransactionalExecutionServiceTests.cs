@@ -38,7 +38,7 @@ public sealed class TransactionalExecutionServiceTests
                     "Français",
                     true,
                     false,
-                    false));
+                    true));
 
                 await Task.CompletedTask;
             },
@@ -78,7 +78,7 @@ public sealed class TransactionalExecutionServiceTests
                         "Italiano",
                         true,
                         false,
-                        false));
+                        true));
 
                     return Task.FromException(new InvalidOperationException("Force rollback."));
                 },

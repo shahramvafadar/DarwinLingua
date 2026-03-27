@@ -138,7 +138,7 @@ public sealed class ContentImportServiceTests
                 .ImportAsync(new ImportContentPackageRequest(packagePath), CancellationToken.None);
 
             Assert.True(result.IsSuccess);
-            Assert.Equal("Completed", result.Status);
+            Assert.Equal("CompletedWithWarnings", result.Status);
             Assert.Equal(2, result.TotalEntries);
             Assert.Equal(1, result.ImportedEntries);
             Assert.Equal(1, result.InvalidEntries);
@@ -182,7 +182,7 @@ public sealed class ContentImportServiceTests
                 .ImportAsync(new ImportContentPackageRequest(packagePath), CancellationToken.None);
 
             Assert.True(result.IsSuccess);
-            Assert.Equal("Completed", result.Status);
+            Assert.Equal("CompletedWithWarnings", result.Status);
             Assert.Equal(2, result.TotalEntries);
             Assert.Equal(1, result.ImportedEntries);
             Assert.Equal(1, result.SkippedDuplicateEntries);

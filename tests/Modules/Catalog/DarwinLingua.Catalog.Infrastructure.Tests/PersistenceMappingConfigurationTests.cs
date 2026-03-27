@@ -37,9 +37,9 @@ public sealed class PersistenceMappingConfigurationTests
 
             IReadOnlyList<IIndex> indexes = wordEntryEntity.GetIndexes().ToArray();
 
-            Assert.Contains(indexes, index => index.Name == "IX_WordEntries_Search_NormalizedLemma");
-            Assert.Contains(indexes, index => index.Name == "IX_WordEntries_Search_ActiveNormalizedLemma");
-            Assert.Contains(indexes, index => index.Name == "IX_WordEntries_Browse_Cefr_NormalizedLemma");
+            Assert.Contains(indexes, index => index.GetDatabaseName() == "IX_WordEntries_Search_NormalizedLemma");
+            Assert.Contains(indexes, index => index.GetDatabaseName() == "IX_WordEntries_Search_ActiveNormalizedLemma");
+            Assert.Contains(indexes, index => index.GetDatabaseName() == "IX_WordEntries_Browse_Cefr_NormalizedLemma");
             Assert.Contains(
                 indexes,
                 index =>
@@ -78,8 +78,14 @@ public sealed class PersistenceMappingConfigurationTests
 
             IEntityType translationEntity = dbContext.Model.FindEntityType(typeof(SenseTranslation))
                 ?? throw new Xunit.Sdk.XunitException("SenseTranslation mapping is missing from the model.");
+            IEntityType exampleEntity = dbContext.Model.FindEntityType(typeof(ExampleSentence))
+                ?? throw new Xunit.Sdk.XunitException("ExampleSentence mapping is missing from the model.");
             IEntityType topicLocalizationEntity = dbContext.Model.FindEntityType(typeof(TopicLocalization))
                 ?? throw new Xunit.Sdk.XunitException("TopicLocalization mapping is missing from the model.");
+            IEntityType wordSenseEntity = dbContext.Model.FindEntityType(typeof(WordSense))
+                ?? throw new Xunit.Sdk.XunitException("WordSense mapping is missing from the model.");
+            IEntityType wordTopicEntity = dbContext.Model.FindEntityType(typeof(WordTopic))
+                ?? throw new Xunit.Sdk.XunitException("WordTopic mapping is missing from the model.");
 
             Assert.Contains(
                 translationEntity.GetIndexes(),
@@ -94,6 +100,34 @@ public sealed class PersistenceMappingConfigurationTests
                     index.IsUnique &&
                     index.Properties.Select(property => property.Name).SequenceEqual(
                         [nameof(TopicLocalization.TopicId), nameof(TopicLocalization.LanguageCode)]));
+
+            Assert.Contains(
+                wordSenseEntity.GetIndexes(),
+                index =>
+                    index.GetDatabaseName() == "IX_WordSenses_PrimaryPerWordEntry" &&
+                    index.IsUnique &&
+                    index.Properties.Select(property => property.Name).SequenceEqual([nameof(WordSense.WordEntryId)]));
+
+            Assert.Contains(
+                translationEntity.GetIndexes(),
+                index =>
+                    index.GetDatabaseName() == "IX_SenseTranslations_PrimaryPerSense" &&
+                    index.IsUnique &&
+                    index.Properties.Select(property => property.Name).SequenceEqual([nameof(SenseTranslation.WordSenseId)]));
+
+            Assert.Contains(
+                exampleEntity.GetIndexes(),
+                index =>
+                    index.GetDatabaseName() == "IX_ExampleSentences_PrimaryPerSense" &&
+                    index.IsUnique &&
+                    index.Properties.Select(property => property.Name).SequenceEqual([nameof(ExampleSentence.WordSenseId)]));
+
+            Assert.Contains(
+                wordTopicEntity.GetIndexes(),
+                index =>
+                    index.GetDatabaseName() == "IX_WordTopics_PrimaryPerWordEntry" &&
+                    index.IsUnique &&
+                    index.Properties.Select(property => property.Name).SequenceEqual([nameof(WordTopic.WordEntryId)]));
         }
         finally
         {
@@ -141,6 +175,50 @@ public sealed class PersistenceMappingConfigurationTests
                     index.IsUnique &&
                     index.Properties.Select(property => property.Name).SequenceEqual(
                         [nameof(UserFavoriteWord.UserId), nameof(UserFavoriteWord.WordEntryPublicId)]));
+        }
+        finally
+        {
+            if (serviceProvider is not null)
+            {
+                await serviceProvider.DisposeAsync();
+            }
+
+            TryDeleteFile(databasePath);
+        }
+    }
+
+    /// <summary>
+    /// Verifies relationship constraints for word-topic links.
+    /// </summary>
+    [Fact]
+    public async Task Model_ShouldConfigureWordTopicForeignKeysForWordEntryAndTopic()
+    {
+        string databasePath = Path.Combine(Path.GetTempPath(), $"darwin-lingua-mapping-word-topic-{Guid.NewGuid():N}.db");
+        ServiceProvider? serviceProvider = null;
+
+        try
+        {
+            serviceProvider = BuildServiceProvider(databasePath);
+            IDbContextFactory<DarwinLinguaDbContext> dbContextFactory =
+                serviceProvider.GetRequiredService<IDbContextFactory<DarwinLinguaDbContext>>();
+
+            await using DarwinLinguaDbContext dbContext = await dbContextFactory
+                .CreateDbContextAsync(CancellationToken.None);
+
+            IEntityType wordTopicEntity = dbContext.Model.FindEntityType(typeof(WordTopic))
+                ?? throw new Xunit.Sdk.XunitException("WordTopic mapping is missing from the model.");
+
+            Assert.Contains(
+                wordTopicEntity.GetForeignKeys(),
+                foreignKey =>
+                    foreignKey.PrincipalEntityType.ClrType == typeof(WordEntry) &&
+                    foreignKey.Properties.Select(property => property.Name).SequenceEqual([nameof(WordTopic.WordEntryId)]));
+
+            Assert.Contains(
+                wordTopicEntity.GetForeignKeys(),
+                foreignKey =>
+                    foreignKey.PrincipalEntityType.ClrType == typeof(Topic) &&
+                    foreignKey.Properties.Select(property => property.Name).SequenceEqual([nameof(WordTopic.TopicId)]));
         }
         finally
         {

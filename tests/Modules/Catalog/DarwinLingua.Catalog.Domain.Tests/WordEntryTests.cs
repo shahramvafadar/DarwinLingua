@@ -189,6 +189,78 @@ public sealed class WordEntryTests
     }
 
     /// <summary>
+    /// Verifies that duplicate example-translation languages are rejected within one example sentence.
+    /// </summary>
+    [Fact]
+    public void AddExampleTranslation_ShouldRejectDuplicateLanguagePerExample()
+    {
+        WordEntry word = CreateWordEntry();
+        WordSense sense = word.AddSense(Guid.NewGuid(), 1, true, PublicationStatus.Active, DateTime.UtcNow);
+        ExampleSentence example = sense.AddExample(Guid.NewGuid(), 1, "Ich gehe zum Bahnhof.", true, DateTime.UtcNow);
+        example.AddTranslation(Guid.NewGuid(), LanguageCode.From("en"), "I am going to the station.", DateTime.UtcNow);
+
+        Assert.Throws<DomainRuleException>(() => example.AddTranslation(
+            Guid.NewGuid(),
+            LanguageCode.From("en"),
+            "We are meeting at the station.",
+            DateTime.UtcNow));
+    }
+
+    /// <summary>
+    /// Verifies that setting a new primary translation demotes the previous primary translation.
+    /// </summary>
+    [Fact]
+    public void AddTranslation_ShouldSwitchPrimaryTranslationWhenNewPrimaryIsAdded()
+    {
+        WordEntry word = CreateWordEntry();
+        WordSense sense = word.AddSense(Guid.NewGuid(), 1, true, PublicationStatus.Active, DateTime.UtcNow);
+
+        SenseTranslation firstTranslation = sense.AddTranslation(
+            Guid.NewGuid(),
+            LanguageCode.From("en"),
+            "station",
+            true,
+            DateTime.UtcNow);
+        SenseTranslation secondTranslation = sense.AddTranslation(
+            Guid.NewGuid(),
+            LanguageCode.From("tr"),
+            "istasyon",
+            true,
+            DateTime.UtcNow);
+
+        Assert.False(firstTranslation.IsPrimary);
+        Assert.True(secondTranslation.IsPrimary);
+        Assert.Single(sense.Translations, translation => translation.IsPrimary);
+    }
+
+    /// <summary>
+    /// Verifies that setting a new primary example demotes the previous primary example.
+    /// </summary>
+    [Fact]
+    public void AddExample_ShouldSwitchPrimaryExampleWhenNewPrimaryIsAdded()
+    {
+        WordEntry word = CreateWordEntry();
+        WordSense sense = word.AddSense(Guid.NewGuid(), 1, true, PublicationStatus.Active, DateTime.UtcNow);
+
+        ExampleSentence firstExample = sense.AddExample(
+            Guid.NewGuid(),
+            1,
+            "Ich gehe zum Bahnhof.",
+            true,
+            DateTime.UtcNow);
+        ExampleSentence secondExample = sense.AddExample(
+            Guid.NewGuid(),
+            2,
+            "Wir treffen uns am Bahnhof.",
+            true,
+            DateTime.UtcNow);
+
+        Assert.False(firstExample.IsPrimaryExample);
+        Assert.True(secondExample.IsPrimaryExample);
+        Assert.Single(sense.Examples, example => example.IsPrimaryExample);
+    }
+
+    /// <summary>
     /// Verifies that setting a new primary topic demotes the previous primary topic.
     /// </summary>
     [Fact]
@@ -201,7 +273,7 @@ public sealed class WordEntryTests
 
         Assert.False(firstTopic.IsPrimaryTopic);
         Assert.True(secondTopic.IsPrimaryTopic);
-        Assert.Single(word.Topics.Where(topic => topic.IsPrimaryTopic));
+        Assert.Single(word.Topics, topic => topic.IsPrimaryTopic);
     }
 
     private static WordEntry CreateWordEntry()

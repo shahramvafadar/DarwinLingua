@@ -43,6 +43,11 @@ internal sealed class ExampleSentenceConfiguration : IEntityTypeConfiguration<Ex
         builder.HasIndex(example => new { example.WordSenseId, example.SentenceOrder })
             .IsUnique();
 
+        builder.HasIndex(example => example.WordSenseId)
+            .HasDatabaseName("IX_ExampleSentences_PrimaryPerSense")
+            .IsUnique()
+            .HasFilter($"[{nameof(ExampleSentence.IsPrimaryExample)}] = 1");
+
         builder.HasMany(example => example.Translations)
             .WithOne()
             .HasForeignKey(translation => translation.ExampleSentenceId)

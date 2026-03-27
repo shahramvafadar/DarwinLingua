@@ -35,5 +35,15 @@ internal sealed class WordTopicConfiguration : IEntityTypeConfiguration<WordTopi
 
         builder.HasIndex(topic => new { topic.WordEntryId, topic.TopicId })
             .IsUnique();
+
+        builder.HasIndex(topic => topic.WordEntryId)
+            .HasDatabaseName("IX_WordTopics_PrimaryPerWordEntry")
+            .IsUnique()
+            .HasFilter($"[{nameof(WordTopic.IsPrimaryTopic)}] = 1");
+
+        builder.HasOne<Topic>()
+            .WithMany()
+            .HasForeignKey(topic => topic.TopicId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
