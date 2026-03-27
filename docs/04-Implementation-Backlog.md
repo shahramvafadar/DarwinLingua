@@ -290,7 +290,7 @@ Phase 3 focuses on richer lexical intelligence while continuing to prioritize th
 - [x] implement grammar notes
 - [x] implement word families
 - [x] implement collocations
-- [ ] implement lexical relations such as synonyms and antonyms
+- [x] implement lexical relations such as synonyms and antonyms
 
 ### 23. Lexical Intelligence Import and Query Workflows
 
@@ -300,7 +300,7 @@ Phase 3 focuses on richer lexical intelligence while continuing to prioritize th
 - [x] expose grammar notes from `GetWordDetails`
 - [x] expose collocations from `GetWordDetails`
 - [x] expose word families from `GetWordDetails`
-- [ ] expose richer lexical relations from detail queries
+- [x] expose richer lexical relations from detail queries
 
 ### 24. Mobile Word Detail UX Evolution
 
@@ -309,7 +309,7 @@ Phase 3 focuses on richer lexical intelligence while continuing to prioritize th
 - [x] surface grammar notes in the word-detail flow
 - [x] surface collocations in the word-detail flow
 - [x] surface word families in the word-detail flow
-- [ ] surface lexical relations in the word-detail flow
+- [x] surface lexical relations in the word-detail flow
 - [ ] review and polish the main learner-facing screens for stronger visual consistency
 
 ### 25. Phase 3 Quality and Release Readiness

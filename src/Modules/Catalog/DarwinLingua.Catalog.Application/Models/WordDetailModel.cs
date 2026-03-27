@@ -16,6 +16,8 @@ public sealed record WordDetailModel(
     IReadOnlyList<string> GrammarNotes,
     IReadOnlyList<WordCollocationDetailModel> Collocations,
     IReadOnlyList<WordFamilyMemberDetailModel> WordFamilies,
+    IReadOnlyList<WordRelationDetailModel> Synonyms,
+    IReadOnlyList<WordRelationDetailModel> Antonyms,
     IReadOnlyList<string> Topics,
     IReadOnlyList<WordSenseDetailModel> Senses);
 
@@ -32,6 +34,13 @@ public sealed record WordCollocationDetailModel(
 public sealed record WordFamilyMemberDetailModel(
     string Lemma,
     string RelationLabel,
+    string? Note);
+
+/// <summary>
+/// Represents one lexical relation on the word detail screen.
+/// </summary>
+public sealed record WordRelationDetailModel(
+    string Lemma,
     string? Note);
 
 /// <summary>

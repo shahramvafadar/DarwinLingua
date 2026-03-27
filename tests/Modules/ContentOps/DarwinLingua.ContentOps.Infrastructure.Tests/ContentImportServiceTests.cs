@@ -66,6 +66,8 @@ public sealed class ContentImportServiceTests
             Assert.Contains("Plural form is mostly used when talking about different bread types.", detail.GrammarNotes);
             Assert.Contains(detail.Collocations, collocation => collocation.Text == "frisches Brot kaufen" && collocation.Meaning == "to buy fresh bread");
             Assert.Contains(detail.WordFamilies, member => member.Lemma == "Bäcker" && member.RelationLabel == "Profession");
+            Assert.Contains(detail.Synonyms, relation => relation.Lemma == "Laib");
+            Assert.Contains(detail.Antonyms, relation => relation.Lemma == "Fasten");
         }
         finally
         {
@@ -356,6 +358,18 @@ public sealed class ContentImportServiceTests
                       "lemma": "Bäcker",
                       "relationLabel": "Profession",
                       "note": "person who bakes or sells bread"
+                    }
+                  ],
+                  "relations": [
+                    {
+                      "kind": "synonym",
+                      "lemma": "Laib",
+                      "note": "used for a loaf of bread"
+                    },
+                    {
+                      "kind": "antonym",
+                      "lemma": "Fasten",
+                      "note": "going without food"
                     }
                   ],
                   "meanings": [

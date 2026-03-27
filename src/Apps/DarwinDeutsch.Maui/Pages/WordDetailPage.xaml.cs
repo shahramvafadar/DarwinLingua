@@ -91,6 +91,9 @@ public partial class WordDetailPage : ContentPage
         GrammarNotesHeadingLabel.Text = AppStrings.WordDetailGrammarNotesLabel;
         CollocationsHeadingLabel.Text = AppStrings.WordDetailCollocationsLabel;
         WordFamiliesHeadingLabel.Text = AppStrings.WordDetailWordFamiliesLabel;
+        LexicalRelationsHeadingLabel.Text = AppStrings.WordDetailLexicalRelationsLabel;
+        SynonymsHeadingLabel.Text = AppStrings.WordDetailSynonymsLabel;
+        AntonymsHeadingLabel.Text = AppStrings.WordDetailAntonymsLabel;
         EmptyStateLabel.Text = AppStrings.WordDetailNotFound;
         SensesContainer.Children.Clear();
         UsageLabelsFlexLayout.Children.Clear();
@@ -98,11 +101,16 @@ public partial class WordDetailPage : ContentPage
         GrammarNotesStackLayout.Children.Clear();
         CollocationsStackLayout.Children.Clear();
         WordFamiliesStackLayout.Children.Clear();
+        SynonymsStackLayout.Children.Clear();
+        AntonymsStackLayout.Children.Clear();
         UsageLabelsBorder.IsVisible = false;
         ContextLabelsBorder.IsVisible = false;
         GrammarNotesBorder.IsVisible = false;
         CollocationsBorder.IsVisible = false;
         WordFamiliesBorder.IsVisible = false;
+        LexicalRelationsBorder.IsVisible = false;
+        SynonymsSectionStackLayout.IsVisible = false;
+        AntonymsSectionStackLayout.IsVisible = false;
         SpeakWordButton.IsVisible = false;
         FavoriteButton.IsVisible = false;
         KnownButton.IsVisible = false;
@@ -157,6 +165,7 @@ public partial class WordDetailPage : ContentPage
         ApplyGrammarNotes(word.GrammarNotes);
         ApplyCollocations(word.Collocations);
         ApplyWordFamilies(word.WordFamilies);
+        ApplyLexicalRelations(word.Synonyms, word.Antonyms);
         TopicsSectionView.SectionValue = word.Topics.Count == 0
             ? AppStrings.WordDetailNoTopics
             : string.Join(", ", word.Topics);
@@ -185,11 +194,16 @@ public partial class WordDetailPage : ContentPage
         GrammarNotesStackLayout.Children.Clear();
         CollocationsStackLayout.Children.Clear();
         WordFamiliesStackLayout.Children.Clear();
+        SynonymsStackLayout.Children.Clear();
+        AntonymsStackLayout.Children.Clear();
         UsageLabelsBorder.IsVisible = false;
         ContextLabelsBorder.IsVisible = false;
         GrammarNotesBorder.IsVisible = false;
         CollocationsBorder.IsVisible = false;
         WordFamiliesBorder.IsVisible = false;
+        LexicalRelationsBorder.IsVisible = false;
+        SynonymsSectionStackLayout.IsVisible = false;
+        AntonymsSectionStackLayout.IsVisible = false;
         LearningStateSectionView.SectionValue = string.Empty;
         TopicsSectionView.SectionValue = string.Empty;
         ClearAudioStatus();
@@ -589,6 +603,70 @@ public partial class WordDetailPage : ContentPage
                 BackgroundColor = Application.Current?.RequestedTheme == AppTheme.Dark
                     ? Color.FromArgb("#18242F")
                     : Color.FromArgb("#EFF6FF"),
+                Content = content,
+            });
+        }
+    }
+
+    /// <summary>
+    /// Renders lexical relations in separate synonym and antonym groups.
+    /// </summary>
+    private void ApplyLexicalRelations(
+        IReadOnlyList<WordRelationDetailModel> synonyms,
+        IReadOnlyList<WordRelationDetailModel> antonyms)
+    {
+        ArgumentNullException.ThrowIfNull(synonyms);
+        ArgumentNullException.ThrowIfNull(antonyms);
+
+        SynonymsStackLayout.Children.Clear();
+        AntonymsStackLayout.Children.Clear();
+
+        ApplyRelationGroup(SynonymsStackLayout, SynonymsSectionStackLayout, synonyms, false);
+        ApplyRelationGroup(AntonymsStackLayout, AntonymsSectionStackLayout, antonyms, true);
+
+        LexicalRelationsBorder.IsVisible = synonyms.Count > 0 || antonyms.Count > 0;
+    }
+
+    /// <summary>
+    /// Renders one lexical-relation group.
+    /// </summary>
+    private void ApplyRelationGroup(
+        VerticalStackLayout host,
+        VerticalStackLayout section,
+        IReadOnlyList<WordRelationDetailModel> relations,
+        bool emphasizeContrast)
+    {
+        section.IsVisible = relations.Count > 0;
+
+        foreach (WordRelationDetailModel relation in relations)
+        {
+            VerticalStackLayout content = new()
+            {
+                Spacing = 4,
+            };
+
+            content.Children.Add(new Label
+            {
+                Text = relation.Lemma,
+                Style = ResolveAppTextStyle("Title2"),
+            });
+
+            if (!string.IsNullOrWhiteSpace(relation.Note))
+            {
+                content.Children.Add(new Label
+                {
+                    Text = relation.Note,
+                    Style = ResolveAppTextStyle("Body"),
+                });
+            }
+
+            host.Children.Add(new Border
+            {
+                Padding = new Thickness(14, 12),
+                StrokeThickness = 0,
+                BackgroundColor = emphasizeContrast
+                    ? (Application.Current?.RequestedTheme == AppTheme.Dark ? Color.FromArgb("#2A1E24") : Color.FromArgb("#FEF2F2"))
+                    : (Application.Current?.RequestedTheme == AppTheme.Dark ? Color.FromArgb("#1B2432") : Color.FromArgb("#F0F9FF")),
                 Content = content,
             });
         }

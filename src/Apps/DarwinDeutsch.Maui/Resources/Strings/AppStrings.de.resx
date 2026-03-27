@@ -174,6 +174,15 @@
   <data name="WordDetailWordFamiliesLabel" xml:space="preserve">
     <value>Wortfamilie</value>
   </data>
+  <data name="WordDetailLexicalRelationsLabel" xml:space="preserve">
+    <value>Verwandte Wörter</value>
+  </data>
+  <data name="WordDetailSynonymsLabel" xml:space="preserve">
+    <value>Synonyme</value>
+  </data>
+  <data name="WordDetailAntonymsLabel" xml:space="preserve">
+    <value>Antonyme</value>
+  </data>
   <data name="WordDetailNoTopics" xml:space="preserve">
     <value>Diesem Wort sind keine Themen zugeordnet.</value>
   </data>

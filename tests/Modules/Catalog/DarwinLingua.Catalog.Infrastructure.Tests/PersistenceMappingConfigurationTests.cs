@@ -94,6 +94,8 @@ public sealed class PersistenceMappingConfigurationTests
                 ?? throw new Xunit.Sdk.XunitException("WordCollocation mapping is missing from the model.");
             IEntityType wordFamilyMemberEntity = dbContext.Model.FindEntityType(typeof(WordFamilyMember))
                 ?? throw new Xunit.Sdk.XunitException("WordFamilyMember mapping is missing from the model.");
+            IEntityType wordRelationEntity = dbContext.Model.FindEntityType(typeof(WordRelation))
+                ?? throw new Xunit.Sdk.XunitException("WordRelation mapping is missing from the model.");
 
             Assert.Contains(
                 translationEntity.GetIndexes(),
@@ -164,6 +166,13 @@ public sealed class PersistenceMappingConfigurationTests
                     index.IsUnique &&
                     index.Properties.Select(property => property.Name).SequenceEqual(
                         [nameof(WordFamilyMember.WordEntryId), nameof(WordFamilyMember.Lemma), nameof(WordFamilyMember.RelationLabel)]));
+
+            Assert.Contains(
+                wordRelationEntity.GetIndexes(),
+                index =>
+                    index.IsUnique &&
+                    index.Properties.Select(property => property.Name).SequenceEqual(
+                        [nameof(WordRelation.WordEntryId), nameof(WordRelation.Kind), nameof(WordRelation.Lemma)]));
         }
         finally
         {

@@ -24,6 +24,10 @@
       "wordFamilies": [
         { "lemma": "Bäcker", "relationLabel": "Profession", "note": "person who bakes or sells bread" }
       ],
+      "relations": [
+        { "kind": "synonym", "lemma": "Laib", "note": "used for a loaf of bread" },
+        { "kind": "antonym", "lemma": "Fasten", "note": "going without food" }
+      ],
       "meanings": [
         { "language": "en", "text": "bread" },
         { "language": "fa", "text": "نان" },
@@ -93,6 +97,9 @@
       "wordFamilies": [
         { "lemma": "bewerben", "relationLabel": "Verb", "note": "to apply for something" }
       ],
+      "relations": [
+        { "kind": "synonym", "lemma": "Antrag", "note": "formal related application term" }
+      ],
       "meanings": [
         { "language": "en", "text": "job application" },
         { "language": "fa", "text": "درخواست کار" },
@@ -132,6 +139,9 @@
       ],
       "wordFamilies": [
         { "lemma": "terminlich", "relationLabel": "Adjective", "note": "related to scheduling" }
+      ],
+      "relations": [
+        { "kind": "synonym", "lemma": "Verabredung", "note": "appointment in everyday language" }
       ],
       "meanings": [
         { "language": "en", "text": "appointment" },

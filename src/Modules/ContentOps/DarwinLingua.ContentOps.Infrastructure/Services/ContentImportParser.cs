@@ -71,6 +71,10 @@ internal sealed class ContentImportParser : IContentImportParser
                 member.Lemma ?? string.Empty,
                 member.RelationLabel ?? string.Empty,
                 member.Note)).ToArray(),
+            (entry.Relations ?? []).Select(relation => new ParsedContentWordRelationModel(
+                relation.Kind ?? string.Empty,
+                relation.Lemma ?? string.Empty,
+                relation.Note)).ToArray(),
             (entry.Meanings ?? []).Select(meaning => new ParsedContentMeaningModel(
                 meaning.Language ?? string.Empty,
                 meaning.Text ?? string.Empty)).ToArray(),
@@ -124,6 +128,8 @@ internal sealed class ContentImportParser : IContentImportParser
 
         public ContentWordFamilyMemberDocument[]? WordFamilies { get; set; }
 
+        public ContentWordRelationDocument[]? Relations { get; set; }
+
         public ContentMeaningDocument[]? Meanings { get; set; }
 
         public ContentExampleDocument[]? Examples { get; set; }
@@ -148,6 +154,15 @@ internal sealed class ContentImportParser : IContentImportParser
         public string? Lemma { get; set; }
 
         public string? RelationLabel { get; set; }
+
+        public string? Note { get; set; }
+    }
+
+    private sealed class ContentWordRelationDocument
+    {
+        public string? Kind { get; set; }
+
+        public string? Lemma { get; set; }
 
         public string? Note { get; set; }
     }

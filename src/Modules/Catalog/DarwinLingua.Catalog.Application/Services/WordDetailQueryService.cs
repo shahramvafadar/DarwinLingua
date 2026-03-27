@@ -98,6 +98,18 @@ internal sealed class WordDetailQueryService : IWordDetailQueryService
             .Select(member => new WordFamilyMemberDetailModel(member.Lemma, member.RelationLabel, member.Note))
             .ToArray();
 
+        IReadOnlyList<WordRelationDetailModel> synonyms = word.Relations
+            .Where(relation => relation.Kind == WordRelationKind.Synonym)
+            .OrderBy(relation => relation.SortOrder)
+            .Select(relation => new WordRelationDetailModel(relation.Lemma, relation.Note))
+            .ToArray();
+
+        IReadOnlyList<WordRelationDetailModel> antonyms = word.Relations
+            .Where(relation => relation.Kind == WordRelationKind.Antonym)
+            .OrderBy(relation => relation.SortOrder)
+            .Select(relation => new WordRelationDetailModel(relation.Lemma, relation.Note))
+            .ToArray();
+
         IReadOnlyList<WordSenseDetailModel> senses = word.Senses
             .OrderByDescending(sense => sense.IsPrimarySense)
             .ThenBy(sense => sense.SenseOrder)
@@ -128,6 +140,8 @@ internal sealed class WordDetailQueryService : IWordDetailQueryService
             grammarNotes,
             collocations,
             wordFamilies,
+            synonyms,
+            antonyms,
             topicNames,
             senses);
     }

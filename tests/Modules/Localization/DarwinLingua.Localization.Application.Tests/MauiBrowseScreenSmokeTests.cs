@@ -112,15 +112,19 @@ public sealed class MauiBrowseScreenSmokeTests
         Assert.Contains("GrammarNotesBorder", xamlSource, StringComparison.Ordinal);
         Assert.Contains("CollocationsBorder", xamlSource, StringComparison.Ordinal);
         Assert.Contains("WordFamiliesBorder", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("LexicalRelationsBorder", xamlSource, StringComparison.Ordinal);
         Assert.Contains("UsageLabelsFlexLayout", xamlSource, StringComparison.Ordinal);
         Assert.Contains("ContextLabelsFlexLayout", xamlSource, StringComparison.Ordinal);
         Assert.Contains("GrammarNotesStackLayout", xamlSource, StringComparison.Ordinal);
         Assert.Contains("CollocationsStackLayout", xamlSource, StringComparison.Ordinal);
         Assert.Contains("WordFamiliesStackLayout", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("SynonymsStackLayout", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("AntonymsStackLayout", xamlSource, StringComparison.Ordinal);
         Assert.Contains("ApplyWordLabels", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("ApplyGrammarNotes", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("ApplyCollocations", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("ApplyWordFamilies", codeBehindSource, StringComparison.Ordinal);
+        Assert.Contains("ApplyLexicalRelations", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("LexiconTagDisplayText", codeBehindSource, StringComparison.Ordinal);
     }
 

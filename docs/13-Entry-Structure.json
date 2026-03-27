@@ -25,6 +25,18 @@
       "note": "square in front of the station"
     }
   ],
+  "relations": [
+    {
+      "kind": "synonym",
+      "lemma": "Haltepunkt",
+      "note": "smaller station or stop"
+    },
+    {
+      "kind": "antonym",
+      "lemma": "Zuhause",
+      "note": "opposite destination in travel context"
+    }
+  ],
   "meanings": [
     {
       "language": "fa",

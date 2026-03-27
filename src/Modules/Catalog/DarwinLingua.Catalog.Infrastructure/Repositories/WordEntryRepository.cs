@@ -151,6 +151,7 @@ internal sealed class WordEntryRepository : IWordEntryRepository
             .Include(word => word.Topics)
             .Include(word => word.Collocations)
             .Include(word => word.FamilyMembers)
+            .Include(word => word.Relations)
             .Include(word => word.GrammarNotes)
             .Include(word => word.Labels);
     }

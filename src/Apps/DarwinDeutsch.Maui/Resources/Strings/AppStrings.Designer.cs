@@ -288,6 +288,21 @@ public static class AppStrings
     public static string WordDetailWordFamiliesLabel => GetRequiredString(nameof(WordDetailWordFamiliesLabel));
 
     /// <summary>
+    /// Gets the localized label for the lexical-relations section on the word-detail page.
+    /// </summary>
+    public static string WordDetailLexicalRelationsLabel => GetRequiredString(nameof(WordDetailLexicalRelationsLabel));
+
+    /// <summary>
+    /// Gets the localized label for the synonym group on the word-detail page.
+    /// </summary>
+    public static string WordDetailSynonymsLabel => GetRequiredString(nameof(WordDetailSynonymsLabel));
+
+    /// <summary>
+    /// Gets the localized label for the antonym group on the word-detail page.
+    /// </summary>
+    public static string WordDetailAntonymsLabel => GetRequiredString(nameof(WordDetailAntonymsLabel));
+
+    /// <summary>
     /// Gets the localized empty-topic message for the word-detail page.
     /// </summary>
     public static string WordDetailNoTopics => GetRequiredString(nameof(WordDetailNoTopics));

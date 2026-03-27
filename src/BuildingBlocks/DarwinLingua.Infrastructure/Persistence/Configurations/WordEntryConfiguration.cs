@@ -139,6 +139,11 @@ internal sealed class WordEntryConfiguration : IEntityTypeConfiguration<WordEntr
             .HasForeignKey(member => member.WordEntryId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.HasMany(word => word.Relations)
+            .WithOne()
+            .HasForeignKey(relation => relation.WordEntryId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.Navigation(word => word.Senses)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
 
@@ -155,6 +160,9 @@ internal sealed class WordEntryConfiguration : IEntityTypeConfiguration<WordEntr
             .UsePropertyAccessMode(PropertyAccessMode.Field);
 
         builder.Navigation(word => word.FamilyMembers)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.Navigation(word => word.Relations)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }

@@ -61,6 +61,8 @@ public sealed class WordDetailQueryServiceTests
         word.AddGrammarNote(Guid.NewGuid(), "Usually used with \"an der\" in shopping contexts.", DateTime.UtcNow);
         word.AddCollocation(Guid.NewGuid(), "an der Kasse bezahlen", "to pay at the checkout", DateTime.UtcNow);
         word.AddFamilyMember(Guid.NewGuid(), "Kassierer", "Profession", "person working at the checkout", DateTime.UtcNow);
+        word.AddRelation(Guid.NewGuid(), WordRelationKind.Synonym, "Zahlstelle", "formal alternative", DateTime.UtcNow);
+        word.AddRelation(Guid.NewGuid(), WordRelationKind.Antonym, "Ausgang", "opposite direction in a store", DateTime.UtcNow);
 
         ServiceCollection services = new();
         services.AddCatalogApplication();
@@ -85,6 +87,8 @@ public sealed class WordDetailQueryServiceTests
         Assert.Contains("Usually used with \"an der\" in shopping contexts.", result.GrammarNotes);
         Assert.Contains(result.Collocations, collocation => collocation.Text == "an der Kasse bezahlen" && collocation.Meaning == "to pay at the checkout");
         Assert.Contains(result.WordFamilies, member => member.Lemma == "Kassierer" && member.RelationLabel == "Profession");
+        Assert.Contains(result.Synonyms, relation => relation.Lemma == "Zahlstelle");
+        Assert.Contains(result.Antonyms, relation => relation.Lemma == "Ausgang");
         Assert.Contains("Einkaufen", result.Topics);
 
         WordSenseDetailModel senseResult = Assert.Single(result.Senses);

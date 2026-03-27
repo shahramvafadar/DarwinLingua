@@ -105,6 +105,31 @@
                 </VerticalStackLayout>
             </Border>
 
+            <Border x:Name="LexicalRelationsBorder"
+                    Padding="20"
+                    IsVisible="False">
+                <VerticalStackLayout Spacing="14">
+                    <Label x:Name="LexicalRelationsHeadingLabel"
+                           Style="{DynamicResource Title2}" />
+                    <VerticalStackLayout x:Name="SynonymsSectionStackLayout"
+                                         Spacing="10"
+                                         IsVisible="False">
+                        <Label x:Name="SynonymsHeadingLabel"
+                               Style="{DynamicResource Body}" />
+                        <VerticalStackLayout x:Name="SynonymsStackLayout"
+                                             Spacing="8" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout x:Name="AntonymsSectionStackLayout"
+                                         Spacing="10"
+                                         IsVisible="False">
+                        <Label x:Name="AntonymsHeadingLabel"
+                               Style="{DynamicResource Body}" />
+                        <VerticalStackLayout x:Name="AntonymsStackLayout"
+                                             Spacing="8" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
             <Border Padding="20">
                 <controls:DetailSectionView x:Name="TopicsSectionView" />
             </Border>

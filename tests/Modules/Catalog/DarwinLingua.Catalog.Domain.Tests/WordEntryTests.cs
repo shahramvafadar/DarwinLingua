@@ -356,6 +356,23 @@ public sealed class WordEntryTests
             DateTime.UtcNow));
     }
 
+    /// <summary>
+    /// Verifies that duplicate relations are rejected within the same relation kind.
+    /// </summary>
+    [Fact]
+    public void AddRelation_ShouldRejectDuplicateLemmaPerKind()
+    {
+        WordEntry word = CreateWordEntry();
+        word.AddRelation(Guid.NewGuid(), WordRelationKind.Synonym, "gelingen", "to work out well", DateTime.UtcNow);
+
+        Assert.Throws<DomainRuleException>(() => word.AddRelation(
+            Guid.NewGuid(),
+            WordRelationKind.Synonym,
+            "gelingen",
+            "to succeed",
+            DateTime.UtcNow));
+    }
+
     private static WordEntry CreateWordEntry()
     {
         return new WordEntry(

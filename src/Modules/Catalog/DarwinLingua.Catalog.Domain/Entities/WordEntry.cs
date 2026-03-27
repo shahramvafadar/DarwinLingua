@@ -17,6 +17,7 @@ public sealed partial class WordEntry
     private readonly List<WordGrammarNote> _grammarNotes = [];
     private readonly List<WordCollocation> _collocations = [];
     private readonly List<WordFamilyMember> _familyMembers = [];
+    private readonly List<WordRelation> _relations = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WordEntry"/> class for EF Core materialization.
@@ -188,6 +189,11 @@ public sealed partial class WordEntry
     /// Gets the word-family members attached to the entry.
     /// </summary>
     public IReadOnlyCollection<WordFamilyMember> FamilyMembers => _familyMembers.AsReadOnly();
+
+    /// <summary>
+    /// Gets the lexical relations attached to the entry.
+    /// </summary>
+    public IReadOnlyCollection<WordRelation> Relations => _relations.AsReadOnly();
 
     /// <summary>
     /// Adds a sense to the lexical entry.
@@ -418,6 +424,47 @@ public sealed partial class WordEntry
     }
 
     /// <summary>
+    /// Adds a lexical relation to the entry.
+    /// </summary>
+    public WordRelation AddRelation(
+        Guid id,
+        WordRelationKind kind,
+        string lemma,
+        string? note,
+        DateTime createdAtUtc)
+    {
+        if (_relations.Any(existingRelation => existingRelation.Id == id))
+        {
+            throw new DomainRuleException("Duplicate relation identifiers are not allowed within the same word entry.");
+        }
+
+        string normalizedLemma = NormalizeRelationLemma(lemma);
+
+        if (_relations.Any(existingRelation =>
+                existingRelation.Kind == kind &&
+                string.Equals(existingRelation.Lemma, normalizedLemma, StringComparison.Ordinal)))
+        {
+            throw new DomainRuleException("Duplicate relation lemma is not allowed within the same word entry and relation kind.");
+        }
+
+        int sortOrder = _relations.Count(existingRelation => existingRelation.Kind == kind) + 1;
+
+        WordRelation relation = new(
+            id,
+            Id,
+            kind,
+            normalizedLemma,
+            NormalizeRelationNote(note),
+            sortOrder,
+            createdAtUtc);
+
+        _relations.Add(relation);
+        UpdatedAtUtc = NormalizeUtc(createdAtUtc, nameof(createdAtUtc));
+
+        return relation;
+    }
+
+    /// <summary>
     /// Resolves the primary sense when one exists, otherwise falls back to the first ordered sense.
     /// </summary>
     public WordSense? GetPrimarySense()
@@ -508,6 +555,23 @@ public sealed partial class WordEntry
     }
 
     private static string? NormalizeFamilyMemberNote(string? value)
+    {
+        return string.IsNullOrWhiteSpace(value)
+            ? null
+            : CollapseWhitespace().Replace(value.Trim(), " ");
+    }
+
+    private static string NormalizeRelationLemma(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new DomainRuleException("Word relation lemma cannot be empty.");
+        }
+
+        return CollapseWhitespace().Replace(value.Trim(), " ");
+    }
+
+    private static string? NormalizeRelationNote(string? value)
     {
         return string.IsNullOrWhiteSpace(value)
             ? null

@@ -97,6 +97,7 @@ Each vocabulary entry should contain:
 - `grammarNotes`
 - `collocations`
 - `wordFamilies`
+- `relations`
 - `notes`
 
 ---

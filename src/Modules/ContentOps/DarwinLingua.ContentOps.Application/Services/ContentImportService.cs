@@ -164,6 +164,7 @@ internal sealed class ContentImportService : IContentImportService
         string[] grammarNotes = ValidateGrammarNotes(entry.GrammarNotes, entryErrors);
         ParsedContentCollocationModel[] collocations = ValidateCollocations(entry.Collocations, entryErrors);
         ParsedContentWordFamilyMemberModel[] wordFamilies = ValidateWordFamilies(entry.WordFamilies, entryErrors);
+        ParsedContentWordRelationModel[] relations = ValidateRelations(entry.Relations, entryErrors);
 
         if (string.IsNullOrWhiteSpace(normalizedLemma))
         {
@@ -332,6 +333,16 @@ internal sealed class ContentImportService : IContentImportService
         foreach (ParsedContentWordFamilyMemberModel familyMember in wordFamilies)
         {
             wordEntry.AddFamilyMember(Guid.NewGuid(), familyMember.Lemma, familyMember.RelationLabel, familyMember.Note, DateTime.UtcNow);
+        }
+
+        foreach (ParsedContentWordRelationModel relation in relations)
+        {
+            wordEntry.AddRelation(
+                Guid.NewGuid(),
+                ParseRelationKind(relation.Kind),
+                relation.Lemma,
+                relation.Note,
+                DateTime.UtcNow);
         }
 
         importedWords.Add(wordEntry);
@@ -647,6 +658,73 @@ internal sealed class ContentImportService : IContentImportService
         }
 
         return normalized.ToArray();
+    }
+
+    private static ParsedContentWordRelationModel[] ValidateRelations(
+        IReadOnlyList<ParsedContentWordRelationModel> relations,
+        ICollection<string> entryErrors)
+    {
+        List<ParsedContentWordRelationModel> normalized = [];
+
+        foreach (ParsedContentWordRelationModel relation in relations)
+        {
+            string normalizedKind = NormalizeText(relation.Kind).ToLowerInvariant();
+            string normalizedLemma = NormalizeText(relation.Lemma);
+
+            if (string.IsNullOrWhiteSpace(normalizedKind))
+            {
+                entryErrors.Add("Entry relations cannot contain empty kind values.");
+                continue;
+            }
+
+            if (string.IsNullOrWhiteSpace(normalizedLemma))
+            {
+                entryErrors.Add("Entry relations cannot contain empty lemma values.");
+                continue;
+            }
+
+            if (normalizedLemma.Length > 128)
+            {
+                entryErrors.Add("Entry relations lemma must not exceed 128 characters.");
+                continue;
+            }
+
+            if (normalizedKind is not ("synonym" or "antonym"))
+            {
+                entryErrors.Add($"Entry relation kind '{normalizedKind}' is not supported.");
+                continue;
+            }
+
+            string? normalizedNote = NormalizeOptionalText(relation.Note);
+
+            if (normalizedNote is not null && normalizedNote.Length > 256)
+            {
+                entryErrors.Add("Entry relations note must not exceed 256 characters.");
+                continue;
+            }
+
+            if (normalized.Any(existing =>
+                    string.Equals(existing.Kind, normalizedKind, StringComparison.Ordinal) &&
+                    string.Equals(existing.Lemma, normalizedLemma, StringComparison.Ordinal)))
+            {
+                entryErrors.Add($"Duplicate relation '{normalizedKind}:{normalizedLemma}' is not allowed.");
+                continue;
+            }
+
+            normalized.Add(new ParsedContentWordRelationModel(normalizedKind, normalizedLemma, normalizedNote));
+        }
+
+        return normalized.ToArray();
+    }
+
+    private static WordRelationKind ParseRelationKind(string value)
+    {
+        return value.Trim().ToLowerInvariant() switch
+        {
+            "synonym" => WordRelationKind.Synonym,
+            "antonym" => WordRelationKind.Antonym,
+            _ => throw new InvalidOperationException($"Unsupported relation kind '{value}'."),
+        };
     }
 
     private static string? NormalizeOptionalText(string? value)
