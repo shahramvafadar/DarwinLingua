@@ -83,15 +83,15 @@ public partial class WordDetailPage : ContentPage
     private async Task RefreshAsync()
     {
         Title = AppStrings.WordDetailTitle;
-        TopicsCaptionLabel.Text = AppStrings.WordDetailTopicsLabel;
-        LearningStateCaptionLabel.Text = AppStrings.WordDetailLearningStateLabel;
+        TopicsSectionView.SectionTitle = AppStrings.WordDetailTopicsLabel;
+        LearningStateSectionView.SectionTitle = AppStrings.WordDetailLearningStateLabel;
         EmptyStateLabel.Text = AppStrings.WordDetailNotFound;
         SensesContainer.Children.Clear();
         SpeakWordButton.IsVisible = false;
         FavoriteButton.IsVisible = false;
         KnownButton.IsVisible = false;
         DifficultButton.IsVisible = false;
-        LearningStateValueLabel.Text = string.Empty;
+        LearningStateSectionView.SectionValue = string.Empty;
         ClearAudioStatus();
 
         if (!Guid.TryParse(WordPublicId, out Guid publicId))
@@ -136,7 +136,7 @@ public partial class WordDetailPage : ContentPage
             : AppStrings.WordDetailAddFavoriteButton;
         FavoriteButton.IsVisible = true;
         ApplyUserWordState();
-        TopicsValueLabel.Text = word.Topics.Count == 0
+        TopicsSectionView.SectionValue = word.Topics.Count == 0
             ? AppStrings.WordDetailNoTopics
             : string.Join(", ", word.Topics);
         EmptyStateLabel.IsVisible = false;
@@ -159,8 +159,8 @@ public partial class WordDetailPage : ContentPage
         FavoriteButton.IsVisible = false;
         KnownButton.IsVisible = false;
         DifficultButton.IsVisible = false;
-        LearningStateValueLabel.Text = string.Empty;
-        TopicsValueLabel.Text = string.Empty;
+        LearningStateSectionView.SectionValue = string.Empty;
+        TopicsSectionView.SectionValue = string.Empty;
         ClearAudioStatus();
         EmptyStateLabel.IsVisible = true;
     }
@@ -369,7 +369,7 @@ public partial class WordDetailPage : ContentPage
     {
         if (_userWordState is null)
         {
-            LearningStateValueLabel.Text = AppStrings.WordDetailLearningStateUnknown;
+            LearningStateSectionView.SectionValue = AppStrings.WordDetailLearningStateUnknown;
             KnownButton.IsVisible = false;
             DifficultButton.IsVisible = false;
             return;
@@ -387,7 +387,7 @@ public partial class WordDetailPage : ContentPage
             statusParts.Add(AppStrings.WordDetailStateDifficult);
         }
 
-        LearningStateValueLabel.Text = string.Join(Environment.NewLine, statusParts);
+        LearningStateSectionView.SectionValue = string.Join(Environment.NewLine, statusParts);
 
         KnownButton.Text = _userWordState.IsKnown
             ? AppStrings.WordDetailClearKnownButton
