@@ -44,7 +44,7 @@ The repository is currently **in active Phase 1 release validation and early Pha
 - the browse tab now functions as a dedicated browse hub with CEFR shortcuts, topic discovery, and direct links into search and favorites
 - shared MAUI style resources now define baseline design tokens for spacing, typography, touch targets, and semantic surface/text colors
 - the canonical modular-monolith Phase 1 project/reference structure is now locked and documented in the solution architecture guide
-- the new `Practice` module now starts Phase 2 with a first local practice/progress overview use case over existing catalog and learning data
+- the new `Practice` module now starts Phase 2 with local practice/progress overview and deterministic review-queue use cases over existing catalog and learning data
 
 The current import contract maps one imported entry to one imported sense with meanings and examples.
 

@@ -33,30 +33,9 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
             .CreateDbContextAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        List<PracticeStateRow> trackedRows = await (
-            from userWordState in dbContext.UserWordStates.AsNoTracking()
-            join wordEntry in dbContext.WordEntries.AsNoTracking()
-                on userWordState.WordEntryPublicId equals wordEntry.PublicId
-            where userWordState.UserId == LocalInstallationUser.UserId &&
-                wordEntry.PublicationStatus == PublicationStatus.Active
-            select new PracticeStateRow(
-                wordEntry.Id,
-                wordEntry.PublicId,
-                wordEntry.Lemma,
-                wordEntry.PrimaryCefrLevel.ToString(),
-                userWordState.IsKnown,
-                userWordState.IsDifficult,
-                userWordState.ViewCount,
-                userWordState.LastViewedAtUtc,
-                userWordState.UpdatedAtUtc))
-            .ToListAsync(cancellationToken)
-            .ConfigureAwait(false);
+        List<PracticeStateRow> trackedRows = await LoadTrackedRowsAsync(dbContext, cancellationToken).ConfigureAwait(false);
 
-        List<PracticeStateRow> reviewCandidates = trackedRows
-            .Where(row => row.LastViewedAtUtc is not null && (!row.IsKnown || row.IsDifficult))
-            .OrderByDescending(row => row.IsDifficult)
-            .ThenBy(row => row.LastViewedAtUtc)
-            .ThenByDescending(row => row.ViewCount)
+        List<PracticeStateRow> reviewCandidates = OrderReviewCandidates(trackedRows)
             .Take(PreviewSize)
             .ToList();
 
@@ -87,6 +66,94 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
                     row.ViewCount,
                     row.LastViewedAtUtc))
                 .ToArray());
+    }
+
+    /// <inheritdoc />
+    public async Task<PracticeReviewQueueModel> GetReviewQueueAsync(
+        LanguageCode meaningLanguageCode,
+        CancellationToken cancellationToken)
+    {
+        await using DarwinLinguaDbContext dbContext = await _dbContextFactory
+            .CreateDbContextAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        List<PracticeStateRow> trackedRows = await LoadTrackedRowsAsync(dbContext, cancellationToken).ConfigureAwait(false);
+        List<PracticeStateRow> orderedCandidates = OrderReviewCandidates(trackedRows).ToList();
+
+        Dictionary<Guid, string?> meaningsByWordEntryId = await LoadMeaningsByWordEntryIdAsync(
+            dbContext,
+            orderedCandidates.Select(row => row.WordEntryId).Distinct().ToArray(),
+            meaningLanguageCode,
+            cancellationToken).ConfigureAwait(false);
+
+        return new PracticeReviewQueueModel(
+            orderedCandidates.Count,
+            orderedCandidates
+                .Select((row, index) => new PracticeReviewQueueItemModel(
+                    index + 1,
+                    row.WordEntryPublicId,
+                    row.Lemma,
+                    row.CefrLevel,
+                    meaningsByWordEntryId.GetValueOrDefault(row.WordEntryId),
+                    row.IsDifficult,
+                    row.IsKnown,
+                    row.ViewCount,
+                    row.LastViewedAtUtc!.Value))
+                .ToArray());
+    }
+
+    private static async Task<List<PracticeStateRow>> LoadTrackedRowsAsync(
+        DarwinLinguaDbContext dbContext,
+        CancellationToken cancellationToken)
+    {
+        return await (
+            from userWordState in dbContext.UserWordStates.AsNoTracking()
+            join wordEntry in dbContext.WordEntries.AsNoTracking()
+                on userWordState.WordEntryPublicId equals wordEntry.PublicId
+            where userWordState.UserId == LocalInstallationUser.UserId &&
+                wordEntry.PublicationStatus == PublicationStatus.Active
+            select new PracticeStateRow(
+                wordEntry.Id,
+                wordEntry.PublicId,
+                wordEntry.Lemma,
+                wordEntry.PrimaryCefrLevel.ToString(),
+                userWordState.IsKnown,
+                userWordState.IsDifficult,
+                userWordState.ViewCount,
+                userWordState.LastViewedAtUtc,
+                userWordState.UpdatedAtUtc))
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Applies the current deterministic review-priority rule:
+    /// difficult words first, then oldest last-view timestamps, then higher view counts,
+    /// then higher CEFR levels, then alphabetical lemma as the final tie-breaker.
+    /// </summary>
+    private static IOrderedEnumerable<PracticeStateRow> OrderReviewCandidates(IEnumerable<PracticeStateRow> trackedRows)
+    {
+        return trackedRows
+            .Where(row => row.LastViewedAtUtc is not null && (!row.IsKnown || row.IsDifficult))
+            .OrderByDescending(row => row.IsDifficult)
+            .ThenBy(row => row.LastViewedAtUtc)
+            .ThenByDescending(row => row.ViewCount)
+            .ThenByDescending(row => GetCefrSortWeight(row.CefrLevel))
+            .ThenBy(row => row.Lemma, StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static int GetCefrSortWeight(string cefrLevel)
+    {
+        return cefrLevel switch
+        {
+            "A1" => 1,
+            "A2" => 2,
+            "B1" => 3,
+            "B2" => 4,
+            "C1" => 5,
+            "C2" => 6,
+            _ => 0,
+        };
     }
 
     private static async Task<Dictionary<Guid, string?>> LoadMeaningsByWordEntryIdAsync(

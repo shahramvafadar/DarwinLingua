@@ -238,7 +238,7 @@ Phase 2 focuses on turning imported content into repeatable learning behavior wh
 
 ### 17. Practice Scheduling and Review Rules
 
-- [ ] define deterministic review-candidate prioritization rules
+- [x] define deterministic review-candidate prioritization rules
 - [ ] define the persistent practice-attempt and review-scheduling model
 - [ ] implement spaced-repetition scheduling updates after answers
 - [ ] persist wrong-answer counters and recent-attempt history
@@ -247,7 +247,7 @@ Phase 2 focuses on turning imported content into repeatable learning behavior wh
 ### 18. Practice Application Use Cases
 
 - [x] implement `GetPracticeOverview`
-- [ ] implement `GetReviewQueue`
+- [x] implement `GetReviewQueue`
 - [ ] implement `StartReviewSession`
 - [ ] implement `SubmitFlashcardAnswer`
 - [ ] implement `SubmitQuizAnswer`
