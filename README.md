@@ -130,6 +130,7 @@ The project has explicit implementation standards in:
 - [Engineering Standards](docs/35-Engineering-Standards.md)
 - [Phase 1 Release Checklist](docs/43-Phase-1-Release-Checklist.md)
 - [Phase 1 Manual Validation Worksheet](docs/44-Phase-1-Manual-Validation-Worksheet.md)
+- [Phase 1 Release Notes Template](docs/45-Phase-1-Release-Notes-Template.md)
 
 Important rules include:
 
@@ -159,6 +160,7 @@ Important rules include:
 - [Continuation Handoff (for new chats)](docs/42-Continuation-Handoff.md)
 - [Phase 1 Release Checklist](docs/43-Phase-1-Release-Checklist.md)
 - [Phase 1 Manual Validation Worksheet](docs/44-Phase-1-Manual-Validation-Worksheet.md)
+- [Phase 1 Release Notes Template](docs/45-Phase-1-Release-Notes-Template.md)
 
 ### Content and Import
 
@@ -200,6 +202,7 @@ Important rules include:
 16. [Implementation Backlog](docs/04-Implementation-Backlog.md)
 17. [Phase 1 Release Checklist](docs/43-Phase-1-Release-Checklist.md)
 18. [Phase 1 Manual Validation Worksheet](docs/44-Phase-1-Manual-Validation-Worksheet.md)
+19. [Phase 1 Release Notes Template](docs/45-Phase-1-Release-Notes-Template.md)
 
 ## Repository Structure
 

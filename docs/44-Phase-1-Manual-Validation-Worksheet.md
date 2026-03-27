@@ -144,3 +144,5 @@ Record one row per tested device.
 - Remaining known issues accepted for release:
 - Follow-up bugs filed:
 - Final release-readiness recommendation:
+
+Copy the final accepted results into `docs/45-Phase-1-Release-Notes-Template.md`.

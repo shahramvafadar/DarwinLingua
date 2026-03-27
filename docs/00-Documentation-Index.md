@@ -53,6 +53,7 @@ All project documentation should remain in English.
 - `42-Continuation-Handoff.md`
 - `43-Phase-1-Release-Checklist.md`
 - `44-Phase-1-Manual-Validation-Worksheet.md`
+- `45-Phase-1-Release-Notes-Template.md`
 
 ---
 
@@ -81,6 +82,7 @@ If you are new to the project, read the documents in this order:
 19. `42-Continuation-Handoff.md`
 20. `43-Phase-1-Release-Checklist.md`
 21. `44-Phase-1-Manual-Validation-Worksheet.md`
+22. `45-Phase-1-Release-Notes-Template.md`
 
 ---
 
