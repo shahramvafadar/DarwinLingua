@@ -210,6 +210,50 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
                 .ToArray());
     }
 
+    /// <inheritdoc />
+    public async Task<PracticeLearningProgressSnapshotModel> GetLearningProgressSnapshotAsync(CancellationToken cancellationToken)
+    {
+        await using DarwinLinguaDbContext dbContext = await _dbContextFactory
+            .CreateDbContextAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        DateTime nowUtc = DateTime.UtcNow;
+        List<PracticeStateRow> trackedRows = await LoadTrackedRowsAsync(dbContext, cancellationToken).ConfigureAwait(false);
+        List<AttemptOutcomeRow> attemptRows = await dbContext.PracticeAttempts.AsNoTracking()
+            .Where(attempt => attempt.UserId == LocalInstallationUser.UserId)
+            .Select(attempt => new AttemptOutcomeRow(attempt.Outcome, attempt.AttemptedAtUtc))
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        int totalAttemptCount = attemptRows.Count;
+        int correctAttemptCount = attemptRows.Count(row =>
+            row.Outcome is PracticeAttemptOutcome.Correct or PracticeAttemptOutcome.Easy);
+        int incorrectAttemptCount = attemptRows.Count(row => row.Outcome == PracticeAttemptOutcome.Incorrect);
+        int attemptedWordCount = trackedRows.Count(row => row.TotalAttemptCount > 0);
+        int scheduledWordCount = trackedRows.Count(row => row.TotalAttemptCount > 0 && row.DueAtUtc is not null);
+        int dueNowCount = trackedRows.Count(row => IsDueNow(row, nowUtc));
+        int masteredWordCount = trackedRows.Count(row =>
+            row.ConsecutiveSuccessCount >= 3 && !row.IsDifficult && row.LastOutcome is not PracticeAttemptOutcome.Incorrect);
+        int strugglingWordCount = trackedRows.Count(row =>
+            row.IsDifficult || row.ConsecutiveFailureCount >= 2 || row.LastOutcome == PracticeAttemptOutcome.Incorrect);
+
+        return new PracticeLearningProgressSnapshotModel(
+            trackedRows.Count,
+            attemptedWordCount,
+            scheduledWordCount,
+            dueNowCount,
+            masteredWordCount,
+            strugglingWordCount,
+            totalAttemptCount,
+            correctAttemptCount,
+            incorrectAttemptCount,
+            totalAttemptCount == 0 ? 0 : Math.Round((double)correctAttemptCount / totalAttemptCount, 4),
+            attemptRows
+                .OrderByDescending(row => row.AttemptedAtUtc)
+                .Select(row => (DateTime?)row.AttemptedAtUtc)
+                .FirstOrDefault());
+    }
+
     private static async Task<List<PracticeStateRow>> LoadTrackedRowsAsync(
         DarwinLinguaDbContext dbContext,
         CancellationToken cancellationToken)
@@ -237,6 +281,8 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
                 reviewState == null ? null : reviewState.DueAtUtc,
                 reviewState == null ? null : reviewState.LastAttemptedAtUtc,
                 reviewState == null ? null : reviewState.LastOutcome,
+                reviewState == null ? 0 : reviewState.ConsecutiveSuccessCount,
+                reviewState == null ? 0 : reviewState.ConsecutiveFailureCount,
                 reviewState == null ? 0 : reviewState.TotalAttemptCount))
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
@@ -336,6 +382,8 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
         DateTime? DueAtUtc,
         DateTime? LastAttemptedAtUtc,
         PracticeAttemptOutcome? LastOutcome,
+        int ConsecutiveSuccessCount,
+        int ConsecutiveFailureCount,
         int TotalAttemptCount);
 
     private sealed record PracticeAttemptRow(
@@ -348,6 +396,10 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
         DateTime AttemptedAtUtc,
         DateTime? DueAtUtcAfterAttempt,
         int? ResponseMilliseconds);
+
+    private sealed record AttemptOutcomeRow(
+        PracticeAttemptOutcome Outcome,
+        DateTime AttemptedAtUtc);
 
     private sealed record MeaningRow(Guid WordEntryId, string TranslationText);
 }

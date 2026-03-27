@@ -250,9 +250,9 @@ Phase 2 focuses on turning imported content into repeatable learning behavior wh
 - [x] implement `GetReviewQueue`
 - [x] implement `StartReviewSession`
 - [x] implement `SubmitFlashcardAnswer`
-- [ ] implement `SubmitQuizAnswer`
+- [x] implement `SubmitQuizAnswer`
 - [x] implement `GetRecentActivity`
-- [ ] implement `GetLearningProgressSnapshot`
+- [x] implement `GetLearningProgressSnapshot`
 
 ### 19. Practice UI
 

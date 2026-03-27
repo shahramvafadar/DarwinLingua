@@ -5,16 +5,16 @@ using DarwinLingua.Practice.Domain.Entities;
 namespace DarwinLingua.Practice.Application.Services;
 
 /// <summary>
-/// Persists flashcard answers and updates the learner's review scheduling state.
+/// Persists quiz answers and updates the learner's review scheduling state.
 /// </summary>
-internal sealed class PracticeFlashcardAnswerService : IPracticeFlashcardAnswerService
+internal sealed class PracticeQuizAnswerService : IPracticeQuizAnswerService
 {
     private readonly PracticeAnswerSubmissionService _practiceAnswerSubmissionService;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PracticeFlashcardAnswerService"/> class.
+    /// Initializes a new instance of the <see cref="PracticeQuizAnswerService"/> class.
     /// </summary>
-    public PracticeFlashcardAnswerService(PracticeAnswerSubmissionService practiceAnswerSubmissionService)
+    public PracticeQuizAnswerService(PracticeAnswerSubmissionService practiceAnswerSubmissionService)
     {
         ArgumentNullException.ThrowIfNull(practiceAnswerSubmissionService);
 
@@ -22,28 +22,21 @@ internal sealed class PracticeFlashcardAnswerService : IPracticeFlashcardAnswerS
     }
 
     /// <inheritdoc />
-    public Task<PracticeFlashcardAnswerResultModel> SubmitAsync(
-        PracticeFlashcardAnswerRequestModel request,
+    public async Task<PracticeQuizAnswerResultModel> SubmitAsync(
+        PracticeQuizAnswerRequestModel request,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        return SubmitAsyncCore(request, cancellationToken);
-    }
-
-    private async Task<PracticeFlashcardAnswerResultModel> SubmitAsyncCore(
-        PracticeFlashcardAnswerRequestModel request,
-        CancellationToken cancellationToken)
-    {
         PracticeAnswerSubmissionResult result = await _practiceAnswerSubmissionService.SubmitAsync(
             request.WordEntryPublicId,
-            PracticeSessionType.Flashcard,
+            PracticeSessionType.Quiz,
             request.Outcome,
             request.ResponseMilliseconds,
             request.AttemptedAtUtc,
             cancellationToken).ConfigureAwait(false);
 
-        return new PracticeFlashcardAnswerResultModel(
+        return new PracticeQuizAnswerResultModel(
             result.WordEntryPublicId,
             result.Outcome,
             result.AttemptedAtUtc,

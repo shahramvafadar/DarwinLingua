@@ -33,4 +33,9 @@ public interface IPracticeOverviewReader
         LanguageCode meaningLanguageCode,
         int maxItemCount,
         CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Returns the learner's current aggregate progress snapshot.
+    /// </summary>
+    Task<PracticeLearningProgressSnapshotModel> GetLearningProgressSnapshotAsync(CancellationToken cancellationToken);
 }
