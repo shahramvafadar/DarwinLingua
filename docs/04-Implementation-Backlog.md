@@ -95,7 +95,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [-] replace default template screens with real product screens
 - [ ] establish reusable UI components for list items, filters, and detail sections
 - [x] define empty/loading/error states
-- [ ] define accessibility baseline for typography, contrast, and touch targets
+- [x] define accessibility baseline for typography, contrast, and touch targets
 
 ### 6. Storage Foundation
 
