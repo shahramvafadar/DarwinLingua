@@ -219,7 +219,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [ ] validate German UI
 - [x] validate data initialization from clean install
 - [x] validate import of sample content package
-- [ ] validate performance on realistic starter datasets
+- [x] validate performance on realistic starter datasets
 - [x] define release checklist for Phase 1 MVP
 
 ---
