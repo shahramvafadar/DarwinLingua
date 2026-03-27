@@ -18,6 +18,7 @@ Use it when:
 - Core app flows exist: home, CEFR browse, topic browse, search, word details, favorites, settings.
 - Shared MAUI reusable controls currently include:
   - `WordListItemView`
+  - `TopicListItemView`
   - `DetailSectionView`
   - `CefrQuickFilterView`
   - `ActionBlockView`
