@@ -17,4 +17,20 @@ public interface IPracticeOverviewReader
     /// Returns the current ordered review queue for the requested meaning language.
     /// </summary>
     Task<PracticeReviewQueueModel> GetReviewQueueAsync(LanguageCode meaningLanguageCode, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Returns a started review-session snapshot for the requested meaning language.
+    /// </summary>
+    Task<PracticeReviewSessionModel> GetReviewSessionAsync(
+        LanguageCode meaningLanguageCode,
+        int desiredItemCount,
+        CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Returns the learner's recent persisted practice activity for the requested meaning language.
+    /// </summary>
+    Task<PracticeRecentActivityModel> GetRecentActivityAsync(
+        LanguageCode meaningLanguageCode,
+        int maxItemCount,
+        CancellationToken cancellationToken);
 }

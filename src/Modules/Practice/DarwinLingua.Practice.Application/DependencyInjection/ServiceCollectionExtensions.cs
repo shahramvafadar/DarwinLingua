@@ -18,7 +18,9 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IPracticeFlashcardAnswerService, PracticeFlashcardAnswerService>();
         services.AddScoped<IPracticeOverviewService, PracticeOverviewService>();
+        services.AddScoped<IPracticeRecentActivityService, PracticeRecentActivityService>();
         services.AddScoped<IPracticeReviewQueueService, PracticeReviewQueueService>();
+        services.AddScoped<IPracticeReviewSessionService, PracticeReviewSessionService>();
 
         return services;
     }

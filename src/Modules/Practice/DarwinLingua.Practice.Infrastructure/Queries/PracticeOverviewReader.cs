@@ -1,6 +1,7 @@
 using DarwinLingua.Infrastructure.Persistence;
 using DarwinLingua.Practice.Application.Abstractions;
 using DarwinLingua.Practice.Application.Models;
+using DarwinLingua.Practice.Domain.Entities;
 using DarwinLingua.SharedKernel.Content;
 using DarwinLingua.SharedKernel.Globalization;
 using Microsoft.EntityFrameworkCore;
@@ -35,14 +36,7 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
 
         DateTime nowUtc = DateTime.UtcNow;
         List<PracticeStateRow> trackedRows = await LoadTrackedRowsAsync(dbContext, cancellationToken).ConfigureAwait(false);
-        List<PracticeStateRow> reviewCandidates = GetEligibleReviewCandidates(trackedRows, nowUtc)
-            .OrderByDescending(row => IsDueNow(row, nowUtc))
-            .ThenByDescending(row => row.IsDifficult)
-            .ThenBy(row => row.DueAtUtc ?? row.LastViewedAtUtc)
-            .ThenBy(row => row.LastViewedAtUtc)
-            .ThenByDescending(row => row.ViewCount)
-            .ThenByDescending(row => GetCefrSortWeight(row.CefrLevel))
-            .ThenBy(row => row.Lemma, StringComparer.OrdinalIgnoreCase)
+        List<PracticeStateRow> reviewCandidates = OrderReviewCandidates(trackedRows, nowUtc)
             .Take(PreviewSize)
             .ToList();
 
@@ -86,15 +80,7 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
 
         DateTime nowUtc = DateTime.UtcNow;
         List<PracticeStateRow> trackedRows = await LoadTrackedRowsAsync(dbContext, cancellationToken).ConfigureAwait(false);
-        List<PracticeStateRow> orderedCandidates = GetEligibleReviewCandidates(trackedRows, nowUtc)
-            .OrderByDescending(row => IsDueNow(row, nowUtc))
-            .ThenByDescending(row => row.IsDifficult)
-            .ThenBy(row => row.DueAtUtc ?? row.LastViewedAtUtc)
-            .ThenBy(row => row.LastViewedAtUtc)
-            .ThenByDescending(row => row.ViewCount)
-            .ThenByDescending(row => GetCefrSortWeight(row.CefrLevel))
-            .ThenBy(row => row.Lemma, StringComparer.OrdinalIgnoreCase)
-            .ToList();
+        List<PracticeStateRow> orderedCandidates = OrderReviewCandidates(trackedRows, nowUtc).ToList();
 
         Dictionary<Guid, string?> meaningsByWordEntryId = await LoadMeaningsByWordEntryIdAsync(
             dbContext,
@@ -117,6 +103,110 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
                     row.IsKnown,
                     row.ViewCount,
                     row.LastViewedAtUtc!.Value))
+                .ToArray());
+    }
+
+    /// <inheritdoc />
+    public async Task<PracticeReviewSessionModel> GetReviewSessionAsync(
+        LanguageCode meaningLanguageCode,
+        int desiredItemCount,
+        CancellationToken cancellationToken)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(desiredItemCount);
+
+        await using DarwinLinguaDbContext dbContext = await _dbContextFactory
+            .CreateDbContextAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        DateTime startedAtUtc = DateTime.UtcNow;
+        List<PracticeStateRow> trackedRows = await LoadTrackedRowsAsync(dbContext, cancellationToken).ConfigureAwait(false);
+        List<PracticeStateRow> orderedCandidates = OrderReviewCandidates(trackedRows, startedAtUtc).ToList();
+        List<PracticeStateRow> sessionRows = orderedCandidates.Take(desiredItemCount).ToList();
+
+        Dictionary<Guid, string?> meaningsByWordEntryId = await LoadMeaningsByWordEntryIdAsync(
+            dbContext,
+            sessionRows.Select(row => row.WordEntryId).Distinct().ToArray(),
+            meaningLanguageCode,
+            cancellationToken).ConfigureAwait(false);
+
+        return new PracticeReviewSessionModel(
+            startedAtUtc,
+            orderedCandidates.Count,
+            desiredItemCount,
+            sessionRows
+                .Select((row, index) => new PracticeReviewSessionItemModel(
+                    index + 1,
+                    row.WordEntryPublicId,
+                    row.Lemma,
+                    row.CefrLevel,
+                    meaningsByWordEntryId.GetValueOrDefault(row.WordEntryId),
+                    row.DueAtUtc,
+                    IsDueNow(row, startedAtUtc),
+                    row.IsDifficult,
+                    row.IsKnown,
+                    row.ViewCount,
+                    row.LastViewedAtUtc!.Value,
+                    row.LastOutcome,
+                    row.TotalAttemptCount))
+                .ToArray());
+    }
+
+    /// <inheritdoc />
+    public async Task<PracticeRecentActivityModel> GetRecentActivityAsync(
+        LanguageCode meaningLanguageCode,
+        int maxItemCount,
+        CancellationToken cancellationToken)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxItemCount);
+
+        await using DarwinLinguaDbContext dbContext = await _dbContextFactory
+            .CreateDbContextAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        List<PracticeAttemptRow> attemptRows = await (
+            from attempt in dbContext.PracticeAttempts.AsNoTracking()
+            join wordEntry in dbContext.WordEntries.AsNoTracking()
+                on attempt.WordEntryPublicId equals wordEntry.PublicId
+            where attempt.UserId == LocalInstallationUser.UserId &&
+                wordEntry.PublicationStatus == PublicationStatus.Active
+            orderby attempt.AttemptedAtUtc descending, attempt.CreatedAtUtc descending
+            select new PracticeAttemptRow(
+                wordEntry.Id,
+                wordEntry.PublicId,
+                wordEntry.Lemma,
+                wordEntry.PrimaryCefrLevel.ToString(),
+                attempt.SessionType,
+                attempt.Outcome,
+                attempt.AttemptedAtUtc,
+                attempt.DueAtUtcAfterAttempt,
+                attempt.ResponseMilliseconds))
+            .Take(maxItemCount)
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        Dictionary<Guid, string?> meaningsByWordEntryId = await LoadMeaningsByWordEntryIdAsync(
+            dbContext,
+            attemptRows.Select(row => row.WordEntryId).Distinct().ToArray(),
+            meaningLanguageCode,
+            cancellationToken).ConfigureAwait(false);
+
+        int totalAttempts = await dbContext.PracticeAttempts.AsNoTracking()
+            .CountAsync(attempt => attempt.UserId == LocalInstallationUser.UserId, cancellationToken)
+            .ConfigureAwait(false);
+
+        return new PracticeRecentActivityModel(
+            totalAttempts,
+            attemptRows
+                .Select(row => new PracticeRecentActivityItemModel(
+                    row.WordEntryPublicId,
+                    row.Lemma,
+                    row.CefrLevel,
+                    meaningsByWordEntryId.GetValueOrDefault(row.WordEntryId),
+                    row.SessionType,
+                    row.Outcome,
+                    row.AttemptedAtUtc,
+                    row.DueAtUtcAfterAttempt,
+                    row.ResponseMilliseconds))
                 .ToArray());
     }
 
@@ -146,6 +236,7 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
                 userWordState.UpdatedAtUtc,
                 reviewState == null ? null : reviewState.DueAtUtc,
                 reviewState == null ? null : reviewState.LastAttemptedAtUtc,
+                reviewState == null ? null : reviewState.LastOutcome,
                 reviewState == null ? 0 : reviewState.TotalAttemptCount))
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
@@ -165,6 +256,20 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
             row.LastViewedAtUtc is not null &&
             (!row.IsKnown || row.IsDifficult) &&
             (row.TotalAttemptCount == 0 || row.DueAtUtc is null || row.DueAtUtc <= nowUtc));
+    }
+
+    private static IOrderedEnumerable<PracticeStateRow> OrderReviewCandidates(
+        IEnumerable<PracticeStateRow> trackedRows,
+        DateTime nowUtc)
+    {
+        return GetEligibleReviewCandidates(trackedRows, nowUtc)
+            .OrderByDescending(row => IsDueNow(row, nowUtc))
+            .ThenByDescending(row => row.IsDifficult)
+            .ThenBy(row => row.DueAtUtc ?? row.LastViewedAtUtc)
+            .ThenBy(row => row.LastViewedAtUtc)
+            .ThenByDescending(row => row.ViewCount)
+            .ThenByDescending(row => GetCefrSortWeight(row.CefrLevel))
+            .ThenBy(row => row.Lemma, StringComparer.OrdinalIgnoreCase);
     }
 
     private static bool IsDueNow(PracticeStateRow row, DateTime nowUtc)
@@ -230,7 +335,19 @@ internal sealed class PracticeOverviewReader : IPracticeOverviewReader
         DateTime UpdatedAtUtc,
         DateTime? DueAtUtc,
         DateTime? LastAttemptedAtUtc,
+        PracticeAttemptOutcome? LastOutcome,
         int TotalAttemptCount);
+
+    private sealed record PracticeAttemptRow(
+        Guid WordEntryId,
+        Guid WordEntryPublicId,
+        string Lemma,
+        string CefrLevel,
+        PracticeSessionType SessionType,
+        PracticeAttemptOutcome Outcome,
+        DateTime AttemptedAtUtc,
+        DateTime? DueAtUtcAfterAttempt,
+        int? ResponseMilliseconds);
 
     private sealed record MeaningRow(Guid WordEntryId, string TranslationText);
 }
