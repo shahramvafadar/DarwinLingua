@@ -35,14 +35,16 @@ public sealed class ReferenceDataSeedingTests
             await using DarwinLinguaDbContext verificationContext = await dbContextFactory
                 .CreateDbContextAsync(CancellationToken.None);
 
-            int activeLanguageCount = await verificationContext.Languages
-                .CountAsync(cancellationToken: CancellationToken.None);
+            string[] activeLanguageCodes = await verificationContext.Languages
+                .OrderBy(language => language.Code)
+                .Select(language => language.Code.Value)
+                .ToArrayAsync(cancellationToken: CancellationToken.None);
             int topicCount = await verificationContext.Topics
                 .CountAsync(cancellationToken: CancellationToken.None);
             int topicLocalizationCount = await verificationContext.TopicLocalizations
                 .CountAsync(cancellationToken: CancellationToken.None);
 
-            Assert.Equal(2, activeLanguageCount);
+            Assert.Equal(["ar", "ckb", "de", "en", "fa", "kmr", "pl", "ro", "ru", "sq", "tr"], activeLanguageCodes);
             Assert.Equal(5, topicCount);
             Assert.Equal(10, topicLocalizationCount);
         }
@@ -80,14 +82,16 @@ public sealed class ReferenceDataSeedingTests
             await using DarwinLinguaDbContext verificationContext = await dbContextFactory
                 .CreateDbContextAsync(CancellationToken.None);
 
-            int activeLanguageCount = await verificationContext.Languages
-                .CountAsync(cancellationToken: CancellationToken.None);
+            string[] activeLanguageCodes = await verificationContext.Languages
+                .OrderBy(language => language.Code)
+                .Select(language => language.Code.Value)
+                .ToArrayAsync(cancellationToken: CancellationToken.None);
             int topicCount = await verificationContext.Topics
                 .CountAsync(cancellationToken: CancellationToken.None);
             int topicLocalizationCount = await verificationContext.TopicLocalizations
                 .CountAsync(cancellationToken: CancellationToken.None);
 
-            Assert.Equal(2, activeLanguageCount);
+            Assert.Equal(["ar", "ckb", "de", "en", "fa", "kmr", "pl", "ro", "ru", "sq", "tr"], activeLanguageCodes);
             Assert.Equal(5, topicCount);
             Assert.Equal(10, topicLocalizationCount);
         }

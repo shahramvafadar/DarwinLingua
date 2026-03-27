@@ -78,7 +78,7 @@ public sealed class DatabaseInitializationUseCaseTests
                 .CreateDbContextAsync(CancellationToken.None);
 
             Assert.Equal(
-                2,
+                11,
                 await verificationContext.Languages.CountAsync(cancellationToken: CancellationToken.None));
             Assert.Equal(
                 5,
@@ -126,7 +126,7 @@ public sealed class DatabaseInitializationUseCaseTests
 
             Assert.True(await verificationContext.Database.CanConnectAsync(CancellationToken.None));
             Assert.Equal(
-                2,
+                11,
                 await verificationContext.Languages.CountAsync(cancellationToken: CancellationToken.None));
             Assert.Equal(
                 5,

@@ -229,8 +229,8 @@ public sealed class ContentImportServiceTests
 
             Assert.True(result.IsSuccess);
             Assert.Equal("Completed", result.Status);
-            Assert.Equal(2, result.TotalEntries);
-            Assert.Equal(2, result.ImportedEntries);
+            Assert.Equal(12, result.TotalEntries);
+            Assert.Equal(12, result.ImportedEntries);
             Assert.Equal(0, result.SkippedDuplicateEntries);
             Assert.Equal(0, result.InvalidEntries);
 
@@ -240,14 +240,17 @@ public sealed class ContentImportServiceTests
                 .GetWordsByTopicAsync("shopping", "en", CancellationToken.None);
             IReadOnlyList<DarwinLingua.Catalog.Application.Models.WordListItemModel> workWords = await wordQueryService
                 .GetWordsByTopicAsync("work-and-jobs", "en", CancellationToken.None);
+            IReadOnlyList<DarwinLingua.Catalog.Application.Models.WordListItemModel> c2Words = await wordQueryService
+                .GetWordsByCefrAsync("C2", "en", CancellationToken.None);
 
             DarwinLingua.Catalog.Application.Models.WordListItemModel breadWord = Assert.Single(shoppingWords);
-            DarwinLingua.Catalog.Application.Models.WordListItemModel applicationWord = Assert.Single(workWords);
 
             Assert.Equal("Brot", breadWord.Lemma);
             Assert.Equal("bread", breadWord.PrimaryMeaning);
-            Assert.Equal("Bewerbung", applicationWord.Lemma);
-            Assert.Equal("job application", applicationWord.PrimaryMeaning);
+            Assert.Contains(workWords, word => word.Lemma == "Bewerbung" && word.PrimaryMeaning == "job application");
+            Assert.Equal(2, c2Words.Count);
+            Assert.Contains(c2Words, word => word.Lemma == "Unabdingbarkeit");
+            Assert.Contains(c2Words, word => word.Lemma == "niederschmettern");
         }
         finally
         {

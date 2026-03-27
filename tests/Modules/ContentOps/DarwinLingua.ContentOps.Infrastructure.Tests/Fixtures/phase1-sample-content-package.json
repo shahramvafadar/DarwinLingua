@@ -3,7 +3,7 @@
   "packageId": "phase1-sample-content-package",
   "packageName": "Phase 1 Sample Content Package",
   "source": "Hybrid",
-  "defaultMeaningLanguages": ["en"],
+  "defaultMeaningLanguages": ["en", "fa", "ru", "ar", "pl", "tr", "ro", "sq", "ckb", "kmr"],
   "entries": [
     {
       "word": "Brot",
@@ -14,19 +14,51 @@
       "plural": "Brote",
       "topics": ["shopping"],
       "meanings": [
-        {
-          "language": "en",
-          "text": "bread"
-        }
+        { "language": "en", "text": "bread" },
+        { "language": "fa", "text": "نان" },
+        { "language": "ru", "text": "хлеб" },
+        { "language": "ar", "text": "خبز" },
+        { "language": "pl", "text": "chleb" },
+        { "language": "tr", "text": "ekmek" },
+        { "language": "ro", "text": "pâine" },
+        { "language": "sq", "text": "bukë" },
+        { "language": "ckb", "text": "نان" },
+        { "language": "kmr", "text": "nan" }
       ],
       "examples": [
         {
           "baseText": "Ich kaufe Brot.",
           "translations": [
-            {
-              "language": "en",
-              "text": "I buy bread."
-            }
+            { "language": "en", "text": "I buy bread." }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "Wasser",
+      "language": "de",
+      "cefrLevel": "A1",
+      "partOfSpeech": "Noun",
+      "article": "das",
+      "plural": "Wässer",
+      "topics": ["everyday-life"],
+      "meanings": [
+        { "language": "en", "text": "water" },
+        { "language": "fa", "text": "آب" },
+        { "language": "ru", "text": "вода" },
+        { "language": "ar", "text": "ماء" },
+        { "language": "pl", "text": "woda" },
+        { "language": "tr", "text": "su" },
+        { "language": "ro", "text": "apă" },
+        { "language": "sq", "text": "ujë" },
+        { "language": "ckb", "text": "ئاو" },
+        { "language": "kmr", "text": "av" }
+      ],
+      "examples": [
+        {
+          "baseText": "Das Wasser ist kalt.",
+          "translations": [
+            { "language": "en", "text": "The water is cold." }
           ]
         }
       ]
@@ -40,19 +72,273 @@
       "plural": "Bewerbungen",
       "topics": ["work-and-jobs"],
       "meanings": [
-        {
-          "language": "en",
-          "text": "job application"
-        }
+        { "language": "en", "text": "job application" },
+        { "language": "fa", "text": "درخواست کار" },
+        { "language": "ru", "text": "заявление о приёме на работу" },
+        { "language": "ar", "text": "طلب عمل" },
+        { "language": "pl", "text": "podanie o pracę" },
+        { "language": "tr", "text": "iş başvurusu" },
+        { "language": "ro", "text": "cerere de angajare" },
+        { "language": "sq", "text": "aplikim për punë" },
+        { "language": "ckb", "text": "داواکاری کار" },
+        { "language": "kmr", "text": "serlêdana karê" }
       ],
       "examples": [
         {
           "baseText": "Die Bewerbung ist fertig.",
           "translations": [
-            {
-              "language": "en",
-              "text": "The job application is ready."
-            }
+            { "language": "en", "text": "The job application is ready." }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "Termin",
+      "language": "de",
+      "cefrLevel": "A2",
+      "partOfSpeech": "Noun",
+      "article": "der",
+      "plural": "Termine",
+      "topics": ["appointments-and-health"],
+      "meanings": [
+        { "language": "en", "text": "appointment" },
+        { "language": "fa", "text": "قرار" },
+        { "language": "ru", "text": "встреча по записи" },
+        { "language": "ar", "text": "موعد" },
+        { "language": "pl", "text": "termin" },
+        { "language": "tr", "text": "randevu" },
+        { "language": "ro", "text": "programare" },
+        { "language": "sq", "text": "takim i caktuar" },
+        { "language": "ckb", "text": "وعدە" },
+        { "language": "kmr", "text": "randevû" }
+      ],
+      "examples": [
+        {
+          "baseText": "Ich habe morgen einen Termin.",
+          "translations": [
+            { "language": "en", "text": "I have an appointment tomorrow." }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "erreichen",
+      "language": "de",
+      "cefrLevel": "B1",
+      "partOfSpeech": "Verb",
+      "topics": ["work-and-jobs"],
+      "meanings": [
+        { "language": "en", "text": "to achieve" },
+        { "language": "fa", "text": "به دست آوردن" },
+        { "language": "ru", "text": "достигать" },
+        { "language": "ar", "text": "يحقق" },
+        { "language": "pl", "text": "osiągać" },
+        { "language": "tr", "text": "başarmak" },
+        { "language": "ro", "text": "a realiza" },
+        { "language": "sq", "text": "të arrish" },
+        { "language": "ckb", "text": "دەست پێگەیشتن" },
+        { "language": "kmr", "text": "bigihîştin" }
+      ],
+      "examples": [
+        {
+          "baseText": "Wir wollen unser Ziel erreichen.",
+          "translations": [
+            { "language": "en", "text": "We want to achieve our goal." }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "Umgebung",
+      "language": "de",
+      "cefrLevel": "B1",
+      "partOfSpeech": "Noun",
+      "article": "die",
+      "plural": "Umgebungen",
+      "topics": ["housing"],
+      "meanings": [
+        { "language": "en", "text": "surroundings" },
+        { "language": "fa", "text": "محیط اطراف" },
+        { "language": "ru", "text": "окружение" },
+        { "language": "ar", "text": "المنطقة المحيطة" },
+        { "language": "pl", "text": "otoczenie" },
+        { "language": "tr", "text": "çevre" },
+        { "language": "ro", "text": "împrejurimi" },
+        { "language": "sq", "text": "rrethina" },
+        { "language": "ckb", "text": "دەوروبەر" },
+        { "language": "kmr", "text": "dorûber" }
+      ],
+      "examples": [
+        {
+          "baseText": "Die Umgebung ist sehr ruhig.",
+          "translations": [
+            { "language": "en", "text": "The surroundings are very quiet." }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "zuverlässig",
+      "language": "de",
+      "cefrLevel": "B2",
+      "partOfSpeech": "Adjective",
+      "topics": ["work-and-jobs"],
+      "meanings": [
+        { "language": "en", "text": "reliable" },
+        { "language": "fa", "text": "قابل اعتماد" },
+        { "language": "ru", "text": "надёжный" },
+        { "language": "ar", "text": "موثوق" },
+        { "language": "pl", "text": "niezawodny" },
+        { "language": "tr", "text": "güvenilir" },
+        { "language": "ro", "text": "de încredere" },
+        { "language": "sq", "text": "i besueshëm" },
+        { "language": "ckb", "text": "جێمتمانە" },
+        { "language": "kmr", "text": "bawermend" }
+      ],
+      "examples": [
+        {
+          "baseText": "Sie ist eine zuverlässige Kollegin.",
+          "translations": [
+            { "language": "en", "text": "She is a reliable colleague." }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "beantragen",
+      "language": "de",
+      "cefrLevel": "B2",
+      "partOfSpeech": "Verb",
+      "topics": ["appointments-and-health"],
+      "meanings": [
+        { "language": "en", "text": "to apply for" },
+        { "language": "fa", "text": "درخواست کردن" },
+        { "language": "ru", "text": "подавать заявление на" },
+        { "language": "ar", "text": "يتقدم بطلب" },
+        { "language": "pl", "text": "wnioskować o" },
+        { "language": "tr", "text": "başvurmak" },
+        { "language": "ro", "text": "a solicita" },
+        { "language": "sq", "text": "të aplikosh për" },
+        { "language": "ckb", "text": "داوا کردن" },
+        { "language": "kmr", "text": "daxwaz kirin" }
+      ],
+      "examples": [
+        {
+          "baseText": "Sie möchte eine neue Karte beantragen.",
+          "translations": [
+            { "language": "en", "text": "She wants to apply for a new card." }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "Sachverhalt",
+      "language": "de",
+      "cefrLevel": "C1",
+      "partOfSpeech": "Noun",
+      "article": "der",
+      "plural": "Sachverhalte",
+      "topics": ["appointments-and-health"],
+      "meanings": [
+        { "language": "en", "text": "circumstance" },
+        { "language": "fa", "text": "وضعیت موضوع" },
+        { "language": "ru", "text": "обстоятельство дела" },
+        { "language": "ar", "text": "حيثيات الأمر" },
+        { "language": "pl", "text": "stan faktyczny" },
+        { "language": "tr", "text": "durumun ayrıntısı" },
+        { "language": "ro", "text": "situație de fapt" },
+        { "language": "sq", "text": "rrethanë konkrete" },
+        { "language": "ckb", "text": "بارودۆخی بابەت" },
+        { "language": "kmr", "text": "rewşa mijarê" }
+      ],
+      "examples": [
+        {
+          "baseText": "Der Sachverhalt muss genau geprüft werden.",
+          "translations": [
+            { "language": "en", "text": "The circumstance must be examined carefully." }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "vermitteln",
+      "language": "de",
+      "cefrLevel": "C1",
+      "partOfSpeech": "Verb",
+      "topics": ["work-and-jobs"],
+      "meanings": [
+        { "language": "en", "text": "to convey" },
+        { "language": "fa", "text": "منتقل کردن" },
+        { "language": "ru", "text": "доносить" },
+        { "language": "ar", "text": "ينقل" },
+        { "language": "pl", "text": "przekazywać" },
+        { "language": "tr", "text": "iletmek" },
+        { "language": "ro", "text": "a transmite" },
+        { "language": "sq", "text": "të përcjellësh" },
+        { "language": "ckb", "text": "گواستنەوە" },
+        { "language": "kmr", "text": "veguhestin" }
+      ],
+      "examples": [
+        {
+          "baseText": "Der Lehrer kann komplizierte Ideen gut vermitteln.",
+          "translations": [
+            { "language": "en", "text": "The teacher can convey complex ideas well." }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "Unabdingbarkeit",
+      "language": "de",
+      "cefrLevel": "C2",
+      "partOfSpeech": "Noun",
+      "article": "die",
+      "plural": "Unabdingbarkeiten",
+      "topics": ["work-and-jobs"],
+      "meanings": [
+        { "language": "en", "text": "indispensability" },
+        { "language": "fa", "text": "اجتناب‌ناپذیری" },
+        { "language": "ru", "text": "необходимость" },
+        { "language": "ar", "text": "حتمية" },
+        { "language": "pl", "text": "nieodzowność" },
+        { "language": "tr", "text": "vazgeçilmezlik" },
+        { "language": "ro", "text": "indispensabilitate" },
+        { "language": "sq", "text": "domosdoshmëri" },
+        { "language": "ckb", "text": "پێویستی تەواو" },
+        { "language": "kmr", "text": "neçarbûn" }
+      ],
+      "examples": [
+        {
+          "baseText": "Die Unabdingbarkeit genauer Daten wurde betont.",
+          "translations": [
+            { "language": "en", "text": "The indispensability of precise data was emphasized." }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "niederschmettern",
+      "language": "de",
+      "cefrLevel": "C2",
+      "partOfSpeech": "Verb",
+      "topics": ["everyday-life"],
+      "meanings": [
+        { "language": "en", "text": "to devastate" },
+        { "language": "fa", "text": "خرد کردن روحی" },
+        { "language": "ru", "text": "сокрушать" },
+        { "language": "ar", "text": "يحطم نفسياً" },
+        { "language": "pl", "text": "zdruzgotać" },
+        { "language": "tr", "text": "yıkmak" },
+        { "language": "ro", "text": "a devasta" },
+        { "language": "sq", "text": "të shkatërrosh moralisht" },
+        { "language": "ckb", "text": "شکاندنی دەروونی" },
+        { "language": "kmr", "text": "hilweşandin" }
+      ],
+      "examples": [
+        {
+          "baseText": "Die Nachricht hat ihn niedergeschmettert.",
+          "translations": [
+            { "language": "en", "text": "The news devastated him." }
           ]
         }
       ]
