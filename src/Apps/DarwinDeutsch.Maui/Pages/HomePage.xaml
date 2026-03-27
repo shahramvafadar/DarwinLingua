@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:DarwinDeutsch.Maui.Controls"
              x:Class="DarwinDeutsch.Maui.Pages.HomePage">
     <ScrollView>
         <VerticalStackLayout Padding="24" Spacing="16">
@@ -12,36 +13,13 @@
                    Style="{StaticResource Body}"
                    LineBreakMode="WordWrap" />
 
-            <VerticalStackLayout Spacing="6">
-                <Label x:Name="CurrentLanguageCaptionLabel"
-                       Style="{StaticResource Title2}" />
-                <Label x:Name="CurrentLanguageValueLabel"
-                       Style="{StaticResource Body}" />
-            </VerticalStackLayout>
+            <controls:DetailSectionView x:Name="CurrentLanguageSectionView" />
 
-            <VerticalStackLayout Spacing="6">
-                <Label x:Name="SupportedLanguagesCaptionLabel"
-                       Style="{StaticResource Title2}" />
-                <Label x:Name="SupportedLanguagesValueLabel"
-                       Style="{StaticResource Body}"
-                       LineBreakMode="WordWrap" />
-            </VerticalStackLayout>
+            <controls:DetailSectionView x:Name="SupportedLanguagesSectionView" />
 
-            <VerticalStackLayout Spacing="6">
-                <Label x:Name="MeaningLanguagesCaptionLabel"
-                       Style="{StaticResource Title2}" />
-                <Label x:Name="MeaningLanguagesValueLabel"
-                       Style="{StaticResource Body}"
-                       LineBreakMode="WordWrap" />
-            </VerticalStackLayout>
+            <controls:DetailSectionView x:Name="MeaningLanguagesSectionView" />
 
-            <VerticalStackLayout Spacing="6">
-                <Label x:Name="TopicsCaptionLabel"
-                       Style="{StaticResource Title2}" />
-                <Label x:Name="TopicsValueLabel"
-                       Style="{StaticResource Body}"
-                       LineBreakMode="WordWrap" />
-            </VerticalStackLayout>
+            <controls:DetailSectionView x:Name="TopicsSectionView" />
 
             <VerticalStackLayout Spacing="8">
                 <Label x:Name="CefrBrowseCaptionLabel"

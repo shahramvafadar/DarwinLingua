@@ -3,6 +3,17 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <!-- Design tokens: spacing, typography and touch-target baseline -->
+    <x:Double x:Key="TokenSpacingXs">4</x:Double>
+    <x:Double x:Key="TokenSpacingSm">8</x:Double>
+    <x:Double x:Key="TokenSpacingMd">12</x:Double>
+    <x:Double x:Key="TokenSpacingLg">16</x:Double>
+    <x:Double x:Key="TokenCornerRadiusMd">8</x:Double>
+    <x:Double x:Key="TokenTouchTargetMin">44</x:Double>
+    <x:Double x:Key="TokenFontBody">16</x:Double>
+    <x:Double x:Key="TokenFontTitle2">20</x:Double>
+    <x:Double x:Key="TokenFontHeadline">32</x:Double>
+
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>
@@ -13,7 +24,7 @@
     </Style>
 
     <Style TargetType="Border">
-        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource ColorCardStrokeLight}, Dark={StaticResource ColorCardStrokeDark}}" />
         <Setter Property="StrokeShape" Value="Rectangle"/>
         <Setter Property="StrokeThickness" Value="1"/>
     </Style>
@@ -28,10 +39,10 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="BorderWidth" Value="0"/>
-        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="CornerRadius" Value="{StaticResource TokenCornerRadiusMd}"/>
         <Setter Property="Padding" Value="14,10"/>
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource TokenTouchTargetMin}"/>
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource TokenTouchTargetMin}"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -50,8 +61,8 @@
 
     <Style TargetType="CheckBox">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource TokenTouchTargetMin}"/>
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource TokenTouchTargetMin}"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -71,8 +82,8 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource TokenTouchTargetMin}"/>
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource TokenTouchTargetMin}"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -93,8 +104,8 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource TokenTouchTargetMin}"/>
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource TokenTouchTargetMin}"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -115,8 +126,8 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource TokenTouchTargetMin}"/>
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource TokenTouchTargetMin}"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -136,8 +147,8 @@
         <Setter Property="BorderColor" Value="Transparent"/>
         <Setter Property="BorderWidth" Value="0"/>
         <Setter Property="CornerRadius" Value="0"/>
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource TokenTouchTargetMin}"/>
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource TokenTouchTargetMin}"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -174,7 +185,8 @@
 
     <Style TargetType="Label" x:Key="Headline">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MidnightBlue}, Dark={StaticResource White}}" />
-        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontSize" Value="{StaticResource TokenFontHeadline}" />
+        <Setter Property="LineHeight" Value="1.25" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
@@ -182,19 +194,22 @@
     <Style TargetType="Label" x:Key="SubHeadline">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MidnightBlue}, Dark={StaticResource White}}" />
         <Setter Property="FontSize" Value="24" />
+        <Setter Property="LineHeight" Value="1.25" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
     <Style TargetType="Label" x:Key="Title2">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MidnightBlue}, Dark={StaticResource White}}" />
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontSize" Value="{StaticResource TokenFontTitle2}" />
+        <Setter Property="LineHeight" Value="1.2" />
         <Setter Property="FontAttributes" Value="Bold" />
     </Style>
 
     <Style TargetType="Label" x:Key="Body">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontSize" Value="{StaticResource TokenFontBody}" />
+        <Setter Property="LineHeight" Value="1.35" />
         <Setter Property="LineBreakMode" Value="WordWrap" />
     </Style>
 
@@ -204,8 +219,8 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource TokenTouchTargetMin}"/>
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource TokenTouchTargetMin}"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -242,8 +257,8 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource TokenTouchTargetMin}"/>
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource TokenTouchTargetMin}"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -264,13 +279,13 @@
 
     <Style TargetType="SearchBar">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
-        <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
-        <Setter Property="CancelButtonColor" Value="{StaticResource Gray500}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray300}}" />
+        <Setter Property="CancelButtonColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray300}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="MinimumHeightRequest" Value="{StaticResource TokenTouchTargetMin}"/>
+        <Setter Property="MinimumWidthRequest" Value="{StaticResource TokenTouchTargetMin}"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
