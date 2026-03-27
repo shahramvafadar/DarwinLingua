@@ -55,6 +55,8 @@ All project documentation should remain in English.
 - `44-Phase-1-Manual-Validation-Worksheet.md`
 - `45-Phase-1-Release-Notes-Template.md`
 
+Related release-execution helpers live under `tools/Phase1/`.
+
 ---
 
 ## Recommended Reading Order

@@ -10,7 +10,8 @@ Use it before publishing any installer, test build, or internal milestone candid
 
 Pair it with `docs/44-Phase-1-Manual-Validation-Worksheet.md` for the device-bound checks.
 Use `docs/45-Phase-1-Release-Notes-Template.md` to record the final release decision and accepted known issues.
-Use `tools/Phase1/Invoke-Phase1ReleasePrep.ps1` to collect the automated Windows restore/build/test evidence before the manual worksheet begins.
+Use `tools/Phase1/Start-Phase1ReleaseValidation.ps1` when you want one command that collects the automated Windows restore/build/test evidence, copies the manual worksheet into the same run folder, and generates a release-notes draft.
+Use `tools/Phase1/Invoke-Phase1ReleasePrep.ps1` if you only want the automated gate summary.
 
 ---
 

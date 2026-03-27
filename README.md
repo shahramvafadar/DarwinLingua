@@ -46,6 +46,7 @@ The repository is currently **in active Phase 1 implementation**, not feature-co
 The current import contract maps one imported entry to one imported sense with meanings and examples.
 
 The next high-priority work is manual device validation for offline behavior, English UI, German UI, and TTS, followed by release sign-off capture.
+The `tools/Phase1` folder now includes helper scripts to generate a release-validation bundle with automated evidence, a worksheet copy, and a release-notes draft for the current branch.
 
 ## Product Direction
 
