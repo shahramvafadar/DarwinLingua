@@ -81,11 +81,11 @@ public partial class HomePage : ContentPage
         Title = AppStrings.HomeTabTitle;
         HeadlineLabel.Text = AppStrings.HomeHeadline;
         IntroLabel.Text = AppStrings.HomeIntro;
-        CurrentLanguageCaptionLabel.Text = AppStrings.HomeCurrentUiLanguageLabel;
-        CurrentLanguageValueLabel.Text = _appLocalizationService.CurrentCulture.NativeName;
-        SupportedLanguagesCaptionLabel.Text = AppStrings.HomeSupportedLanguagesLabel;
-        MeaningLanguagesCaptionLabel.Text = AppStrings.HomeMeaningLanguagesLabel;
-        TopicsCaptionLabel.Text = AppStrings.HomeTopicsLabel;
+        CurrentLanguageSectionView.SectionTitle = AppStrings.HomeCurrentUiLanguageLabel;
+        CurrentLanguageSectionView.SectionValue = _appLocalizationService.CurrentCulture.NativeName;
+        SupportedLanguagesSectionView.SectionTitle = AppStrings.HomeSupportedLanguagesLabel;
+        MeaningLanguagesSectionView.SectionTitle = AppStrings.HomeMeaningLanguagesLabel;
+        TopicsSectionView.SectionTitle = AppStrings.HomeTopicsLabel;
         CefrBrowseCaptionLabel.Text = AppStrings.HomeCefrBrowseLabel;
         SearchCaptionLabel.Text = AppStrings.HomeSearchLabel;
         SearchButton.Text = AppStrings.HomeSearchButton;
@@ -108,7 +108,7 @@ public partial class HomePage : ContentPage
             .GetTopicsAsync(_appLocalizationService.CurrentCulture.TwoLetterISOLanguageName, CancellationToken.None)
             .ConfigureAwait(true);
 
-        SupportedLanguagesValueLabel.Text = supportedLanguages.Count == 0
+        SupportedLanguagesSectionView.SectionValue = supportedLanguages.Count == 0
             ? AppStrings.HomeNoLanguages
             : string.Join(Environment.NewLine, supportedLanguages.Select(language =>
                 $"{language.NativeName} ({language.Code})"));
@@ -120,11 +120,11 @@ public partial class HomePage : ContentPage
             ? null
             : ResolveLanguageDisplayName(supportedLanguages, profile.PreferredMeaningLanguage2);
 
-        MeaningLanguagesValueLabel.Text = secondaryMeaningLanguage is null
+        MeaningLanguagesSectionView.SectionValue = secondaryMeaningLanguage is null
             ? primaryMeaningLanguage
             : $"{primaryMeaningLanguage}, {secondaryMeaningLanguage}";
 
-        TopicsValueLabel.Text = topics.Count == 0
+        TopicsSectionView.SectionValue = topics.Count == 0
             ? AppStrings.HomeNoTopics
             : string.Join(Environment.NewLine, topics.Select(topic => topic.DisplayName));
     }

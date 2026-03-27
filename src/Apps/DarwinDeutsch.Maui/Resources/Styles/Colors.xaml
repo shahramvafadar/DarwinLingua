@@ -27,6 +27,16 @@
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
 
+    <!-- Accessibility and semantic UI color tokens -->
+    <Color x:Key="ColorTextPrimaryLight">{StaticResource Gray900}</Color>
+    <Color x:Key="ColorTextPrimaryDark">{StaticResource White}</Color>
+    <Color x:Key="ColorTextMutedLight">{StaticResource Gray500}</Color>
+    <Color x:Key="ColorTextMutedDark">{StaticResource Gray300}</Color>
+    <Color x:Key="ColorSurfaceLight">{StaticResource White}</Color>
+    <Color x:Key="ColorSurfaceDark">{StaticResource Gray900}</Color>
+    <Color x:Key="ColorCardStrokeLight">{StaticResource Gray200}</Color>
+    <Color x:Key="ColorCardStrokeDark">{StaticResource Gray500}</Color>
+
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
@@ -41,4 +51,9 @@
     <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+
+    <SolidColorBrush x:Key="SurfaceBrushLight" Color="{StaticResource ColorSurfaceLight}" />
+    <SolidColorBrush x:Key="SurfaceBrushDark" Color="{StaticResource ColorSurfaceDark}" />
+    <SolidColorBrush x:Key="CardStrokeBrushLight" Color="{StaticResource ColorCardStrokeLight}" />
+    <SolidColorBrush x:Key="CardStrokeBrushDark" Color="{StaticResource ColorCardStrokeDark}" />
 </ResourceDictionary>
