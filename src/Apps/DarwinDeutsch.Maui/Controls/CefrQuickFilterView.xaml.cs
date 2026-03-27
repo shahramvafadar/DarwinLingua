@@ -121,11 +121,27 @@ public partial class CefrQuickFilterView : ContentView
     {
         bool isSelected = string.Equals(button.Text, SelectedLevel, StringComparison.OrdinalIgnoreCase);
         button.BackgroundColor = isSelected
-            ? (Color?)Application.Current?.Resources["Primary"] ?? Colors.DarkSlateBlue
+            ? ResolveAppColor("Primary", Colors.DarkSlateBlue)
             : null;
         button.TextColor = isSelected
-            ? (Color?)Application.Current?.Resources["White"] ?? Colors.White
+            ? ResolveAppColor("White", Colors.White)
             : null;
+    }
+
+    /// <summary>
+    /// Resolves an application-scoped color with a safe fallback for early initialization timing.
+    /// </summary>
+    private static Color ResolveAppColor(string resourceKey, Color fallbackColor)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(resourceKey);
+
+        if (Application.Current?.Resources.TryGetValue(resourceKey, out object? color) == true &&
+            color is Color resolvedColor)
+        {
+            return resolvedColor;
+        }
+
+        return fallbackColor;
     }
 
     /// <summary>
