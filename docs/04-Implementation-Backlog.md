@@ -265,7 +265,7 @@ Phase 2 focuses on turning imported content into repeatable learning behavior wh
 
 ### 20. Phase 2 Quality and Release Readiness
 
-- [ ] add application tests for review and quiz use cases
+- [x] add application tests for review and quiz use cases
 - [ ] add infrastructure tests for practice queries and persistence
 - [x] add MAUI smoke tests for practice navigation
 - [ ] validate practice flows on target devices
