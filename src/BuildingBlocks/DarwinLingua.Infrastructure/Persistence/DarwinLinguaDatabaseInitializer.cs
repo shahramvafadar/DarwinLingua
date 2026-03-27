@@ -75,7 +75,7 @@ internal sealed class DarwinLinguaDatabaseInitializer : IDatabaseInitializer
             return;
         }
 
-        await BaselineLegacyEnsureCreatedDatabaseAsync(dbContext, availableMigrations[0], cancellationToken)
+        await BaselineLegacyEnsureCreatedDatabaseAsync(dbContext, availableMigrations, cancellationToken)
             .ConfigureAwait(false);
         await dbContext.Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
     }
@@ -84,15 +84,20 @@ internal sealed class DarwinLinguaDatabaseInitializer : IDatabaseInitializer
     /// Inserts the initial migration history row when an older EnsureCreated database already contains the schema.
     /// </summary>
     /// <param name="dbContext">The active database context.</param>
-    /// <param name="baselineMigrationId">The first migration identifier that matches the legacy schema.</param>
+    /// <param name="availableMigrations">The available migration identifiers in apply order.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     private static async Task BaselineLegacyEnsureCreatedDatabaseAsync(
         DarwinLinguaDbContext dbContext,
-        string baselineMigrationId,
+        IReadOnlyList<string> availableMigrations,
         CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(dbContext);
-        ArgumentException.ThrowIfNullOrWhiteSpace(baselineMigrationId);
+        ArgumentNullException.ThrowIfNull(availableMigrations);
+
+        if (availableMigrations.Count == 0)
+        {
+            return;
+        }
 
         if (await TableExistsAsync(dbContext, "__EFMigrationsHistory", cancellationToken).ConfigureAwait(false))
         {
@@ -118,18 +123,51 @@ internal sealed class DarwinLinguaDatabaseInitializer : IDatabaseInitializer
             """,
             cancellationToken).ConfigureAwait(false);
 
+        string[] migrationsToBaseline = await DatabaseMatchesCurrentModelTablesAsync(dbContext, cancellationToken).ConfigureAwait(false)
+            ? availableMigrations.ToArray()
+            : [availableMigrations[0]];
+
         string productVersion = dbContext.Model.GetProductVersion()
             ?? throw new InvalidOperationException("The EF Core relational model does not expose a product version.");
-        await dbContext.Database.ExecuteSqlInterpolatedAsync(
-            $"""
-            INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-            SELECT {baselineMigrationId}, {productVersion}
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM "__EFMigrationsHistory"
-                WHERE "MigrationId" = {baselineMigrationId});
-            """,
-            cancellationToken).ConfigureAwait(false);
+
+        foreach (string migrationId in migrationsToBaseline)
+        {
+            await dbContext.Database.ExecuteSqlInterpolatedAsync(
+                $"""
+                INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+                SELECT {migrationId}, {productVersion}
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM "__EFMigrationsHistory"
+                    WHERE "MigrationId" = {migrationId});
+                """,
+                cancellationToken).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    /// Checks whether the current SQLite database already contains every mapped table in the current model.
+    /// </summary>
+    private static async Task<bool> DatabaseMatchesCurrentModelTablesAsync(
+        DarwinLinguaDbContext dbContext,
+        CancellationToken cancellationToken)
+    {
+        string[] requiredTableNames = dbContext.Model
+            .GetEntityTypes()
+            .Select(entityType => entityType.GetTableName())
+            .Where(tableName => !string.IsNullOrWhiteSpace(tableName))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray()!;
+
+        foreach (string tableName in requiredTableNames)
+        {
+            if (!await TableExistsAsync(dbContext, tableName, cancellationToken).ConfigureAwait(false))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>

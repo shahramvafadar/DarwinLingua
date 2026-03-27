@@ -147,7 +147,8 @@ public sealed class CatalogSearchInfrastructureTests
             IReadOnlyList<string> appliedMigrations = await ReadAppliedMigrationsAsync(verificationContext, CancellationToken.None);
 
             Assert.NotEmpty(appliedMigrations);
-            Assert.Contains("InitialCreate", appliedMigrations.Single());
+            Assert.Contains(appliedMigrations, migrationId => migrationId.Contains("InitialCreate", StringComparison.Ordinal));
+            Assert.Contains(appliedMigrations, migrationId => migrationId.Contains("AddPracticeSchedulingState", StringComparison.Ordinal));
         }
         finally
         {

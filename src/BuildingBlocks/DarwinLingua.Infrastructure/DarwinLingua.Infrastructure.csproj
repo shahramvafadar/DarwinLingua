@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\Modules\ContentOps\DarwinLingua.ContentOps.Domain\DarwinLingua.ContentOps.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\Catalog\DarwinLingua.Catalog.Domain\DarwinLingua.Catalog.Domain.csproj" />
     <ProjectReference Include="..\..\Modules\Learning\DarwinLingua.Learning.Domain\DarwinLingua.Learning.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\Practice\DarwinLingua.Practice.Domain\DarwinLingua.Practice.Domain.csproj" />
     <ProjectReference Include="..\DarwinLingua.SharedKernel\DarwinLingua.SharedKernel.csproj" />
     <ProjectReference Include="..\..\Modules\Localization\DarwinLingua.Localization.Domain\DarwinLingua.Localization.Domain.csproj" />
   </ItemGroup>

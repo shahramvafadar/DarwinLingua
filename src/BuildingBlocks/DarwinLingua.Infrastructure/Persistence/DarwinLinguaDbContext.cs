@@ -3,6 +3,7 @@ using DarwinLingua.ContentOps.Domain.Entities;
 using DarwinLingua.Infrastructure.Persistence.Configurations;
 using DarwinLingua.Learning.Domain.Entities;
 using DarwinLingua.Localization.Domain.Entities;
+using DarwinLingua.Practice.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DarwinLingua.Infrastructure.Persistence;
@@ -93,6 +94,16 @@ public sealed class DarwinLinguaDbContext : DbContext
     public DbSet<UserWordState> UserWordStates => Set<UserWordState>();
 
     /// <summary>
+    /// Gets the persisted learner review-state rows.
+    /// </summary>
+    public DbSet<PracticeReviewState> PracticeReviewStates => Set<PracticeReviewState>();
+
+    /// <summary>
+    /// Gets the persisted learner attempt-history rows.
+    /// </summary>
+    public DbSet<PracticeAttempt> PracticeAttempts => Set<PracticeAttempt>();
+
+    /// <summary>
     /// Applies all explicit entity configurations.
     /// </summary>
     /// <param name="modelBuilder">The EF Core model builder.</param>
@@ -114,6 +125,8 @@ public sealed class DarwinLinguaDbContext : DbContext
         modelBuilder.ApplyConfiguration(new UserLearningProfileConfiguration());
         modelBuilder.ApplyConfiguration(new UserFavoriteWordConfiguration());
         modelBuilder.ApplyConfiguration(new UserWordStateConfiguration());
+        modelBuilder.ApplyConfiguration(new PracticeReviewStateConfiguration());
+        modelBuilder.ApplyConfiguration(new PracticeAttemptConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

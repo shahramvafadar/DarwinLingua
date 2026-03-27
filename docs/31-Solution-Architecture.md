@@ -226,12 +226,13 @@ This project is not a place for domain rules or feature logic.
 
 ## 3.4 Bounded-Context Modules
 
-The canonical Phase 1 bounded contexts are:
+The currently active bounded contexts are:
 
 - `Catalog`
 - `Learning`
 - `ContentOps`
 - `Localization`
+- `Practice`
 
 Each active context uses a three-project split:
 
@@ -253,10 +254,12 @@ Current module projects:
 - `src/Modules/Localization/DarwinLingua.Localization.Domain`
 - `src/Modules/Localization/DarwinLingua.Localization.Application`
 - `src/Modules/Localization/DarwinLingua.Localization.Infrastructure`
+- `src/Modules/Practice/DarwinLingua.Practice.Domain`
+- `src/Modules/Practice/DarwinLingua.Practice.Application`
+- `src/Modules/Practice/DarwinLingua.Practice.Infrastructure`
 
-Deferred contexts already reserved in the solution structure but not implemented for Phase 1 are:
+Deferred contexts already reserved in the solution structure but not implemented are:
 
-- `Practice`
 - `ResourceDirectory`
 
 Those placeholders should stay deferred until real scope justifies them.
@@ -519,11 +522,11 @@ Tests should remain aligned to module boundaries rather than collapsing into a s
 
 # 13. Final Architecture Summary
 
-Darwin Lingua Phase 1 is now canonically defined as a modular monolith with:
+Darwin Lingua is currently implemented as a modular monolith with:
 
 - two host projects
 - three shared building-block projects
-- four active bounded contexts, each split into Domain/Application/Infrastructure projects
+- five active bounded contexts, each split into Domain/Application/Infrastructure projects
 - deferred placeholders for later contexts that are intentionally not implemented yet
 
-This is the locked Phase 1 project/reference structure and should be used as the baseline for all remaining implementation and release work.
+This is the locked project/reference structure and should be used as the baseline for the remaining Phase 1 release work and ongoing Phase 2 implementation.

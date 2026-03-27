@@ -13,43 +13,16 @@ The first learner-facing product is **Darwin Deutsch**, a German-learning applic
 
 ## Current Status
 
-The repository is currently **in active Phase 1 release validation and early Phase 2 implementation**, not feature-complete.
-
-- the product direction, domain, storage, offline, and import strategy are documented
-- the solution structure exists under `src/`
-- the MAUI app now has migration-based local SQLite startup initialization, compatibility baselining for older local `EnsureCreated` databases, UI localization, persisted local learning-profile preferences, CEFR browsing, topic browsing, indexed German lemma search with prefix-first ranking, word details, favorites, settings-based language selection, and platform TTS actions for German words and example sentences with graceful localized failure handling
-- the startup infrastructure now exposes explicit `InitializeDatabase` and `SeedReferenceData` use-case workflows (while preserving one-call startup initialization)
-- the catalog module now contains the first real lexical aggregate model for words, senses, translations, examples, topic links, browse/search queries, and detail-query foundations
-- the learning module now persists local favorite words and lightweight user word state separately from catalog content, including favorite toggle/list workflows, view tracking, and known/difficult markers with clear actions
-- the import tool can bootstrap the shared local database, apply reference seeds, import canonical JSON content packages, skip duplicates conservatively, reject repeated `packageId` values, and return an operator-facing summary
-- starter reference-data seeding now includes meaning-language support for `en`, `fa`, `ru`, `ar`, `pl`, `tr`, `ro`, `sq`, `ckb`, and `kmr`, while UI localization remains English/German
-- the sample Phase 1 content package now provides twelve German seed words across `A1` through `C2` with meanings in the seeded starter language set
-- SQLite-backed integration tests now cover reference-data seeding presence and idempotency for Phase 1 language/topic seed workflows
-- release-readiness integration tests now validate clean-install database initialization and successful import of the sample Phase 1 content package
-- release-readiness performance tests now validate starter-dataset import time and local browse/search responsiveness within pragmatic bounds
-- MAUI smoke tests now guard localized shell/page wiring and verify core learner flows stay on local offline-safe dependencies
-- localization coverage checks now enforce English/German `AppStrings` resource-key parity in automated tests
-- infrastructure mapping tests now verify key EF Core uniqueness/index constraints for Phase 1 persistence entities
-- import workflow tests now cover mixed valid/invalid entries and duplicate-entry skipping behavior within a package
-- practical smoke tests now guard the MAUI startup path to ensure DB initialization and localization initialization remain wired
-- current MAUI user-facing labels and lexical metadata lines now flow through English/German `AppStrings` resources instead of inline part-of-speech text
-- domain tests now cover additional aggregate invariants and state-transition rules for catalog and learning entities
-- application-layer tests now cover core ContentOps import failure paths such as file-read errors, parser errors, and duplicate package rejection
-- CI workflow now runs restore/build/test for non-MAUI projects and all test projects on GitHub Actions
-- shared infrastructure now exposes a transactional execution service for write workflows, with commit/rollback coverage
-- UI state handling now includes explicit loading/error/empty behavior across core data-driven browse/search/favorites pages
-- accessibility baseline updates now enforce 44px touch targets and improved typography contrast/legibility defaults in shared MAUI styles
-- reusable UI component extraction now includes shared word-list-item, topic-list-item, detail-section, CEFR quick-filter, and action-block views applied across home and browse screens
-- home now exposes a dashboard-style product screen for learner context, CEFR browsing, and quick navigation actions
-- the browse tab now functions as a dedicated browse hub with CEFR shortcuts, topic discovery, and direct links into search and favorites
-- shared MAUI style resources now define baseline design tokens for spacing, typography, touch targets, and semantic surface/text colors
-- the canonical modular-monolith Phase 1 project/reference structure is now locked and documented in the solution architecture guide
-- the new `Practice` module now starts Phase 2 with local practice/progress overview and deterministic review-queue use cases over existing catalog and learning data
-
-The current import contract maps one imported entry to one imported sense with meanings and examples.
-
-The next high-priority work is manual device validation for offline behavior, English UI, German UI, and TTS, followed by release sign-off capture.
-The `tools/Phase1` folder now includes helper scripts to generate a release-validation bundle with automated evidence, a worksheet copy, and a release-notes draft for the current branch.
+- `Phase 1 MVP implementation`: `Completed`
+  - local-first MAUI app, import pipeline, multilingual seed languages, browse/search/detail flows, favorites, lightweight user state, and platform TTS are implemented
+- `Phase 1 release validation`: `In Progress`
+  - automated restore/build/test, clean-install initialization, sample-package import, and starter-dataset performance checks are complete
+  - remaining work is manual device validation for offline behavior, English UI, German UI, and TTS sign-off
+- `Phase 2 practice and review`: `In Progress`
+  - `Practice` bounded context is active
+  - practice overview, deterministic review queue, and the persistence model for attempts/scheduling are in place
+- `Phases 3-5`: `Planned`
+  - enhanced lexical intelligence, resource directory, and server-backed expansion remain future work
 
 ## Product Direction
 
@@ -109,7 +82,7 @@ The intended architecture is:
 - shared business core
 - local-first Phase 1 delivery
 
-Active Phase 1 contexts:
+Active contexts:
 
 - `Catalog`
 - `Learning`
@@ -119,7 +92,6 @@ Active Phase 1 contexts:
 
 Deferred but designed:
 
-- `Practice`
 - `Resource Discovery`
 
 ## Storage Direction
