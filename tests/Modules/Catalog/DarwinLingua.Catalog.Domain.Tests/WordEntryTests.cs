@@ -99,6 +99,25 @@ public sealed class WordEntryTests
     }
 
     /// <summary>
+    /// Verifies that duplicate translation identifiers are rejected within a single sense.
+    /// </summary>
+    [Fact]
+    public void AddTranslation_ShouldRejectDuplicateIdentifierPerSense()
+    {
+        WordEntry word = CreateWordEntry();
+        WordSense sense = word.AddSense(Guid.NewGuid(), 1, true, PublicationStatus.Active, DateTime.UtcNow);
+        Guid translationId = Guid.NewGuid();
+        sense.AddTranslation(translationId, LanguageCode.From("en"), "station", true, DateTime.UtcNow);
+
+        Assert.Throws<DomainRuleException>(() => sense.AddTranslation(
+            translationId,
+            LanguageCode.From("tr"),
+            "istasyon",
+            false,
+            DateTime.UtcNow));
+    }
+
+    /// <summary>
     /// Verifies that setting a new primary sense demotes the previous primary sense.
     /// </summary>
     [Fact]
@@ -128,6 +147,44 @@ public sealed class WordEntryTests
             1,
             "Wir treffen uns am Bahnhof.",
             false,
+            DateTime.UtcNow));
+    }
+
+    /// <summary>
+    /// Verifies that duplicate example identifiers are rejected within one sense.
+    /// </summary>
+    [Fact]
+    public void AddExample_ShouldRejectDuplicateIdentifierPerSense()
+    {
+        WordEntry word = CreateWordEntry();
+        WordSense sense = word.AddSense(Guid.NewGuid(), 1, true, PublicationStatus.Active, DateTime.UtcNow);
+        Guid exampleId = Guid.NewGuid();
+        sense.AddExample(exampleId, 1, "Ich gehe zum Bahnhof.", true, DateTime.UtcNow);
+
+        Assert.Throws<DomainRuleException>(() => sense.AddExample(
+            exampleId,
+            2,
+            "Wir treffen uns am Bahnhof.",
+            false,
+            DateTime.UtcNow));
+    }
+
+    /// <summary>
+    /// Verifies that duplicate example-translation identifiers are rejected within one example sentence.
+    /// </summary>
+    [Fact]
+    public void AddExampleTranslation_ShouldRejectDuplicateIdentifierPerExample()
+    {
+        WordEntry word = CreateWordEntry();
+        WordSense sense = word.AddSense(Guid.NewGuid(), 1, true, PublicationStatus.Active, DateTime.UtcNow);
+        ExampleSentence example = sense.AddExample(Guid.NewGuid(), 1, "Ich gehe zum Bahnhof.", true, DateTime.UtcNow);
+        Guid translationId = Guid.NewGuid();
+        example.AddTranslation(translationId, LanguageCode.From("en"), "I am going to the station.", DateTime.UtcNow);
+
+        Assert.Throws<DomainRuleException>(() => example.AddTranslation(
+            translationId,
+            LanguageCode.From("tr"),
+            "İstasyona gidiyorum.",
             DateTime.UtcNow));
     }
 
