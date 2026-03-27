@@ -103,10 +103,10 @@ public partial class HomePage : ContentPage
         CefrQuickFilterView.Caption = AppStrings.HomeCefrBrowseLabel;
         SearchActionBlockView.Caption = AppStrings.HomeSearchLabel;
         SearchActionBlockView.ButtonText = AppStrings.HomeSearchButton;
-        BrowseTopicsActionBlockView.Caption = AppStrings.HomeTopicsLabel;
-        BrowseTopicsActionBlockView.ButtonText = AppStrings.BrowseTabTitle;
-        FavoritesActionBlockView.Caption = AppStrings.FavoritesPageTitle;
-        FavoritesActionBlockView.ButtonText = AppStrings.FavoritesTabTitle;
+        BrowseTopicsActionBlockView.Caption = AppStrings.HomeBrowseTopicsLabel;
+        BrowseTopicsActionBlockView.ButtonText = AppStrings.HomeBrowseTopicsButton;
+        FavoritesActionBlockView.Caption = AppStrings.HomeFavoritesLabel;
+        FavoritesActionBlockView.ButtonText = AppStrings.HomeFavoritesButton;
     }
 
     /// <summary>
