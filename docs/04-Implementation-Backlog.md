@@ -217,8 +217,8 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [ ] validate offline behavior on target platforms
 - [ ] validate English UI
 - [ ] validate German UI
-- [ ] validate data initialization from clean install
-- [ ] validate import of sample content package
+- [x] validate data initialization from clean install
+- [x] validate import of sample content package
 - [ ] validate performance on realistic starter datasets
 - [x] define release checklist for Phase 1 MVP
 

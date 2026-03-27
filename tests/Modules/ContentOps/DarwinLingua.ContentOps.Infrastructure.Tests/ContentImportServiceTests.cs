@@ -204,6 +204,65 @@ public sealed class ContentImportServiceTests
         }
     }
 
+    /// <summary>
+    /// Verifies that the Phase 1 sample package imports successfully into a freshly initialized database.
+    /// </summary>
+    [Fact]
+    public async Task ImportAsync_ShouldImportPhase1SampleContentPackageIntoFreshDatabase()
+    {
+        string databasePath = Path.Combine(Path.GetTempPath(), $"darwin-lingua-import-{Guid.NewGuid():N}.db");
+        string packagePath = Path.Combine(Path.GetTempPath(), $"darwin-lingua-package-{Guid.NewGuid():N}.json");
+        ServiceProvider? serviceProvider = null;
+
+        try
+        {
+            File.Copy(GetSamplePackagePath(), packagePath, overwrite: true);
+
+            serviceProvider = BuildServiceProvider(databasePath);
+
+            IDatabaseInitializer databaseInitializer = serviceProvider.GetRequiredService<IDatabaseInitializer>();
+            await databaseInitializer.InitializeAsync(CancellationToken.None);
+
+            IContentImportService contentImportService = serviceProvider.GetRequiredService<IContentImportService>();
+            ImportContentPackageResult result = await contentImportService
+                .ImportAsync(new ImportContentPackageRequest(packagePath), CancellationToken.None);
+
+            Assert.True(result.IsSuccess);
+            Assert.Equal("Completed", result.Status);
+            Assert.Equal(2, result.TotalEntries);
+            Assert.Equal(2, result.ImportedEntries);
+            Assert.Equal(0, result.SkippedDuplicateEntries);
+            Assert.Equal(0, result.InvalidEntries);
+
+            IWordQueryService wordQueryService = serviceProvider.GetRequiredService<IWordQueryService>();
+
+            IReadOnlyList<DarwinLingua.Catalog.Application.Models.WordListItemModel> shoppingWords = await wordQueryService
+                .GetWordsByTopicAsync("shopping", "en", CancellationToken.None);
+            IReadOnlyList<DarwinLingua.Catalog.Application.Models.WordListItemModel> workWords = await wordQueryService
+                .GetWordsByTopicAsync("work-and-jobs", "en", CancellationToken.None);
+
+            DarwinLingua.Catalog.Application.Models.WordListItemModel breadWord = Assert.Single(shoppingWords);
+            DarwinLingua.Catalog.Application.Models.WordListItemModel applicationWord = Assert.Single(workWords);
+
+            Assert.Equal("Brot", breadWord.Lemma);
+            Assert.Equal("bread", breadWord.PrimaryMeaning);
+            Assert.Equal("Bewerbung", applicationWord.Lemma);
+            Assert.Equal("job application", applicationWord.PrimaryMeaning);
+        }
+        finally
+        {
+            if (serviceProvider is not null)
+            {
+                await serviceProvider.DisposeAsync();
+            }
+
+            if (File.Exists(packagePath))
+            {
+                File.Delete(packagePath);
+            }
+        }
+    }
+
     private static ServiceProvider BuildServiceProvider(string databasePath)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(databasePath);
@@ -219,6 +278,36 @@ public sealed class ContentImportServiceTests
             .AddLocalizationInfrastructure();
 
         return services.BuildServiceProvider();
+    }
+
+    private static string GetSamplePackagePath()
+    {
+        string repositoryRoot = ResolveRepositoryRoot();
+        string samplePackagePath = Path.Combine(
+            repositoryRoot,
+            "tests/Modules/ContentOps/DarwinLingua.ContentOps.Infrastructure.Tests/Fixtures/phase1-sample-content-package.json");
+
+        Assert.True(File.Exists(samplePackagePath), $"Sample package fixture was not found: {samplePackagePath}");
+        return samplePackagePath;
+    }
+
+    private static string ResolveRepositoryRoot()
+    {
+        DirectoryInfo? currentDirectory = new(AppContext.BaseDirectory);
+
+        while (currentDirectory is not null)
+        {
+            string candidateSolutionPath = Path.Combine(currentDirectory.FullName, "DarwinLingua.slnx");
+
+            if (File.Exists(candidateSolutionPath))
+            {
+                return currentDirectory.FullName;
+            }
+
+            currentDirectory = currentDirectory.Parent;
+        }
+
+        throw new InvalidOperationException("Unable to resolve repository root from test execution directory.");
     }
 
     private static string CreateValidPackageJson(string packageId)

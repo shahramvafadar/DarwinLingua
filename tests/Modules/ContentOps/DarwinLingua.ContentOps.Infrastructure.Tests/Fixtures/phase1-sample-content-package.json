@@ -1,0 +1,61 @@
+{
+  "packageVersion": "1.0",
+  "packageId": "phase1-sample-content-package",
+  "packageName": "Phase 1 Sample Content Package",
+  "source": "Hybrid",
+  "defaultMeaningLanguages": ["en"],
+  "entries": [
+    {
+      "word": "Brot",
+      "language": "de",
+      "cefrLevel": "A1",
+      "partOfSpeech": "Noun",
+      "article": "das",
+      "plural": "Brote",
+      "topics": ["shopping"],
+      "meanings": [
+        {
+          "language": "en",
+          "text": "bread"
+        }
+      ],
+      "examples": [
+        {
+          "baseText": "Ich kaufe Brot.",
+          "translations": [
+            {
+              "language": "en",
+              "text": "I buy bread."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "word": "Bewerbung",
+      "language": "de",
+      "cefrLevel": "A2",
+      "partOfSpeech": "Noun",
+      "article": "die",
+      "plural": "Bewerbungen",
+      "topics": ["work-and-jobs"],
+      "meanings": [
+        {
+          "language": "en",
+          "text": "job application"
+        }
+      ],
+      "examples": [
+        {
+          "baseText": "Die Bewerbung ist fertig.",
+          "translations": [
+            {
+              "language": "en",
+              "text": "The job application is ready."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

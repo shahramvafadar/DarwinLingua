@@ -99,6 +99,54 @@ public sealed class DatabaseInitializationUseCaseTests
     }
 
     /// <summary>
+    /// Verifies that first-run initialization on a clean install path creates and seeds the local database.
+    /// </summary>
+    [Fact]
+    public async Task InitializeAsync_ShouldCreateAndSeedCleanInstallDatabase()
+    {
+        string databasePath = Path.Combine(Path.GetTempPath(), $"darwin-lingua-clean-install-{Guid.NewGuid():N}.db");
+        ServiceProvider? serviceProvider = null;
+
+        try
+        {
+            Assert.False(File.Exists(databasePath));
+
+            serviceProvider = BuildServiceProvider(databasePath);
+
+            IDatabaseInitializer databaseInitializer = serviceProvider.GetRequiredService<IDatabaseInitializer>();
+            IDbContextFactory<DarwinLinguaDbContext> dbContextFactory =
+                serviceProvider.GetRequiredService<IDbContextFactory<DarwinLinguaDbContext>>();
+
+            await databaseInitializer.InitializeAsync(CancellationToken.None);
+
+            Assert.True(File.Exists(databasePath));
+
+            await using DarwinLinguaDbContext verificationContext = await dbContextFactory
+                .CreateDbContextAsync(CancellationToken.None);
+
+            Assert.True(await verificationContext.Database.CanConnectAsync(CancellationToken.None));
+            Assert.Equal(
+                2,
+                await verificationContext.Languages.CountAsync(cancellationToken: CancellationToken.None));
+            Assert.Equal(
+                5,
+                await verificationContext.Topics.CountAsync(cancellationToken: CancellationToken.None));
+            Assert.Equal(
+                10,
+                await verificationContext.TopicLocalizations.CountAsync(cancellationToken: CancellationToken.None));
+        }
+        finally
+        {
+            if (serviceProvider is not null)
+            {
+                await serviceProvider.DisposeAsync();
+            }
+
+            TryDeleteFile(databasePath);
+        }
+    }
+
+    /// <summary>
     /// Builds the service provider used by initialization use-case tests.
     /// </summary>
     private static ServiceProvider BuildServiceProvider(string databasePath)
