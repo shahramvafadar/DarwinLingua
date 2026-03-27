@@ -28,6 +28,11 @@ public static class AppStrings
     public static string HomeTabTitle => GetRequiredString(nameof(HomeTabTitle));
 
     /// <summary>
+    /// Gets the localized title for the practice tab.
+    /// </summary>
+    public static string PracticeTabTitle => GetRequiredString(nameof(PracticeTabTitle));
+
+    /// <summary>
     /// Gets the localized title for the settings tab.
     /// </summary>
     public static string SettingsTabTitle => GetRequiredString(nameof(SettingsTabTitle));
@@ -76,6 +81,16 @@ public static class AppStrings
     /// Gets the localized label for the CEFR browse section.
     /// </summary>
     public static string HomeCefrBrowseLabel => GetRequiredString(nameof(HomeCefrBrowseLabel));
+
+    /// <summary>
+    /// Gets the localized label for the practice quick action section.
+    /// </summary>
+    public static string HomePracticeLabel => GetRequiredString(nameof(HomePracticeLabel));
+
+    /// <summary>
+    /// Gets the localized caption for the practice navigation button.
+    /// </summary>
+    public static string HomePracticeButton => GetRequiredString(nameof(HomePracticeButton));
 
     /// <summary>
     /// Gets the localized label for the search section.
@@ -386,6 +401,161 @@ public static class AppStrings
     /// Gets the localized empty state for the favorites page.
     /// </summary>
     public static string FavoritesPageEmpty => GetRequiredString(nameof(FavoritesPageEmpty));
+
+    /// <summary>
+    /// Gets the localized headline for the practice page.
+    /// </summary>
+    public static string PracticePageHeadline => GetRequiredString(nameof(PracticePageHeadline));
+
+    /// <summary>
+    /// Gets the localized description for the practice page.
+    /// </summary>
+    public static string PracticePageDescription => GetRequiredString(nameof(PracticePageDescription));
+
+    /// <summary>
+    /// Gets the localized label for the due-now metric.
+    /// </summary>
+    public static string PracticePageDueNowLabel => GetRequiredString(nameof(PracticePageDueNowLabel));
+
+    /// <summary>
+    /// Gets the localized value format for the due-now metric.
+    /// </summary>
+    public static string PracticePageDueNowValueFormat => GetRequiredString(nameof(PracticePageDueNowValueFormat));
+
+    /// <summary>
+    /// Gets the localized label for the success-rate metric.
+    /// </summary>
+    public static string PracticePageSuccessRateLabel => GetRequiredString(nameof(PracticePageSuccessRateLabel));
+
+    /// <summary>
+    /// Gets the localized value format for the success-rate metric.
+    /// </summary>
+    public static string PracticePageSuccessRateValueFormat => GetRequiredString(nameof(PracticePageSuccessRateValueFormat));
+
+    /// <summary>
+    /// Gets the localized label for the mastered metric.
+    /// </summary>
+    public static string PracticePageMasteredLabel => GetRequiredString(nameof(PracticePageMasteredLabel));
+
+    /// <summary>
+    /// Gets the localized value format for the mastered metric.
+    /// </summary>
+    public static string PracticePageMasteredValueFormat => GetRequiredString(nameof(PracticePageMasteredValueFormat));
+
+    /// <summary>
+    /// Gets the localized label for the struggling metric.
+    /// </summary>
+    public static string PracticePageStrugglingLabel => GetRequiredString(nameof(PracticePageStrugglingLabel));
+
+    /// <summary>
+    /// Gets the localized value format for the struggling metric.
+    /// </summary>
+    public static string PracticePageStrugglingValueFormat => GetRequiredString(nameof(PracticePageStrugglingValueFormat));
+
+    /// <summary>
+    /// Gets the localized label for the review-start action block.
+    /// </summary>
+    public static string PracticePageStartReviewLabel => GetRequiredString(nameof(PracticePageStartReviewLabel));
+
+    /// <summary>
+    /// Gets the localized caption for the review-start action button.
+    /// </summary>
+    public static string PracticePageStartReviewButton => GetRequiredString(nameof(PracticePageStartReviewButton));
+
+    /// <summary>
+    /// Gets the localized label for the refresh action block.
+    /// </summary>
+    public static string PracticePageRefreshLabel => GetRequiredString(nameof(PracticePageRefreshLabel));
+
+    /// <summary>
+    /// Gets the localized caption for the refresh action button.
+    /// </summary>
+    public static string PracticePageRefreshButton => GetRequiredString(nameof(PracticePageRefreshButton));
+
+    /// <summary>
+    /// Gets the localized heading for the review-session preview section.
+    /// </summary>
+    public static string PracticePageReviewSessionHeading => GetRequiredString(nameof(PracticePageReviewSessionHeading));
+
+    /// <summary>
+    /// Gets the localized empty state for the review-session preview section.
+    /// </summary>
+    public static string PracticePageReviewSessionEmpty => GetRequiredString(nameof(PracticePageReviewSessionEmpty));
+
+    /// <summary>
+    /// Gets the localized summary format for the review-session preview section.
+    /// </summary>
+    public static string PracticePageReviewSessionSummaryFormat => GetRequiredString(nameof(PracticePageReviewSessionSummaryFormat));
+
+    /// <summary>
+    /// Gets the localized heading for the recent-activity section.
+    /// </summary>
+    public static string PracticePageRecentActivityHeading => GetRequiredString(nameof(PracticePageRecentActivityHeading));
+
+    /// <summary>
+    /// Gets the localized empty state for the recent-activity section.
+    /// </summary>
+    public static string PracticePageRecentActivityEmpty => GetRequiredString(nameof(PracticePageRecentActivityEmpty));
+
+    /// <summary>
+    /// Gets the localized summary format for the recent-activity section.
+    /// </summary>
+    public static string PracticePageRecentActivitySummaryFormat => GetRequiredString(nameof(PracticePageRecentActivitySummaryFormat));
+
+    /// <summary>
+    /// Gets the localized due badge for review items.
+    /// </summary>
+    public static string PracticePageDueBadge => GetRequiredString(nameof(PracticePageDueBadge));
+
+    /// <summary>
+    /// Gets the localized queued badge for review items.
+    /// </summary>
+    public static string PracticePageQueuedBadge => GetRequiredString(nameof(PracticePageQueuedBadge));
+
+    /// <summary>
+    /// Gets the localized difficult badge for review items.
+    /// </summary>
+    public static string PracticePageDifficultBadge => GetRequiredString(nameof(PracticePageDifficultBadge));
+
+    /// <summary>
+    /// Gets the localized known badge for review items.
+    /// </summary>
+    public static string PracticePageKnownBadge => GetRequiredString(nameof(PracticePageKnownBadge));
+
+    /// <summary>
+    /// Gets the localized learning badge for review items.
+    /// </summary>
+    public static string PracticePageLearningBadge => GetRequiredString(nameof(PracticePageLearningBadge));
+
+    /// <summary>
+    /// Gets the localized flashcard session label for recent activity.
+    /// </summary>
+    public static string PracticePageSessionFlashcard => GetRequiredString(nameof(PracticePageSessionFlashcard));
+
+    /// <summary>
+    /// Gets the localized quiz session label for recent activity.
+    /// </summary>
+    public static string PracticePageSessionQuiz => GetRequiredString(nameof(PracticePageSessionQuiz));
+
+    /// <summary>
+    /// Gets the localized incorrect-outcome label for recent activity.
+    /// </summary>
+    public static string PracticePageOutcomeIncorrect => GetRequiredString(nameof(PracticePageOutcomeIncorrect));
+
+    /// <summary>
+    /// Gets the localized hard-outcome label for recent activity.
+    /// </summary>
+    public static string PracticePageOutcomeHard => GetRequiredString(nameof(PracticePageOutcomeHard));
+
+    /// <summary>
+    /// Gets the localized correct-outcome label for recent activity.
+    /// </summary>
+    public static string PracticePageOutcomeCorrect => GetRequiredString(nameof(PracticePageOutcomeCorrect));
+
+    /// <summary>
+    /// Gets the localized easy-outcome label for recent activity.
+    /// </summary>
+    public static string PracticePageOutcomeEasy => GetRequiredString(nameof(PracticePageOutcomeEasy));
 
     /// <summary>
     /// Gets the localized headline for the settings page.

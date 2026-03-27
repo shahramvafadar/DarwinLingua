@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:DarwinDeutsch.Maui.Controls"
+             x:Class="DarwinDeutsch.Maui.Pages.PracticePage">
+    <ScrollView>
+        <VerticalStackLayout Padding="24"
+                             Spacing="18">
+            <Border Padding="24"
+                    StrokeThickness="0"
+                    BackgroundColor="{AppThemeBinding Light=#DFD8F7, Dark=#141414}">
+                <VerticalStackLayout Spacing="10">
+                    <Label x:Name="HeadlineLabel"
+                           Style="{DynamicResource Headline}"
+                           SemanticProperties.HeadingLevel="Level1" />
+                    <Label x:Name="DescriptionLabel"
+                           Style="{DynamicResource Body}"
+                           LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="20">
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="16"
+                      RowDefinitions="Auto,Auto"
+                      RowSpacing="16">
+                    <controls:DetailSectionView x:Name="DueNowSectionView"
+                                                Grid.Row="0"
+                                                Grid.Column="0" />
+                    <controls:DetailSectionView x:Name="SuccessRateSectionView"
+                                                Grid.Row="0"
+                                                Grid.Column="1" />
+                    <controls:DetailSectionView x:Name="MasteredSectionView"
+                                                Grid.Row="1"
+                                                Grid.Column="0" />
+                    <controls:DetailSectionView x:Name="StrugglingSectionView"
+                                                Grid.Row="1"
+                                                Grid.Column="1" />
+                </Grid>
+            </Border>
+
+            <VerticalStackLayout Spacing="12">
+                <controls:ActionBlockView x:Name="StartReviewActionBlockView"
+                                          ActionInvoked="OnStartReviewActionInvoked" />
+                <controls:ActionBlockView x:Name="RefreshPracticeActionBlockView"
+                                          ActionInvoked="OnRefreshPracticeActionInvoked" />
+            </VerticalStackLayout>
+
+            <Border Padding="20">
+                <VerticalStackLayout Spacing="12">
+                    <Label x:Name="ReviewSessionSectionLabel"
+                           Style="{DynamicResource Title2}" />
+                    <Label x:Name="ReviewSessionStateLabel"
+                           Style="{DynamicResource Body}"
+                           IsVisible="False" />
+                    <CollectionView x:Name="ReviewSessionCollectionView"
+                                    IsVisible="False"
+                                    SelectionMode="Single"
+                                    SelectionChanged="OnReviewSessionSelectionChanged">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <controls:WordListItemView Lemma="{Binding Lemma}"
+                                                           PrimaryMeaning="{Binding PrimaryMeaning}"
+                                                           MetadataLine="{Binding MetadataLine}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="20">
+                <VerticalStackLayout Spacing="12">
+                    <Label x:Name="RecentActivitySectionLabel"
+                           Style="{DynamicResource Title2}" />
+                    <Label x:Name="RecentActivityStateLabel"
+                           Style="{DynamicResource Body}"
+                           IsVisible="False" />
+                    <CollectionView x:Name="RecentActivityCollectionView"
+                                    IsVisible="False"
+                                    SelectionMode="Single"
+                                    SelectionChanged="OnRecentActivitySelectionChanged">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <controls:WordListItemView Lemma="{Binding Lemma}"
+                                                           PrimaryMeaning="{Binding PrimaryMeaning}"
+                                                           MetadataLine="{Binding MetadataLine}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

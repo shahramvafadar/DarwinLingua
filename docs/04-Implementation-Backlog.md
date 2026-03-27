@@ -256,8 +256,8 @@ Phase 2 focuses on turning imported content into repeatable learning behavior wh
 
 ### 19. Practice UI
 
-- [ ] add a localized practice entry point to the MAUI navigation flow
-- [ ] implement the practice overview screen
+- [x] add a localized practice entry point to the MAUI navigation flow
+- [x] implement the practice overview screen
 - [ ] implement the flashcard session flow
 - [ ] implement the quiz session flow
 - [ ] implement answer feedback and session-summary states

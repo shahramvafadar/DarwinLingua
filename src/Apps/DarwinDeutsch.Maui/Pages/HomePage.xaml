@@ -37,6 +37,9 @@
             </Border>
 
             <VerticalStackLayout Spacing="12">
+                <controls:ActionBlockView x:Name="PracticeActionBlockView"
+                                          ActionInvoked="OnPracticeActionInvoked" />
+
                 <controls:ActionBlockView x:Name="SearchActionBlockView"
                                           ActionInvoked="OnSearchActionInvoked" />
 

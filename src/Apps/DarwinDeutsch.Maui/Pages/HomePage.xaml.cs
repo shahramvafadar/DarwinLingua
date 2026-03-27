@@ -101,6 +101,8 @@ public partial class HomePage : ContentPage
         MeaningLanguagesSectionView.SectionTitle = AppStrings.HomeMeaningLanguagesLabel;
         TopicsSectionView.SectionTitle = AppStrings.HomeTopicsLabel;
         CefrQuickFilterView.Caption = AppStrings.HomeCefrBrowseLabel;
+        PracticeActionBlockView.Caption = AppStrings.HomePracticeLabel;
+        PracticeActionBlockView.ButtonText = AppStrings.HomePracticeButton;
         SearchActionBlockView.Caption = AppStrings.HomeSearchLabel;
         SearchActionBlockView.ButtonText = AppStrings.HomeSearchButton;
         BrowseTopicsActionBlockView.Caption = AppStrings.HomeBrowseTopicsLabel;
@@ -190,6 +192,14 @@ public partial class HomePage : ContentPage
     private async void OnSearchActionInvoked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(SearchWordsPage)).ConfigureAwait(true);
+    }
+
+    /// <summary>
+    /// Navigates to the practice tab from the home dashboard.
+    /// </summary>
+    private async void OnPracticeActionInvoked(object? sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//practice").ConfigureAwait(true);
     }
 
     /// <summary>

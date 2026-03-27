@@ -27,6 +27,9 @@
   <data name="BrowseTabTitle" xml:space="preserve">
     <value>Topics</value>
   </data>
+  <data name="PracticeTabTitle" xml:space="preserve">
+    <value>Practice</value>
+  </data>
   <data name="HomeHeadline" xml:space="preserve">
     <value>Local-first language learning foundation</value>
   </data>
@@ -53,6 +56,12 @@
   </data>
   <data name="HomeSearchLabel" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="HomePracticeLabel" xml:space="preserve">
+    <value>Practice and review</value>
+  </data>
+  <data name="HomePracticeButton" xml:space="preserve">
+    <value>Open Practice</value>
   </data>
   <data name="HomeSearchButton" xml:space="preserve">
     <value>Open Search</value>
@@ -194,6 +203,99 @@
   </data>
   <data name="FavoritesPageEmpty" xml:space="preserve">
     <value>You have not added any favorite words yet.</value>
+  </data>
+  <data name="PracticePageHeadline" xml:space="preserve">
+    <value>Practice overview</value>
+  </data>
+  <data name="PracticePageDescription" xml:space="preserve">
+    <value>Track what is due now, preview the next review session, and inspect recent learning activity from local practice data.</value>
+  </data>
+  <data name="PracticePageDueNowLabel" xml:space="preserve">
+    <value>Due now</value>
+  </data>
+  <data name="PracticePageDueNowValueFormat" xml:space="preserve">
+    <value>{0} due · {1} scheduled</value>
+  </data>
+  <data name="PracticePageSuccessRateLabel" xml:space="preserve">
+    <value>Success rate</value>
+  </data>
+  <data name="PracticePageSuccessRateValueFormat" xml:space="preserve">
+    <value>{0} across {1} attempts</value>
+  </data>
+  <data name="PracticePageMasteredLabel" xml:space="preserve">
+    <value>Stable words</value>
+  </data>
+  <data name="PracticePageMasteredValueFormat" xml:space="preserve">
+    <value>{0} of {1} attempted words</value>
+  </data>
+  <data name="PracticePageStrugglingLabel" xml:space="preserve">
+    <value>Needs attention</value>
+  </data>
+  <data name="PracticePageStrugglingValueFormat" xml:space="preserve">
+    <value>{0} of {1} tracked words</value>
+  </data>
+  <data name="PracticePageStartReviewLabel" xml:space="preserve">
+    <value>Review session</value>
+  </data>
+  <data name="PracticePageStartReviewButton" xml:space="preserve">
+    <value>Preview Session</value>
+  </data>
+  <data name="PracticePageRefreshLabel" xml:space="preserve">
+    <value>Refresh practice data</value>
+  </data>
+  <data name="PracticePageRefreshButton" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="PracticePageReviewSessionHeading" xml:space="preserve">
+    <value>Next review items</value>
+  </data>
+  <data name="PracticePageReviewSessionEmpty" xml:space="preserve">
+    <value>No review items are ready right now.</value>
+  </data>
+  <data name="PracticePageReviewSessionSummaryFormat" xml:space="preserve">
+    <value>{0} total candidates in the current queue.</value>
+  </data>
+  <data name="PracticePageRecentActivityHeading" xml:space="preserve">
+    <value>Recent activity</value>
+  </data>
+  <data name="PracticePageRecentActivityEmpty" xml:space="preserve">
+    <value>No recent practice attempts were found.</value>
+  </data>
+  <data name="PracticePageRecentActivitySummaryFormat" xml:space="preserve">
+    <value>{0} total practice attempts recorded.</value>
+  </data>
+  <data name="PracticePageDueBadge" xml:space="preserve">
+    <value>Due</value>
+  </data>
+  <data name="PracticePageQueuedBadge" xml:space="preserve">
+    <value>Queued</value>
+  </data>
+  <data name="PracticePageDifficultBadge" xml:space="preserve">
+    <value>Difficult</value>
+  </data>
+  <data name="PracticePageKnownBadge" xml:space="preserve">
+    <value>Known</value>
+  </data>
+  <data name="PracticePageLearningBadge" xml:space="preserve">
+    <value>Learning</value>
+  </data>
+  <data name="PracticePageSessionFlashcard" xml:space="preserve">
+    <value>Flashcard</value>
+  </data>
+  <data name="PracticePageSessionQuiz" xml:space="preserve">
+    <value>Quiz</value>
+  </data>
+  <data name="PracticePageOutcomeIncorrect" xml:space="preserve">
+    <value>Incorrect</value>
+  </data>
+  <data name="PracticePageOutcomeHard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="PracticePageOutcomeCorrect" xml:space="preserve">
+    <value>Correct</value>
+  </data>
+  <data name="PracticePageOutcomeEasy" xml:space="preserve">
+    <value>Easy</value>
   </data>
   <data name="SettingsHeadline" xml:space="preserve">
     <value>Language settings</value>

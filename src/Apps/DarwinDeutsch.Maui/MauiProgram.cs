@@ -56,6 +56,7 @@ public static class MauiProgram
             .AddSingleton<IAppLocalizationService, AppLocalizationService>()
             .AddSingleton<AppShell>()
             .AddSingleton<HomePage>()
+            .AddSingleton<PracticePage>()
             .AddSingleton<TopicsPage>()
             .AddSingleton<FavoritesPage>()
             .AddTransient<TopicWordsPage>()

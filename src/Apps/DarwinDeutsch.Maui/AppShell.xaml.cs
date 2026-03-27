@@ -11,6 +11,7 @@ public partial class AppShell : Shell
 {
     private readonly IAppLocalizationService _appLocalizationService;
     private readonly ShellContent _homeContent;
+    private readonly ShellContent _practiceContent;
     private readonly ShellContent _browseContent;
     private readonly ShellContent _favoritesContent;
     private readonly ShellContent _settingsContent;
@@ -24,12 +25,14 @@ public partial class AppShell : Shell
     public AppShell(
         IAppLocalizationService appLocalizationService,
         HomePage homePage,
+        PracticePage practicePage,
         TopicsPage topicsPage,
         FavoritesPage favoritesPage,
         SettingsPage settingsPage)
     {
         ArgumentNullException.ThrowIfNull(appLocalizationService);
         ArgumentNullException.ThrowIfNull(homePage);
+        ArgumentNullException.ThrowIfNull(practicePage);
         ArgumentNullException.ThrowIfNull(topicsPage);
         ArgumentNullException.ThrowIfNull(favoritesPage);
         ArgumentNullException.ThrowIfNull(settingsPage);
@@ -42,6 +45,12 @@ public partial class AppShell : Shell
         {
             Route = "home",
             Content = homePage,
+        };
+
+        _practiceContent = new ShellContent
+        {
+            Route = "practice",
+            Content = practicePage,
         };
 
         _browseContent = new ShellContent
@@ -72,6 +81,7 @@ public partial class AppShell : Shell
             Items =
             {
                 _homeContent,
+                _practiceContent,
                 _browseContent,
                 _favoritesContent,
                 _settingsContent,
@@ -114,6 +124,7 @@ public partial class AppShell : Shell
     {
         Title = AppStrings.AppTitle;
         _homeContent.Title = AppStrings.HomeTabTitle;
+        _practiceContent.Title = AppStrings.PracticeTabTitle;
         _browseContent.Title = AppStrings.BrowseTabTitle;
         _favoritesContent.Title = AppStrings.FavoritesTabTitle;
         _settingsContent.Title = AppStrings.SettingsTabTitle;

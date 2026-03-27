@@ -19,6 +19,7 @@ public sealed class MauiBrowseScreenSmokeTests
         string sourceCode = File.ReadAllText(homePagePath);
 
         Assert.Contains("CefrQuickFilterView", sourceCode, StringComparison.Ordinal);
+        Assert.Contains("PracticeActionBlockView", sourceCode, StringComparison.Ordinal);
         Assert.Contains("SearchActionBlockView", sourceCode, StringComparison.Ordinal);
         Assert.Contains("BrowseTopicsActionBlockView", sourceCode, StringComparison.Ordinal);
         Assert.Contains("FavoritesActionBlockView", sourceCode, StringComparison.Ordinal);
@@ -47,6 +48,35 @@ public sealed class MauiBrowseScreenSmokeTests
         Assert.Contains("nameof(CefrWordsPage)", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("nameof(SearchWordsPage)", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("\"//favorites\"", codeBehindSource, StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// Verifies that the practice screen is wired as a first-class learner-facing surface.
+    /// </summary>
+    [Fact]
+    public void PracticePage_ShouldExposeOverviewAndReviewSections()
+    {
+        string repositoryRoot = ResolveRepositoryRoot();
+        string practicePagePath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/Pages/PracticePage.xaml");
+        string practiceCodeBehindPath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/Pages/PracticePage.xaml.cs");
+        string shellPath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/AppShell.xaml.cs");
+
+        Assert.True(File.Exists(practicePagePath), $"Practice page XAML file not found: {practicePagePath}");
+        Assert.True(File.Exists(practiceCodeBehindPath), $"Practice page code-behind file not found: {practiceCodeBehindPath}");
+        Assert.True(File.Exists(shellPath), $"App shell code-behind file not found: {shellPath}");
+
+        string xamlSource = File.ReadAllText(practicePagePath);
+        string codeBehindSource = File.ReadAllText(practiceCodeBehindPath);
+        string shellSource = File.ReadAllText(shellPath);
+
+        Assert.Contains("StartReviewActionBlockView", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("RefreshPracticeActionBlockView", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("ReviewSessionCollectionView", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("RecentActivityCollectionView", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("IPracticeLearningProgressSnapshotService", codeBehindSource, StringComparison.Ordinal);
+        Assert.Contains("IPracticeRecentActivityService", codeBehindSource, StringComparison.Ordinal);
+        Assert.Contains("IPracticeReviewSessionService", codeBehindSource, StringComparison.Ordinal);
+        Assert.Contains("\"practice\"", shellSource, StringComparison.Ordinal);
     }
 
     /// <summary>
