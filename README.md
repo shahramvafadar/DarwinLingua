@@ -24,6 +24,7 @@ The repository is currently **in active Phase 1 implementation**, not feature-co
 - the import tool can bootstrap the shared local database, apply reference seeds, import canonical JSON content packages, skip duplicates conservatively, reject repeated `packageId` values, and return an operator-facing summary
 - SQLite-backed integration tests now cover reference-data seeding presence and idempotency for Phase 1 language/topic seed workflows
 - release-readiness integration tests now validate clean-install database initialization and successful import of the sample Phase 1 content package
+- MAUI smoke tests now guard localized shell/page wiring and verify core learner flows stay on local offline-safe dependencies
 - localization coverage checks now enforce English/German `AppStrings` resource-key parity in automated tests
 - infrastructure mapping tests now verify key EF Core uniqueness/index constraints for Phase 1 persistence entities
 - import workflow tests now cover mixed valid/invalid entries and duplicate-entry skipping behavior within a package

@@ -32,6 +32,7 @@ Use it when:
 - On Windows, prefer `dotnet test DarwinLingua.slnx -c Debug --no-restore -m:1` to avoid transient MAUI Android file-lock failures inside `obj\Debug\net10.0-android`.
 - Phase 1 release validation now has a dedicated checklist in `docs/43-Phase-1-Release-Checklist.md`.
 - Automated release-readiness coverage now includes clean-install database initialization validation and sample content-package import validation.
+- MAUI smoke coverage now also guards localized shell/page wiring and ensures core learner flows stay free of direct network dependencies.
 - CI (`.github/workflows/ci.yml`) runs restore/build/test on non-MAUI projects and test projects.
 
 ---
