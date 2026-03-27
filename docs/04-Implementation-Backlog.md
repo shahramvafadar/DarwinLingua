@@ -91,7 +91,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 ### 5. UI and UX Foundation
 
 - [x] define application navigation structure
-- [ ] define design tokens and styling foundations
+- [x] define design tokens and styling foundations
 - [-] replace default template screens with real product screens
 - [-] establish reusable UI components for list items, filters, and detail sections
 - [x] define empty/loading/error states
