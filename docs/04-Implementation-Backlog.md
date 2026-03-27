@@ -68,6 +68,7 @@ Phase 1 is complete when the repository contains a usable local-first MAUI app a
 - [x] create a working implementation backlog
 - [x] define engineering standards
 - [-] keep backlog updated during implementation
+- [x] add continuation handoff document and new-chat prompt template
 
 ### 3. Architecture and Project Wiring
 

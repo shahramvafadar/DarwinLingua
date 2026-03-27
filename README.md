@@ -148,6 +148,7 @@ Important rules include:
 
 - [Early Product Decisions](docs/21-Early-Product-Decisions.md)
 - [Phase 1 Use Cases](docs/41-Phase-1-Use-Cases.md)
+- [Continuation Handoff (for new chats)](docs/42-Continuation-Handoff.md)
 
 ### Content and Import
 

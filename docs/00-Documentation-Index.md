@@ -50,6 +50,7 @@ All project documentation should remain in English.
 - `33-Offline-Strategy.md`
 - `35-Engineering-Standards.md`
 - `41-Phase-1-Use-Cases.md`
+- `42-Continuation-Handoff.md`
 
 ---
 
@@ -75,6 +76,7 @@ If you are new to the project, read the documents in this order:
 16. `34-Import-Workflow.md`
 17. `41-Phase-1-Use-Cases.md`
 18. `04-Implementation-Backlog.md`
+19. `42-Continuation-Handoff.md`
 
 ---
 
