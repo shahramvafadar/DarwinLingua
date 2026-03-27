@@ -125,6 +125,7 @@ If later web/API/admin/server-side workloads require a stronger shared backend d
 The project has explicit implementation standards in:
 
 - [Engineering Standards](docs/35-Engineering-Standards.md)
+- [Phase 1 Release Checklist](docs/43-Phase-1-Release-Checklist.md)
 
 Important rules include:
 
@@ -152,6 +153,7 @@ Important rules include:
 - [Early Product Decisions](docs/21-Early-Product-Decisions.md)
 - [Phase 1 Use Cases](docs/41-Phase-1-Use-Cases.md)
 - [Continuation Handoff (for new chats)](docs/42-Continuation-Handoff.md)
+- [Phase 1 Release Checklist](docs/43-Phase-1-Release-Checklist.md)
 
 ### Content and Import
 
@@ -191,6 +193,7 @@ Important rules include:
 14. [Import Workflow](docs/34-Import-Workflow.md)
 15. [Phase 1 Use Cases](docs/41-Phase-1-Use-Cases.md)
 16. [Implementation Backlog](docs/04-Implementation-Backlog.md)
+17. [Phase 1 Release Checklist](docs/43-Phase-1-Release-Checklist.md)
 
 ## Repository Structure
 

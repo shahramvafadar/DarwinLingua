@@ -30,6 +30,7 @@ Use it when:
 - Database initialization, seed workflows, localization setup, and transactional write service are implemented.
 - Full local Windows checks now succeed: `dotnet restore`, `dotnet build`, and `dotnet test` on `DarwinLingua.slnx`.
 - On Windows, prefer `dotnet test DarwinLingua.slnx -c Debug --no-restore -m:1` to avoid transient MAUI Android file-lock failures inside `obj\Debug\net10.0-android`.
+- Phase 1 release validation now has a dedicated checklist in `docs/43-Phase-1-Release-Checklist.md`.
 - CI (`.github/workflows/ci.yml`) runs restore/build/test on non-MAUI projects and test projects.
 
 ---
