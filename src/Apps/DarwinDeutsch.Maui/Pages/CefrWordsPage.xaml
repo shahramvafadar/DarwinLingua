@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:DarwinDeutsch.Maui.Controls"
              x:Class="DarwinDeutsch.Maui.Pages.CefrWordsPage">
     <Grid Padding="24"
-          RowDefinitions="Auto,Auto,Auto,*"
+          RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
           RowSpacing="12">
         <Label x:Name="HeadlineLabel"
                Grid.Row="0"
@@ -20,23 +21,25 @@
                Style="{StaticResource Body}"
                IsVisible="False" />
 
+        <Label x:Name="LoadingStateLabel"
+               Grid.Row="3"
+               Style="{StaticResource Body}"
+               IsVisible="False" />
+
+        <Label x:Name="ErrorStateLabel"
+               Grid.Row="4"
+               Style="{StaticResource Body}"
+               IsVisible="False" />
+
         <CollectionView x:Name="WordsCollectionView"
-                        Grid.Row="3"
+                        Grid.Row="5"
                         SelectionMode="Single"
                         SelectionChanged="OnWordsSelectionChanged">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border Margin="0,0,0,10"
-                            Padding="16">
-                        <VerticalStackLayout Spacing="4">
-                            <Label Text="{Binding Lemma}"
-                                   Style="{StaticResource Title2}" />
-                            <Label Text="{Binding PrimaryMeaning}"
-                                   Style="{StaticResource Body}" />
-                            <Label Text="{Binding MetadataLine}"
-                                   Style="{StaticResource Body}" />
-                        </VerticalStackLayout>
-                    </Border>
+                    <controls:WordListItemView Lemma="{Binding Lemma}"
+                                               PrimaryMeaning="{Binding PrimaryMeaning}"
+                                               MetadataLine="{Binding MetadataLine}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
