@@ -74,9 +74,14 @@ public sealed class MauiBrowseScreenSmokeTests
         Assert.Contains("SupportedLanguagesSectionView", xamlSource, StringComparison.Ordinal);
         Assert.Contains("CurrentFeaturesSectionView", xamlSource, StringComparison.Ordinal);
         Assert.Contains("FutureFeaturesSectionView", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("ContentUpdatesSectionLabel", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("ContentUpdateStatusSectionView", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("ApplySeedUpdateButton", xamlSource, StringComparison.Ordinal);
         Assert.Contains("SettingsAppInfoSectionLabel", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("WelcomeCurrentFeaturesBody", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("WelcomeFutureFeaturesBody", codeBehindSource, StringComparison.Ordinal);
+        Assert.Contains("ISeedDatabaseProvisioningService", codeBehindSource, StringComparison.Ordinal);
+        Assert.Contains("OnApplySeedUpdateButtonClicked", codeBehindSource, StringComparison.Ordinal);
     }
 
     /// <summary>

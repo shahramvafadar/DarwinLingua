@@ -515,6 +515,51 @@
   <data name="SettingsSecondaryMeaningLanguageNone" xml:space="preserve">
     <value>No secondary language</value>
   </data>
+  <data name="SettingsContentUpdatesSectionLabel" xml:space="preserve">
+    <value>Content updates</value>
+  </data>
+  <data name="SettingsContentUpdatesStatusLabel" xml:space="preserve">
+    <value>Packaged seed content</value>
+  </data>
+  <data name="SettingsContentUpdatesApplyButton" xml:space="preserve">
+    <value>Apply Content Update</value>
+  </data>
+  <data name="SettingsContentUpdatesAppliedButton" xml:space="preserve">
+    <value>Already Up to Date</value>
+  </data>
+  <data name="SettingsContentUpdatesApplyingButton" xml:space="preserve">
+    <value>Applying Update...</value>
+  </data>
+  <data name="SettingsContentUpdatesAvailableStatus" xml:space="preserve">
+    <value>A packaged content update is available and can be added to this device.</value>
+  </data>
+  <data name="SettingsContentUpdatesCurrentStatus" xml:space="preserve">
+    <value>This device already contains the latest packaged seed content.</value>
+  </data>
+  <data name="SettingsContentUpdatesUnavailableStatus" xml:space="preserve">
+    <value>No packaged seed database is available in this app build.</value>
+  </data>
+  <data name="SettingsContentUpdatesCompletedTitle" xml:space="preserve">
+    <value>Content Updated</value>
+  </data>
+  <data name="SettingsContentUpdatesCompletedMessageFormat" xml:space="preserve">
+    <value>Imported {0} new content package(s) and {1} new word(s) from the packaged seed.</value>
+  </data>
+  <data name="SettingsContentUpdatesUpToDateTitle" xml:space="preserve">
+    <value>No New Content</value>
+  </data>
+  <data name="SettingsContentUpdatesUpToDateMessage" xml:space="preserve">
+    <value>This device is already using the newest packaged seed content.</value>
+  </data>
+  <data name="SettingsContentUpdatesFailedTitle" xml:space="preserve">
+    <value>Update Failed</value>
+  </data>
+  <data name="SettingsContentUpdatesFailedMessageFormat" xml:space="preserve">
+    <value>The packaged content update could not be applied: {0}</value>
+  </data>
+  <data name="SettingsContentUpdatesDismissButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="LanguageOptionEnglish" xml:space="preserve">
     <value>English</value>
   </data>

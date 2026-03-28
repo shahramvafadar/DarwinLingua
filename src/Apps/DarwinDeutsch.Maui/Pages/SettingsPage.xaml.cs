@@ -1,5 +1,6 @@
 using DarwinDeutsch.Maui.Resources.Strings;
 using DarwinDeutsch.Maui.Services.Localization;
+using DarwinDeutsch.Maui.Services.Storage;
 using DarwinLingua.Learning.Application.Abstractions;
 using DarwinLingua.Learning.Application.Models;
 using DarwinLingua.Localization.Application.Abstractions;
@@ -13,9 +14,11 @@ namespace DarwinDeutsch.Maui.Pages;
 public partial class SettingsPage : ContentPage
 {
     private readonly IAppLocalizationService _appLocalizationService;
+    private readonly ISeedDatabaseProvisioningService _seedDatabaseProvisioningService;
     private readonly IUserLearningProfileService _userLearningProfileService;
     private readonly ILanguageQueryService _languageQueryService;
     private bool _isUpdatingSelection;
+    private bool _isApplyingSeedUpdate;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsPage"/> class.
@@ -25,16 +28,19 @@ public partial class SettingsPage : ContentPage
     /// <param name="languageQueryService">The service that loads active language reference data.</param>
     public SettingsPage(
         IAppLocalizationService appLocalizationService,
+        ISeedDatabaseProvisioningService seedDatabaseProvisioningService,
         IUserLearningProfileService userLearningProfileService,
         ILanguageQueryService languageQueryService)
     {
         ArgumentNullException.ThrowIfNull(appLocalizationService);
+        ArgumentNullException.ThrowIfNull(seedDatabaseProvisioningService);
         ArgumentNullException.ThrowIfNull(userLearningProfileService);
         ArgumentNullException.ThrowIfNull(languageQueryService);
 
         InitializeComponent();
 
         _appLocalizationService = appLocalizationService;
+        _seedDatabaseProvisioningService = seedDatabaseProvisioningService;
         _userLearningProfileService = userLearningProfileService;
         _languageQueryService = languageQueryService;
         _appLocalizationService.CultureChanged += OnCultureChanged;
@@ -96,6 +102,9 @@ public partial class SettingsPage : ContentPage
         SupportedLanguagesSectionView.SectionTitle = AppStrings.HomeSupportedLanguagesLabel;
         CurrentFeaturesSectionView.SectionTitle = AppStrings.WelcomeCurrentFeaturesTitle;
         FutureFeaturesSectionView.SectionTitle = AppStrings.WelcomeFutureFeaturesTitle;
+        ContentUpdatesSectionLabel.Text = AppStrings.SettingsContentUpdatesSectionLabel;
+        ContentUpdateStatusSectionView.SectionTitle = AppStrings.SettingsContentUpdatesStatusLabel;
+        ApplySeedUpdateButton.Text = AppStrings.SettingsContentUpdatesApplyButton;
     }
 
     /// <summary>
@@ -156,7 +165,67 @@ public partial class SettingsPage : ContentPage
         CurrentFeaturesSectionView.SectionValue = AppStrings.WelcomeCurrentFeaturesBody;
         FutureFeaturesSectionView.SectionValue = AppStrings.WelcomeFutureFeaturesBody;
 
+        SeedDatabaseUpdateStatus seedDatabaseUpdateStatus = await _seedDatabaseProvisioningService
+            .GetUpdateStatusAsync(GetLocalDatabasePath(), CancellationToken.None)
+            .ConfigureAwait(true);
+
+        ContentUpdateStatusSectionView.SectionValue = BuildContentUpdateStatus(seedDatabaseUpdateStatus);
+        ApplySeedUpdateButton.IsEnabled = seedDatabaseUpdateStatus.IsSeedAvailable && !_isApplyingSeedUpdate;
+        ApplySeedUpdateButton.Text = seedDatabaseUpdateStatus.IsUpdateAvailable
+            ? AppStrings.SettingsContentUpdatesApplyButton
+            : AppStrings.SettingsContentUpdatesAppliedButton;
+
         _isUpdatingSelection = false;
+    }
+
+    private async void OnApplySeedUpdateButtonClicked(object? sender, EventArgs e)
+    {
+        if (_isApplyingSeedUpdate)
+        {
+            return;
+        }
+
+        _isApplyingSeedUpdate = true;
+        ApplySeedUpdateButton.IsEnabled = false;
+        ApplySeedUpdateButton.Text = AppStrings.SettingsContentUpdatesApplyingButton;
+
+        try
+        {
+            SeedDatabaseUpdateResult result = await _seedDatabaseProvisioningService
+                .ApplySeedUpdateAsync(GetLocalDatabasePath(), CancellationToken.None)
+                .ConfigureAwait(true);
+
+            if (!result.IsSuccess)
+            {
+                await DisplayAlertAsync(
+                        AppStrings.SettingsContentUpdatesFailedTitle,
+                        string.Format(AppStrings.SettingsContentUpdatesFailedMessageFormat, result.ErrorMessage ?? AppStrings.SettingsContentUpdatesUnavailableStatus),
+                        AppStrings.SettingsContentUpdatesDismissButton)
+                    .ConfigureAwait(true);
+            }
+            else if (result.AppliedChanges)
+            {
+                await DisplayAlertAsync(
+                        AppStrings.SettingsContentUpdatesCompletedTitle,
+                        string.Format(AppStrings.SettingsContentUpdatesCompletedMessageFormat, result.ImportedPackages, result.ImportedWords),
+                        AppStrings.SettingsContentUpdatesDismissButton)
+                    .ConfigureAwait(true);
+            }
+            else
+            {
+                await DisplayAlertAsync(
+                        AppStrings.SettingsContentUpdatesUpToDateTitle,
+                        AppStrings.SettingsContentUpdatesUpToDateMessage,
+                        AppStrings.SettingsContentUpdatesDismissButton)
+                    .ConfigureAwait(true);
+            }
+
+            await RebuildPageStateAsync().ConfigureAwait(true);
+        }
+        finally
+        {
+            _isApplyingSeedUpdate = false;
+        }
     }
 
     private static string BuildMeaningLanguageSummary(
@@ -288,6 +357,25 @@ public partial class SettingsPage : ContentPage
             .Select(CreateMeaningLanguageOption));
 
         return options;
+    }
+
+    private static string GetLocalDatabasePath()
+    {
+        return Path.Combine(FileSystem.Current.AppDataDirectory, "darwin-lingua.db");
+    }
+
+    private static string BuildContentUpdateStatus(SeedDatabaseUpdateStatus seedDatabaseUpdateStatus)
+    {
+        ArgumentNullException.ThrowIfNull(seedDatabaseUpdateStatus);
+
+        if (!seedDatabaseUpdateStatus.IsSeedAvailable)
+        {
+            return AppStrings.SettingsContentUpdatesUnavailableStatus;
+        }
+
+        return seedDatabaseUpdateStatus.IsUpdateAvailable
+            ? AppStrings.SettingsContentUpdatesAvailableStatus
+            : AppStrings.SettingsContentUpdatesCurrentStatus;
     }
 
     /// <summary>

@@ -64,6 +64,20 @@
                     <controls:DetailSectionView x:Name="FutureFeaturesSectionView" />
                 </VerticalStackLayout>
             </Border>
+
+            <Label x:Name="ContentUpdatesSectionLabel"
+                   Style="{DynamicResource Title2}" />
+
+            <Border Padding="20"
+                    StrokeShape="RoundRectangle 4"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}">
+                <VerticalStackLayout Spacing="16">
+                    <controls:DetailSectionView x:Name="ContentUpdateStatusSectionView" />
+
+                    <Button x:Name="ApplySeedUpdateButton"
+                            Clicked="OnApplySeedUpdateButtonClicked" />
+                </VerticalStackLayout>
+            </Border>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -973,6 +973,81 @@ public static class AppStrings
     public static string SettingsSecondaryMeaningLanguageNone => GetRequiredString(nameof(SettingsSecondaryMeaningLanguageNone));
 
     /// <summary>
+    /// Gets the localized heading for the packaged content-updates section.
+    /// </summary>
+    public static string SettingsContentUpdatesSectionLabel => GetRequiredString(nameof(SettingsContentUpdatesSectionLabel));
+
+    /// <summary>
+    /// Gets the localized label for the packaged seed-content status line.
+    /// </summary>
+    public static string SettingsContentUpdatesStatusLabel => GetRequiredString(nameof(SettingsContentUpdatesStatusLabel));
+
+    /// <summary>
+    /// Gets the localized caption for applying a packaged content update.
+    /// </summary>
+    public static string SettingsContentUpdatesApplyButton => GetRequiredString(nameof(SettingsContentUpdatesApplyButton));
+
+    /// <summary>
+    /// Gets the localized caption shown when packaged content is already current.
+    /// </summary>
+    public static string SettingsContentUpdatesAppliedButton => GetRequiredString(nameof(SettingsContentUpdatesAppliedButton));
+
+    /// <summary>
+    /// Gets the localized caption shown while a packaged content update is running.
+    /// </summary>
+    public static string SettingsContentUpdatesApplyingButton => GetRequiredString(nameof(SettingsContentUpdatesApplyingButton));
+
+    /// <summary>
+    /// Gets the localized status shown when a packaged content update is available.
+    /// </summary>
+    public static string SettingsContentUpdatesAvailableStatus => GetRequiredString(nameof(SettingsContentUpdatesAvailableStatus));
+
+    /// <summary>
+    /// Gets the localized status shown when packaged content is already current.
+    /// </summary>
+    public static string SettingsContentUpdatesCurrentStatus => GetRequiredString(nameof(SettingsContentUpdatesCurrentStatus));
+
+    /// <summary>
+    /// Gets the localized status shown when no packaged seed database is available.
+    /// </summary>
+    public static string SettingsContentUpdatesUnavailableStatus => GetRequiredString(nameof(SettingsContentUpdatesUnavailableStatus));
+
+    /// <summary>
+    /// Gets the localized dialog title shown after a successful packaged content update.
+    /// </summary>
+    public static string SettingsContentUpdatesCompletedTitle => GetRequiredString(nameof(SettingsContentUpdatesCompletedTitle));
+
+    /// <summary>
+    /// Gets the localized dialog body format shown after a successful packaged content update.
+    /// </summary>
+    public static string SettingsContentUpdatesCompletedMessageFormat => GetRequiredString(nameof(SettingsContentUpdatesCompletedMessageFormat));
+
+    /// <summary>
+    /// Gets the localized dialog title shown when no packaged content update is needed.
+    /// </summary>
+    public static string SettingsContentUpdatesUpToDateTitle => GetRequiredString(nameof(SettingsContentUpdatesUpToDateTitle));
+
+    /// <summary>
+    /// Gets the localized dialog body shown when no packaged content update is needed.
+    /// </summary>
+    public static string SettingsContentUpdatesUpToDateMessage => GetRequiredString(nameof(SettingsContentUpdatesUpToDateMessage));
+
+    /// <summary>
+    /// Gets the localized dialog title shown when a packaged content update fails.
+    /// </summary>
+    public static string SettingsContentUpdatesFailedTitle => GetRequiredString(nameof(SettingsContentUpdatesFailedTitle));
+
+    /// <summary>
+    /// Gets the localized dialog body format shown when a packaged content update fails.
+    /// </summary>
+    public static string SettingsContentUpdatesFailedMessageFormat => GetRequiredString(nameof(SettingsContentUpdatesFailedMessageFormat));
+
+    /// <summary>
+    /// Gets the localized dismiss-button caption for packaged content update dialogs.
+    /// </summary>
+    public static string SettingsContentUpdatesDismissButton => GetRequiredString(nameof(SettingsContentUpdatesDismissButton));
+
+    /// <summary>
     /// Gets the localized display label for English.
     /// </summary>
     public static string LanguageOptionEnglish => GetRequiredString(nameof(LanguageOptionEnglish));
