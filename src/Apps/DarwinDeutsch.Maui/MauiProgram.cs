@@ -2,6 +2,7 @@ using DarwinDeutsch.Maui.Pages;
 using DarwinDeutsch.Maui.Services.Audio;
 using DarwinDeutsch.Maui.Services.Localization;
 using DarwinDeutsch.Maui.Services.Onboarding;
+using DarwinDeutsch.Maui.Services.Storage;
 using DarwinLingua.Catalog.Application.DependencyInjection;
 using DarwinLingua.Catalog.Infrastructure.DependencyInjection;
 using DarwinLingua.ContentOps.Application.DependencyInjection;
@@ -56,6 +57,7 @@ public static class MauiProgram
             .AddSingleton<ISpeechPlaybackService, SpeechPlaybackService>()
             .AddSingleton<IAppLocalizationService, AppLocalizationService>()
             .AddSingleton<IAppOnboardingService, AppOnboardingService>()
+            .AddSingleton<ISeedDatabaseProvisioningService, SeedDatabaseProvisioningService>()
             .AddSingleton<AppShell>()
             .AddSingleton<WelcomePage>()
             .AddSingleton<HomePage>()
@@ -87,6 +89,13 @@ public static class MauiProgram
     private static void InitializeStartupState(MauiApp app)
     {
         ArgumentNullException.ThrowIfNull(app);
+
+        ISeedDatabaseProvisioningService seedDatabaseProvisioningService =
+            app.Services.GetRequiredService<ISeedDatabaseProvisioningService>();
+        seedDatabaseProvisioningService
+            .EnsureSeedDatabaseAsync(Path.Combine(FileSystem.Current.AppDataDirectory, "darwin-lingua.db"), CancellationToken.None)
+            .GetAwaiter()
+            .GetResult();
 
         IDatabaseInitializer databaseInitializer = app.Services.GetRequiredService<IDatabaseInitializer>();
         databaseInitializer.InitializeAsync(CancellationToken.None).GetAwaiter().GetResult();

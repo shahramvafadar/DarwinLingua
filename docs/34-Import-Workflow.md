@@ -189,7 +189,7 @@ The recommended high-level import flow is:
 
 The current console import tool is folder-oriented. The operator selects one content area, chooses a root folder, and the tool imports every `.json` file found under that folder.
 
-The current tool writes to the host-machine SQLite database path used by the console host. Mobile app builds on Android and iOS keep their own sandbox databases, so importing on the host machine does not automatically populate an emulator or physical mobile-device database.
+The current tool updates the packaged `seed` SQLite database that ships with the MAUI app. On first launch after installation, the mobile app copies that packaged seed database into its own sandbox database path. Existing installed apps keep their current local database unless they are reinstalled or their app data is cleared.
 
 ---
 

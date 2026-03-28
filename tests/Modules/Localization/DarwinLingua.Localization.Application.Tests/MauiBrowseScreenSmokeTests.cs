@@ -15,14 +15,22 @@ public sealed class MauiBrowseScreenSmokeTests
         string homePagePath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/Pages/HomePage.xaml");
         string welcomePagePath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/Pages/WelcomePage.xaml");
         string appPath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/App.xaml.cs");
+        string mauiProgramPath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/MauiProgram.cs");
+        string seedProvisioningServicePath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/Services/Storage/SeedDatabaseProvisioningService.cs");
+        string seedDatabaseAssetPath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/Resources/Raw/darwin-lingua.seed.db");
 
         Assert.True(File.Exists(homePagePath), $"Home page XAML file not found: {homePagePath}");
         Assert.True(File.Exists(welcomePagePath), $"Welcome page XAML file not found: {welcomePagePath}");
         Assert.True(File.Exists(appPath), $"App code-behind file not found: {appPath}");
+        Assert.True(File.Exists(mauiProgramPath), $"Maui program file not found: {mauiProgramPath}");
+        Assert.True(File.Exists(seedProvisioningServicePath), $"Seed provisioning service file not found: {seedProvisioningServicePath}");
+        Assert.True(File.Exists(seedDatabaseAssetPath), $"Seed database asset file not found: {seedDatabaseAssetPath}");
 
         string sourceCode = File.ReadAllText(homePagePath);
         string welcomeSource = File.ReadAllText(welcomePagePath);
         string appSource = File.ReadAllText(appPath);
+        string mauiProgramSource = File.ReadAllText(mauiProgramPath);
+        string seedProvisioningServiceSource = File.ReadAllText(seedProvisioningServicePath);
 
         Assert.Contains("CefrQuickFilterView", sourceCode, StringComparison.Ordinal);
         Assert.Contains("LogoPlaceholderLabel", sourceCode, StringComparison.Ordinal);
@@ -39,6 +47,9 @@ public sealed class MauiBrowseScreenSmokeTests
         Assert.Contains("InterfaceLanguagesBodyLabel", welcomeSource, StringComparison.Ordinal);
         Assert.Contains("StartButton", welcomeSource, StringComparison.Ordinal);
         Assert.Contains("ShouldShowWelcomeExperience", appSource, StringComparison.Ordinal);
+        Assert.Contains("ISeedDatabaseProvisioningService", mauiProgramSource, StringComparison.Ordinal);
+        Assert.Contains("EnsureSeedDatabaseAsync", mauiProgramSource, StringComparison.Ordinal);
+        Assert.Contains("darwin-lingua.seed.db", seedProvisioningServiceSource, StringComparison.Ordinal);
     }
 
     /// <summary>

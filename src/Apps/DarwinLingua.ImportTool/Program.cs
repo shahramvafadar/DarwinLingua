@@ -24,6 +24,7 @@ namespace DarwinLingua.ImportTool;
 internal static class Program
 {
     private const string DefaultContentRoot = @"D:\_Projects\DarwinLingua.Content";
+    private const string SeedDatabaseRelativePath = @"src\Apps\DarwinDeutsch.Maui\Resources\Raw\darwin-lingua.seed.db";
 
     /// <summary>
     /// Creates the import host and validates the current dependency wiring.
@@ -36,7 +37,7 @@ internal static class Program
 
         try
         {
-            string databasePath = ResolveDatabasePath();
+            string databasePath = ResolveSeedDatabasePath();
 
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
@@ -49,8 +50,9 @@ internal static class Program
             await databaseInitializer.InitializeAsync(CancellationToken.None).ConfigureAwait(false);
 
             Console.WriteLine("Darwin Lingua Import Tool");
-            Console.WriteLine($"Target database: {databasePath}");
-            Console.WriteLine("Note: this tool writes to the host-machine database. Android and iOS apps use their own sandbox databases.");
+            Console.WriteLine($"Seed database: {databasePath}");
+            Console.WriteLine("Note: this tool updates the packaged seed database. New app installs copy this seed on first launch.");
+            Console.WriteLine("Already-installed apps keep their existing local database until the app is reinstalled or its app data is cleared.");
             Console.WriteLine();
 
             ImportSessionInput sessionInput = ResolveSessionInput(args);
@@ -138,14 +140,33 @@ internal static class Program
             .AddPracticeInfrastructure();
     }
 
-    private static string ResolveDatabasePath()
+    private static string ResolveSeedDatabasePath()
     {
-        string databaseDirectory = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "DarwinLingua");
+        string repositoryRoot = ResolveRepositoryRoot();
+        string databasePath = Path.Combine(repositoryRoot, SeedDatabaseRelativePath);
+        string databaseDirectory = Path.GetDirectoryName(databasePath)
+            ?? throw new InvalidOperationException("Unable to resolve the seed database directory.");
 
         Directory.CreateDirectory(databaseDirectory);
-        return Path.Combine(databaseDirectory, "darwin-lingua.db");
+        return databasePath;
+    }
+
+    private static string ResolveRepositoryRoot()
+    {
+        DirectoryInfo? currentDirectory = new(AppContext.BaseDirectory);
+
+        while (currentDirectory is not null)
+        {
+            string candidateSolutionPath = Path.Combine(currentDirectory.FullName, "DarwinLingua.slnx");
+            if (File.Exists(candidateSolutionPath))
+            {
+                return currentDirectory.FullName;
+            }
+
+            currentDirectory = currentDirectory.Parent;
+        }
+
+        throw new DirectoryNotFoundException("Unable to resolve the repository root for the packaged seed database.");
     }
 
     private static ImportSessionInput ResolveSessionInput(string[] args)
