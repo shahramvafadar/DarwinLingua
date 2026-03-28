@@ -56,6 +56,7 @@ All project documentation should remain in English.
 - `45-Phase-1-Release-Notes-Template.md`
 - `46-Phase-2-Practice-Validation-Worksheet.md`
 - `47-Phase-3-Mobile-UX-Validation-Worksheet.md`
+- `48-Mobile-Validation-Bundle-Runbook.md`
 
 Related release-execution helpers live under `tools/Phase1/`.
 
@@ -89,6 +90,7 @@ If you are new to the project, read the documents in this order:
 22. `45-Phase-1-Release-Notes-Template.md`
 23. `46-Phase-2-Practice-Validation-Worksheet.md`
 24. `47-Phase-3-Mobile-UX-Validation-Worksheet.md`
+25. `48-Mobile-Validation-Bundle-Runbook.md`
 
 ---
 
