@@ -7,7 +7,8 @@
                              Spacing="18">
             <Border Padding="24"
                     StrokeThickness="0"
-                    BackgroundColor="{AppThemeBinding Light=#DFD8F7, Dark=#141414}">
+                    StrokeShape="RoundRectangle 28"
+                    BackgroundColor="{AppThemeBinding Light=#E8F3F1, Dark=#16212B}">
                 <VerticalStackLayout Spacing="10">
                     <Label x:Name="SessionHeadlineLabel"
                            Style="{DynamicResource Headline}"
@@ -19,28 +20,30 @@
             </Border>
 
             <Border x:Name="SessionStateBorder"
-                    Padding="20">
+                    Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}">
                 <VerticalStackLayout Spacing="8">
                     <Label x:Name="SessionProgressLabel"
-                           Style="{DynamicResource Title2}" />
+                           Style="{DynamicResource Caption}" />
                     <Label x:Name="SessionStateLabel"
                            Style="{DynamicResource Body}" />
                 </VerticalStackLayout>
             </Border>
 
             <Border x:Name="PromptCardBorder"
-                    Padding="24">
+                    Padding="24"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}">
                 <VerticalStackLayout Spacing="14">
                     <Label x:Name="PromptTitleLabel"
-                           Style="{DynamicResource Body}" />
+                           Style="{DynamicResource Caption}" />
                     <Label x:Name="PromptValueLabel"
                            Style="{DynamicResource Headline}" />
                     <Label x:Name="PromptMetadataLabel"
                            Style="{DynamicResource Body}" />
                     <BoxView HeightRequest="1"
-                             Color="{DynamicResource Gray300}" />
+                             BackgroundColor="{DynamicResource Gray300}" />
                     <Label x:Name="AnswerTitleLabel"
-                           Style="{DynamicResource Body}"
+                           Style="{DynamicResource Caption}"
                            IsVisible="False" />
                     <Label x:Name="AnswerValueLabel"
                            Style="{DynamicResource Title2}"
@@ -87,6 +90,7 @@
 
             <Border x:Name="FeedbackBorder"
                     Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFF7ED, Dark=#2A2218}"
                     IsVisible="False">
                 <VerticalStackLayout Spacing="8">
                     <Label x:Name="FeedbackHeadlineLabel"
@@ -98,6 +102,7 @@
 
             <Border x:Name="SummaryBorder"
                     Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}"
                     IsVisible="False">
                 <VerticalStackLayout Spacing="10">
                     <Label x:Name="SummaryHeadlineLabel"

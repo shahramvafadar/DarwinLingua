@@ -3,38 +3,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DarwinDeutsch.Maui.Pages.SettingsPage">
     <ScrollView>
-        <VerticalStackLayout Padding="24" Spacing="16">
-            <Label x:Name="HeadlineLabel"
-                   Style="{DynamicResource Headline}"
-                   SemanticProperties.HeadingLevel="Level1" />
+        <VerticalStackLayout Padding="24" Spacing="18">
+            <Border Padding="24"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 28"
+                    BackgroundColor="{AppThemeBinding Light=#E8F3F1, Dark=#16212B}">
+                <VerticalStackLayout Spacing="10">
+                    <Label x:Name="HeadlineLabel"
+                           Style="{DynamicResource Headline}"
+                           SemanticProperties.HeadingLevel="Level1" />
 
-            <Label x:Name="DescriptionLabel"
-                   Style="{DynamicResource Body}"
-                   LineBreakMode="WordWrap" />
+                    <Label x:Name="DescriptionLabel"
+                           Style="{DynamicResource Body}"
+                           LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Border>
 
-            <VerticalStackLayout Spacing="6">
-                <Label x:Name="LanguagePickerCaptionLabel"
-                       Style="{DynamicResource Title2}" />
-                <Picker x:Name="LanguagePicker"
-                        ItemDisplayBinding="{Binding DisplayName}"
-                        SelectedIndexChanged="OnLanguagePickerSelectedIndexChanged" />
-            </VerticalStackLayout>
+            <Border Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}">
+                <VerticalStackLayout Spacing="18">
+                    <VerticalStackLayout Spacing="8">
+                        <Label x:Name="LanguagePickerCaptionLabel"
+                               Style="{DynamicResource Caption}" />
+                        <Picker x:Name="LanguagePicker"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedIndexChanged="OnLanguagePickerSelectedIndexChanged" />
+                    </VerticalStackLayout>
 
-            <VerticalStackLayout Spacing="6">
-                <Label x:Name="PrimaryMeaningLanguageCaptionLabel"
-                       Style="{DynamicResource Title2}" />
-                <Picker x:Name="PrimaryMeaningLanguagePicker"
-                        ItemDisplayBinding="{Binding DisplayName}"
-                        SelectedIndexChanged="OnPrimaryMeaningLanguagePickerSelectedIndexChanged" />
-            </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="8">
+                        <Label x:Name="PrimaryMeaningLanguageCaptionLabel"
+                               Style="{DynamicResource Caption}" />
+                        <Picker x:Name="PrimaryMeaningLanguagePicker"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedIndexChanged="OnPrimaryMeaningLanguagePickerSelectedIndexChanged" />
+                    </VerticalStackLayout>
 
-            <VerticalStackLayout Spacing="6">
-                <Label x:Name="SecondaryMeaningLanguageCaptionLabel"
-                       Style="{DynamicResource Title2}" />
-                <Picker x:Name="SecondaryMeaningLanguagePicker"
-                        ItemDisplayBinding="{Binding DisplayName}"
-                        SelectedIndexChanged="OnSecondaryMeaningLanguagePickerSelectedIndexChanged" />
-            </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="8">
+                        <Label x:Name="SecondaryMeaningLanguageCaptionLabel"
+                               Style="{DynamicResource Caption}" />
+                        <Picker x:Name="SecondaryMeaningLanguagePicker"
+                                ItemDisplayBinding="{Binding DisplayName}"
+                                SelectedIndexChanged="OnSecondaryMeaningLanguagePickerSelectedIndexChanged" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

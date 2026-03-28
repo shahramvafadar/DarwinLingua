@@ -2,19 +2,19 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DarwinDeutsch.Maui.Controls.CefrQuickFilterView">
-    <VerticalStackLayout Spacing="8">
+    <VerticalStackLayout Spacing="12">
         <Label x:Name="CaptionLabel"
-               Style="{DynamicResource Title2}" />
+               Style="{DynamicResource Caption}" />
         <FlexLayout Wrap="Wrap"
                     Direction="Row"
                     JustifyContent="Start"
                     AlignItems="Start">
-            <Button x:Name="A1Button" Text="A1" Clicked="OnCefrButtonClicked" />
-            <Button x:Name="A2Button" Text="A2" Clicked="OnCefrButtonClicked" />
-            <Button x:Name="B1Button" Text="B1" Clicked="OnCefrButtonClicked" />
-            <Button x:Name="B2Button" Text="B2" Clicked="OnCefrButtonClicked" />
-            <Button x:Name="C1Button" Text="C1" Clicked="OnCefrButtonClicked" />
-            <Button x:Name="C2Button" Text="C2" Clicked="OnCefrButtonClicked" />
+            <Button x:Name="A1Button" Margin="0,0,10,10" Text="A1" Clicked="OnCefrButtonClicked" />
+            <Button x:Name="A2Button" Margin="0,0,10,10" Text="A2" Clicked="OnCefrButtonClicked" />
+            <Button x:Name="B1Button" Margin="0,0,10,10" Text="B1" Clicked="OnCefrButtonClicked" />
+            <Button x:Name="B2Button" Margin="0,0,10,10" Text="B2" Clicked="OnCefrButtonClicked" />
+            <Button x:Name="C1Button" Margin="0,0,10,10" Text="C1" Clicked="OnCefrButtonClicked" />
+            <Button x:Name="C2Button" Margin="0,0,10,10" Text="C2" Clicked="OnCefrButtonClicked" />
         </FlexLayout>
     </VerticalStackLayout>
 </ContentView>

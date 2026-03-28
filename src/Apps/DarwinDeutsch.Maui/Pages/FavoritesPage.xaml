@@ -4,44 +4,60 @@
              xmlns:controls="clr-namespace:DarwinDeutsch.Maui.Controls"
              x:Class="DarwinDeutsch.Maui.Pages.FavoritesPage">
     <Grid Padding="24"
-          RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
-          RowSpacing="12">
-        <Label x:Name="HeadlineLabel"
-               Grid.Row="0"
-               Style="{DynamicResource Headline}"
-               SemanticProperties.HeadingLevel="Level1" />
+          RowDefinitions="Auto,*"
+          RowSpacing="18">
+        <Border Grid.Row="0"
+                Padding="24"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 28"
+                BackgroundColor="{AppThemeBinding Light=#E8F3F1, Dark=#16212B}">
+            <VerticalStackLayout Spacing="10">
+                <Label x:Name="HeadlineLabel"
+                       Style="{DynamicResource Headline}"
+                       SemanticProperties.HeadingLevel="Level1" />
 
-        <Label x:Name="DescriptionLabel"
-               Grid.Row="1"
-               Style="{DynamicResource Body}"
-               LineBreakMode="WordWrap" />
+                <Label x:Name="DescriptionLabel"
+                       Style="{DynamicResource Body}"
+                       LineBreakMode="WordWrap" />
+            </VerticalStackLayout>
+        </Border>
 
-        <Label x:Name="EmptyStateLabel"
-               Grid.Row="2"
-               Style="{DynamicResource Body}"
-               IsVisible="False" />
+        <Border Grid.Row="1"
+                Padding="20"
+                Stroke="{AppThemeBinding Light=#D8E0E5, Dark=#2B3945}"
+                StrokeShape="RoundRectangle 24"
+                StrokeThickness="1"
+                BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}">
+            <Grid RowDefinitions="Auto,Auto,Auto,*"
+                  RowSpacing="12">
+                <Label x:Name="LoadingStateLabel"
+                       Grid.Row="0"
+                       Style="{DynamicResource Body}"
+                       IsVisible="False" />
 
-        <Label x:Name="LoadingStateLabel"
-               Grid.Row="3"
-               Style="{DynamicResource Body}"
-               IsVisible="False" />
+                <Label x:Name="ErrorStateLabel"
+                       Grid.Row="1"
+                       Style="{DynamicResource Body}"
+                       IsVisible="False" />
 
-        <Label x:Name="ErrorStateLabel"
-               Grid.Row="4"
-               Style="{DynamicResource Body}"
-               IsVisible="False" />
+                <Label x:Name="EmptyStateLabel"
+                       Grid.Row="2"
+                       Style="{DynamicResource Body}"
+                       IsVisible="False" />
 
-        <CollectionView x:Name="FavoritesCollectionView"
-                        Grid.Row="5"
-                        SelectionMode="Single"
-                        SelectionChanged="OnFavoritesSelectionChanged">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <controls:WordListItemView Lemma="{Binding Lemma}"
-                                               PrimaryMeaning="{Binding PrimaryMeaning}"
-                                               MetadataLine="{Binding MetadataLine}" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                <CollectionView x:Name="FavoritesCollectionView"
+                                Grid.Row="3"
+                                SelectionMode="Single"
+                                SelectionChanged="OnFavoritesSelectionChanged">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:WordListItemView Lemma="{Binding Lemma}"
+                                                       PrimaryMeaning="{Binding PrimaryMeaning}"
+                                                       MetadataLine="{Binding MetadataLine}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
     </Grid>
 </ContentPage>

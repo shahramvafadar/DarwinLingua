@@ -7,7 +7,8 @@
         <VerticalStackLayout Padding="24" Spacing="18">
             <Border Padding="22"
                     StrokeThickness="0"
-                    BackgroundColor="{AppThemeBinding Light=#EEF2FF, Dark=#171C24}">
+                    StrokeShape="RoundRectangle 28"
+                    BackgroundColor="{AppThemeBinding Light=#E8F3F1, Dark=#16212B}">
                 <VerticalStackLayout Spacing="14">
                     <Label x:Name="HeadlineLabel"
                            Style="{DynamicResource Headline}"
@@ -18,32 +19,39 @@
                     <Label x:Name="MetadataLabel"
                            Style="{DynamicResource Body}" />
 
-                    <HorizontalStackLayout Spacing="12">
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="12">
                         <Button x:Name="SpeakWordButton"
                                 Clicked="OnSpeakWordButtonClicked"
                                 IsVisible="False" />
                         <Button x:Name="FavoriteButton"
+                                Grid.Column="1"
                                 Clicked="OnFavoriteButtonClicked" />
-                    </HorizontalStackLayout>
+                    </Grid>
                 </VerticalStackLayout>
             </Border>
 
             <Label x:Name="AudioStatusLabel"
-                   Style="{DynamicResource Body}"
-                   TextColor="#6E6E6E"
+                   Style="{DynamicResource Caption}"
                    IsVisible="False" />
 
-            <controls:DetailSectionView x:Name="LearningStateSectionView" />
+            <Border Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}">
+                <controls:DetailSectionView x:Name="LearningStateSectionView" />
+            </Border>
 
-            <HorizontalStackLayout Spacing="12">
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="12">
                 <Button x:Name="KnownButton"
                         Clicked="OnKnownButtonClicked" />
                 <Button x:Name="DifficultButton"
+                        Grid.Column="1"
                         Clicked="OnDifficultButtonClicked" />
-            </HorizontalStackLayout>
+            </Grid>
 
             <Border x:Name="UsageLabelsBorder"
                     Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}"
                     IsVisible="False">
                 <VerticalStackLayout Spacing="12">
                     <Label x:Name="UsageLabelsHeadingLabel"
@@ -59,6 +67,7 @@
 
             <Border x:Name="ContextLabelsBorder"
                     Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}"
                     IsVisible="False">
                 <VerticalStackLayout Spacing="12">
                     <Label x:Name="ContextLabelsHeadingLabel"
@@ -74,6 +83,7 @@
 
             <Border x:Name="GrammarNotesBorder"
                     Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}"
                     IsVisible="False">
                 <VerticalStackLayout Spacing="12">
                     <Label x:Name="GrammarNotesHeadingLabel"
@@ -85,6 +95,7 @@
 
             <Border x:Name="CollocationsBorder"
                     Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}"
                     IsVisible="False">
                 <VerticalStackLayout Spacing="12">
                     <Label x:Name="CollocationsHeadingLabel"
@@ -96,6 +107,7 @@
 
             <Border x:Name="WordFamiliesBorder"
                     Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}"
                     IsVisible="False">
                 <VerticalStackLayout Spacing="12">
                     <Label x:Name="WordFamiliesHeadingLabel"
@@ -107,6 +119,7 @@
 
             <Border x:Name="LexicalRelationsBorder"
                     Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}"
                     IsVisible="False">
                 <VerticalStackLayout Spacing="14">
                     <Label x:Name="LexicalRelationsHeadingLabel"
@@ -130,7 +143,8 @@
                 </VerticalStackLayout>
             </Border>
 
-            <Border Padding="20">
+            <Border Padding="20"
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}">
                 <controls:DetailSectionView x:Name="TopicsSectionView" />
             </Border>
 

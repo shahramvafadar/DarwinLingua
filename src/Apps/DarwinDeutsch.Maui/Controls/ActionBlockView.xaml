@@ -3,21 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DarwinDeutsch.Maui.Controls.ActionBlockView">
     <Border Padding="18"
-            Stroke="{AppThemeBinding Light=#D8C9F4, Dark=#2A3340}"
+            Stroke="{AppThemeBinding Light=#D8E0E5, Dark=#2B3945}"
             StrokeShape="RoundRectangle 24"
             StrokeThickness="1"
-            BackgroundColor="{AppThemeBinding Light=#F8F4FF, Dark=#10161E}">
-        <Grid ColumnDefinitions="*,Auto"
-              ColumnSpacing="12">
+            BackgroundColor="{AppThemeBinding Light=#FFFDF9, Dark=#10161E}">
+        <VerticalStackLayout Spacing="14">
             <Label x:Name="CaptionLabel"
-                   Grid.Column="0"
                    Style="{DynamicResource Title2}"
-                   TextColor="{AppThemeBinding Light=#190649, Dark=White}"
-                   VerticalOptions="Center" />
+                   TextColor="{AppThemeBinding Light=#10212B, Dark=White}" />
             <Button x:Name="ActionButton"
-                    Grid.Column="1"
                     CornerRadius="18"
                     Clicked="OnActionButtonClicked" />
-        </Grid>
+        </VerticalStackLayout>
     </Border>
 </ContentView>

@@ -371,8 +371,8 @@ public partial class WordDetailPage : ContentPage
         {
             Padding = 16,
             BackgroundColor = Application.Current?.RequestedTheme == AppTheme.Dark
-                ? Color.FromArgb("#111827")
-                : Color.FromArgb("#F8FAFC"),
+                ? Color.FromArgb("#14202B")
+                : Color.FromArgb("#FFFDF9"),
             Content = senseLayout,
         };
     }
@@ -456,14 +456,14 @@ public partial class WordDetailPage : ContentPage
             Margin = new Thickness(0, 0, 8, 8),
             StrokeThickness = 0,
             BackgroundColor = Application.Current?.RequestedTheme == AppTheme.Dark
-                ? Color.FromArgb("#223047")
-                : Color.FromArgb("#DCEAFE"),
+                ? Color.FromArgb("#214038")
+                : Color.FromArgb("#DFF3EE"),
             Content = new Label
             {
                 Text = LexiconTagDisplayText.GetDisplayName(labelKey),
                 TextColor = Application.Current?.RequestedTheme == AppTheme.Dark
-                    ? Color.FromArgb("#F8FAFC")
-                    : Color.FromArgb("#1E3A8A"),
+                    ? Color.FromArgb("#F6FFFC")
+                    : Color.FromArgb("#0F5F55"),
                 FontSize = 13,
                 FontAttributes = FontAttributes.Bold,
             },
@@ -487,8 +487,8 @@ public partial class WordDetailPage : ContentPage
                 Padding = new Thickness(14, 12),
                 StrokeThickness = 0,
                 BackgroundColor = Application.Current?.RequestedTheme == AppTheme.Dark
-                    ? Color.FromArgb("#1F2937")
-                    : Color.FromArgb("#F8FAFC"),
+                    ? Color.FromArgb("#1B2732")
+                    : Color.FromArgb("#FFFDF9"),
                 Content = new Label
                 {
                     Text = grammarNote,
@@ -535,8 +535,8 @@ public partial class WordDetailPage : ContentPage
                 Padding = new Thickness(14, 12),
                 StrokeThickness = 0,
                 BackgroundColor = Application.Current?.RequestedTheme == AppTheme.Dark
-                    ? Color.FromArgb("#17212F")
-                    : Color.FromArgb("#F1F5F9"),
+                    ? Color.FromArgb("#192A30")
+                    : Color.FromArgb("#EEF6F3"),
                 Content = content,
             });
         }
@@ -576,8 +576,8 @@ public partial class WordDetailPage : ContentPage
                 FontSize = 12,
                 FontAttributes = FontAttributes.Bold,
                 TextColor = Application.Current?.RequestedTheme == AppTheme.Dark
-                    ? Color.FromArgb("#BFDBFE")
-                    : Color.FromArgb("#1D4ED8"),
+                    ? Color.FromArgb("#F7D6A2")
+                    : Color.FromArgb("#9A5A09"),
                 VerticalTextAlignment = TextAlignment.Center,
             }, 1, 0);
 
@@ -601,8 +601,8 @@ public partial class WordDetailPage : ContentPage
                 Padding = new Thickness(14, 12),
                 StrokeThickness = 0,
                 BackgroundColor = Application.Current?.RequestedTheme == AppTheme.Dark
-                    ? Color.FromArgb("#18242F")
-                    : Color.FromArgb("#EFF6FF"),
+                    ? Color.FromArgb("#202922")
+                    : Color.FromArgb("#FFF6E8"),
                 Content = content,
             });
         }
@@ -665,8 +665,8 @@ public partial class WordDetailPage : ContentPage
                 Padding = new Thickness(14, 12),
                 StrokeThickness = 0,
                 BackgroundColor = emphasizeContrast
-                    ? (Application.Current?.RequestedTheme == AppTheme.Dark ? Color.FromArgb("#2A1E24") : Color.FromArgb("#FEF2F2"))
-                    : (Application.Current?.RequestedTheme == AppTheme.Dark ? Color.FromArgb("#1B2432") : Color.FromArgb("#F0F9FF")),
+                    ? (Application.Current?.RequestedTheme == AppTheme.Dark ? Color.FromArgb("#30231D") : Color.FromArgb("#FFF1E7"))
+                    : (Application.Current?.RequestedTheme == AppTheme.Dark ? Color.FromArgb("#19302C") : Color.FromArgb("#EAF7F3")),
                 Content = content,
             });
         }

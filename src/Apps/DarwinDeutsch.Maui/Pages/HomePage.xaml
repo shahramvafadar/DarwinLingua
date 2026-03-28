@@ -9,15 +9,15 @@
             <Border Padding="24"
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 28"
-                    BackgroundColor="{AppThemeBinding Light=#E9E0FF, Dark=#141A24}">
+                    BackgroundColor="{AppThemeBinding Light=#E8F3F1, Dark=#16212B}">
                 <VerticalStackLayout Spacing="12">
                     <Border Padding="10,6"
                             HorizontalOptions="Start"
                             StrokeThickness="0"
                             StrokeShape="RoundRectangle 14"
-                            BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#232C3A}">
+                            BackgroundColor="{AppThemeBinding Light=#FFF8EC, Dark=#22313B}">
                         <Label x:Name="StatusBadgeLabel"
-                               Style="{DynamicResource Body}" />
+                               Style="{DynamicResource Caption}" />
                     </Border>
                     <Label x:Name="HeadlineLabel"
                            Style="{DynamicResource Headline}"
@@ -35,10 +35,10 @@
                    Style="{DynamicResource Title2}" />
 
             <Border Padding="20"
-                    Stroke="{AppThemeBinding Light=#D8C9F4, Dark=#2A3340}"
+                    Stroke="{AppThemeBinding Light=#D8E0E5, Dark=#2B3945}"
                     StrokeShape="RoundRectangle 24"
                     StrokeThickness="1"
-                    BackgroundColor="{AppThemeBinding Light=White, Dark=#111923}">
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}">
                 <VerticalStackLayout Spacing="16">
                     <controls:DetailSectionView x:Name="CurrentLanguageSectionView" />
                     <controls:DetailSectionView x:Name="MeaningLanguagesSectionView" />
@@ -51,10 +51,10 @@
                    Style="{DynamicResource Title2}" />
 
             <Border Padding="20"
-                    Stroke="{AppThemeBinding Light=#D8C9F4, Dark=#2A3340}"
+                    Stroke="{AppThemeBinding Light=#D8E0E5, Dark=#2B3945}"
                     StrokeShape="RoundRectangle 24"
                     StrokeThickness="1"
-                    BackgroundColor="{AppThemeBinding Light=White, Dark=#111923}">
+                    BackgroundColor="{AppThemeBinding Light=#FFFCF8, Dark=#111923}">
                 <VerticalStackLayout Spacing="16">
                     <controls:CefrQuickFilterView x:Name="CefrQuickFilterView"
                                                   LevelSelected="OnCefrLevelSelected" />
