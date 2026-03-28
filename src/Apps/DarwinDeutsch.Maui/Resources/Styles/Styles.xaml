@@ -14,8 +14,8 @@
     <x:Double x:Key="TokenTouchTargetMin">48</x:Double>
     <x:Double x:Key="TokenFontCaption">13</x:Double>
     <x:Double x:Key="TokenFontBody">16</x:Double>
-    <x:Double x:Key="TokenFontTitle2">22</x:Double>
-    <x:Double x:Key="TokenFontHeadline">34</x:Double>
+    <x:Double x:Key="TokenFontTitle2">19</x:Double>
+    <x:Double x:Key="TokenFontHeadline">28</x:Double>
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -198,7 +198,7 @@
 
     <Style TargetType="Label" x:Key="SubHeadline">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MidnightBlue}, Dark={StaticResource White}}" />
-        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontSize" Value="23" />
         <Setter Property="LineHeight" Value="1.25" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="HorizontalOptions" Value="Start" />

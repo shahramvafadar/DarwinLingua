@@ -17,7 +17,7 @@
             <Border Padding="10,6"
                     HorizontalOptions="Start"
                     StrokeThickness="0"
-                    StrokeShape="RoundRectangle 12"
+                    StrokeShape="RoundRectangle 18"
                     BackgroundColor="{AppThemeBinding Light=#EEF4F3, Dark=#202E37}">
                 <Label x:Name="MetadataLineLabel"
                        Style="{DynamicResource Caption}" />

@@ -14,7 +14,7 @@
                     Padding="10,6"
                     VerticalOptions="Start"
                     StrokeThickness="0"
-                    StrokeShape="RoundRectangle 14"
+                    StrokeShape="RoundRectangle 18"
                     BackgroundColor="{AppThemeBinding Light=#E6F3EF, Dark=#22313B}">
                 <Label x:Name="TopicKeyLabel"
                        FontAttributes="Bold"

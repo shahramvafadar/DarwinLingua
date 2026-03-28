@@ -15,7 +15,7 @@
                 <Border Padding="10,6"
                         HorizontalOptions="Start"
                         StrokeThickness="0"
-                        StrokeShape="RoundRectangle 14"
+                        StrokeShape="RoundRectangle 18"
                         BackgroundColor="{AppThemeBinding Light=#FFF8EC, Dark=#22313B}">
                     <Label x:Name="StatusBadgeLabel"
                            Style="{DynamicResource Caption}" />
