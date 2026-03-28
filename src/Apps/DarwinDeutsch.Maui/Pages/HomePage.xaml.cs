@@ -1,4 +1,5 @@
 using DarwinDeutsch.Maui.Resources.Strings;
+using DarwinDeutsch.Maui.Services.Browse;
 using DarwinDeutsch.Maui.Services.Localization;
 
 namespace DarwinDeutsch.Maui.Pages;
@@ -9,18 +10,23 @@ namespace DarwinDeutsch.Maui.Pages;
 public partial class HomePage : ContentPage
 {
     private readonly IAppLocalizationService _appLocalizationService;
+    private readonly ICefrBrowseStateService _cefrBrowseStateService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HomePage"/> class.
     /// </summary>
     /// <param name="appLocalizationService">The service that manages UI localization.</param>
-    public HomePage(IAppLocalizationService appLocalizationService)
+    public HomePage(
+        IAppLocalizationService appLocalizationService,
+        ICefrBrowseStateService cefrBrowseStateService)
     {
         ArgumentNullException.ThrowIfNull(appLocalizationService);
+        ArgumentNullException.ThrowIfNull(cefrBrowseStateService);
 
         InitializeComponent();
 
         _appLocalizationService = appLocalizationService;
+        _cefrBrowseStateService = cefrBrowseStateService;
 
         _appLocalizationService.CultureChanged += OnCultureChanged;
 
@@ -93,8 +99,21 @@ public partial class HomePage : ContentPage
             return;
         }
 
+        Guid? startingWordPublicId = await _cefrBrowseStateService
+            .GetStartingWordPublicIdAsync(cefrLevel, CancellationToken.None)
+            .ConfigureAwait(true);
+
         string escapedCefrLevel = Uri.EscapeDataString(cefrLevel);
-        await Shell.Current.GoToAsync($"{nameof(CefrWordsPage)}?cefrLevel={escapedCefrLevel}")
+        if (startingWordPublicId is null)
+        {
+            await Shell.Current.GoToAsync($"{nameof(CefrWordsPage)}?cefrLevel={escapedCefrLevel}")
+                .ConfigureAwait(true);
+            return;
+        }
+
+        string escapedWordPublicId = Uri.EscapeDataString(startingWordPublicId.Value.ToString("D"));
+        await Shell.Current.GoToAsync(
+                $"{nameof(WordDetailPage)}?wordPublicId={escapedWordPublicId}&cefrLevel={escapedCefrLevel}")
             .ConfigureAwait(true);
     }
 

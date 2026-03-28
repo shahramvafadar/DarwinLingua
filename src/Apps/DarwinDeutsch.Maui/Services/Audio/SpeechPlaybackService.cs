@@ -28,7 +28,11 @@ internal sealed class SpeechPlaybackService : ISpeechPlaybackService
 
             if (locale is null)
             {
-                return new SpeechPlaybackResult(SpeechPlaybackStatus.LocaleUnavailable);
+                await MainThread.InvokeOnMainThreadAsync(
+                        () => TextToSpeech.Default.SpeakAsync(normalizedText, cancelToken: cancellationToken))
+                    .ConfigureAwait(false);
+
+                return new SpeechPlaybackResult(SpeechPlaybackStatus.Succeeded);
             }
 
             SpeechOptions options = new()
@@ -36,8 +40,8 @@ internal sealed class SpeechPlaybackService : ISpeechPlaybackService
                 Locale = locale,
             };
 
-            await TextToSpeech.Default
-                .SpeakAsync(normalizedText, options, cancellationToken)
+            await MainThread.InvokeOnMainThreadAsync(
+                    () => TextToSpeech.Default.SpeakAsync(normalizedText, options, cancellationToken))
                 .ConfigureAwait(false);
 
             return new SpeechPlaybackResult(SpeechPlaybackStatus.Succeeded);
@@ -49,6 +53,10 @@ internal sealed class SpeechPlaybackService : ISpeechPlaybackService
         catch (FeatureNotSupportedException)
         {
             return new SpeechPlaybackResult(SpeechPlaybackStatus.Unsupported);
+        }
+        catch (ArgumentException)
+        {
+            return new SpeechPlaybackResult(SpeechPlaybackStatus.LocaleUnavailable);
         }
         catch (Exception)
         {

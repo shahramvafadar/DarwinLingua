@@ -1,5 +1,7 @@
 using DarwinDeutsch.Maui.Resources.Strings;
 using DarwinDeutsch.Maui.Services.Audio;
+using DarwinDeutsch.Maui.Services.Browse;
+using DarwinDeutsch.Maui.Services.Browse.Models;
 using DarwinDeutsch.Maui.Services.Localization;
 using DarwinLingua.Catalog.Application.Abstractions;
 using DarwinLingua.Catalog.Application.Models;
@@ -12,16 +14,28 @@ namespace DarwinDeutsch.Maui.Pages;
 /// Displays the detail view of a selected lexical entry.
 /// </summary>
 [QueryProperty(nameof(WordPublicId), "wordPublicId")]
+[QueryProperty(nameof(CefrLevel), "cefrLevel")]
 public partial class WordDetailPage : ContentPage
 {
+    private static readonly Color InactiveActionBackgroundColor = Color.FromArgb("#155E75");
+    private static readonly Color ActiveActionBackgroundColor = Color.FromArgb("#D6EEF6");
+    private static readonly Color InactiveKnownBackgroundColor = Color.FromArgb("#155E63");
+    private static readonly Color ActiveKnownBackgroundColor = Color.FromArgb("#DDF2EB");
+    private static readonly Color InactiveDifficultBackgroundColor = Color.FromArgb("#A9581A");
+    private static readonly Color ActiveDifficultBackgroundColor = Color.FromArgb("#F8E7D7");
+    private static readonly Color InactiveActionTextColor = Colors.White;
+    private static readonly Color ActiveActionTextColor = Color.FromArgb("#12495B");
     private readonly IWordDetailQueryService _wordDetailQueryService;
+    private readonly ICefrBrowseStateService _cefrBrowseStateService;
     private readonly IUserLearningProfileService _userLearningProfileService;
     private readonly IUserFavoriteWordService _userFavoriteWordService;
     private readonly IUserWordStateService _userWordStateService;
     private readonly ISpeechPlaybackService _speechPlaybackService;
     private string _wordPublicId = string.Empty;
+    private string _cefrLevel = string.Empty;
     private bool _isFavorite;
     private UserWordStateModel? _userWordState;
+    private CefrBrowseNavigationState? _cefrBrowseNavigationState;
     private CancellationTokenSource? _speechCancellationTokenSource;
 
     /// <summary>
@@ -29,12 +43,14 @@ public partial class WordDetailPage : ContentPage
     /// </summary>
     public WordDetailPage(
         IWordDetailQueryService wordDetailQueryService,
+        ICefrBrowseStateService cefrBrowseStateService,
         IUserLearningProfileService userLearningProfileService,
         IUserFavoriteWordService userFavoriteWordService,
         IUserWordStateService userWordStateService,
         ISpeechPlaybackService speechPlaybackService)
     {
         ArgumentNullException.ThrowIfNull(wordDetailQueryService);
+        ArgumentNullException.ThrowIfNull(cefrBrowseStateService);
         ArgumentNullException.ThrowIfNull(userLearningProfileService);
         ArgumentNullException.ThrowIfNull(userFavoriteWordService);
         ArgumentNullException.ThrowIfNull(userWordStateService);
@@ -43,6 +59,7 @@ public partial class WordDetailPage : ContentPage
         InitializeComponent();
 
         _wordDetailQueryService = wordDetailQueryService;
+        _cefrBrowseStateService = cefrBrowseStateService;
         _userLearningProfileService = userLearningProfileService;
         _userFavoriteWordService = userFavoriteWordService;
         _userWordStateService = userWordStateService;
@@ -56,6 +73,15 @@ public partial class WordDetailPage : ContentPage
     {
         get => _wordPublicId;
         set => _wordPublicId = Uri.UnescapeDataString(value ?? string.Empty);
+    }
+
+    /// <summary>
+    /// Gets or sets the optional CEFR level that enables previous/next navigation within one level.
+    /// </summary>
+    public string CefrLevel
+    {
+        get => _cefrLevel;
+        set => _cefrLevel = Uri.UnescapeDataString(value ?? string.Empty);
     }
 
     /// <summary>
@@ -95,6 +121,12 @@ public partial class WordDetailPage : ContentPage
         SynonymsHeadingLabel.Text = AppStrings.WordDetailSynonymsLabel;
         AntonymsHeadingLabel.Text = AppStrings.WordDetailAntonymsLabel;
         EmptyStateLabel.Text = AppStrings.WordDetailNotFound;
+        PreviousWordButtonTop.Text = AppStrings.WordDetailPreviousWordButton;
+        PreviousWordButtonBottom.Text = AppStrings.WordDetailPreviousWordButton;
+        ShowWordListButtonTop.Text = AppStrings.WordDetailWordListButton;
+        ShowWordListButtonBottom.Text = AppStrings.WordDetailWordListButton;
+        NextWordButtonTop.Text = AppStrings.WordDetailNextWordButton;
+        NextWordButtonBottom.Text = AppStrings.WordDetailNextWordButton;
         SensesContainer.Children.Clear();
         UsageLabelsFlexLayout.Children.Clear();
         ContextLabelsFlexLayout.Children.Clear();
@@ -115,6 +147,8 @@ public partial class WordDetailPage : ContentPage
         FavoriteButton.IsVisible = false;
         KnownButton.IsVisible = false;
         DifficultButton.IsVisible = false;
+        CefrNavigationTopGrid.IsVisible = false;
+        CefrNavigationBottomGrid.IsVisible = false;
         LearningStateSectionView.SectionValue = string.Empty;
         ClearAudioStatus();
 
@@ -152,12 +186,10 @@ public partial class WordDetailPage : ContentPage
 
         Title = BuildHeadline(word);
         HeadlineLabel.Text = BuildHeadline(word);
-        SpeakWordButton.Text = AppStrings.WordDetailSpeakWordButton;
+        ConfigureSpeakWordButton();
         SpeakWordButton.IsVisible = true;
         MetadataLabel.Text = LexiconDisplayText.FormatMetadata(word.PartOfSpeech, word.CefrLevel);
-        FavoriteButton.Text = _isFavorite
-            ? AppStrings.WordDetailRemoveFavoriteButton
-            : AppStrings.WordDetailAddFavoriteButton;
+        ApplyFavoriteButtonState();
         FavoriteButton.IsVisible = true;
         ApplyUserWordState();
         ApplyWordLabels(UsageLabelsFlexLayout, UsageLabelsBorder, word.UsageLabels);
@@ -175,6 +207,8 @@ public partial class WordDetailPage : ContentPage
         {
             SensesContainer.Children.Add(BuildSenseView(sense));
         }
+
+        await ApplyCefrNavigationStateAsync(publicId).ConfigureAwait(true);
     }
 
     /// <summary>
@@ -189,6 +223,8 @@ public partial class WordDetailPage : ContentPage
         FavoriteButton.IsVisible = false;
         KnownButton.IsVisible = false;
         DifficultButton.IsVisible = false;
+        CefrNavigationTopGrid.IsVisible = false;
+        CefrNavigationBottomGrid.IsVisible = false;
         UsageLabelsFlexLayout.Children.Clear();
         ContextLabelsFlexLayout.Children.Clear();
         GrammarNotesStackLayout.Children.Clear();
@@ -224,9 +260,7 @@ public partial class WordDetailPage : ContentPage
             .ToggleFavoriteAsync(publicId, CancellationToken.None)
             .ConfigureAwait(true);
 
-        FavoriteButton.Text = _isFavorite
-            ? AppStrings.WordDetailRemoveFavoriteButton
-            : AppStrings.WordDetailAddFavoriteButton;
+        ApplyFavoriteButtonState();
     }
 
     /// <summary>
@@ -340,7 +374,7 @@ public partial class WordDetailPage : ContentPage
                 Text = example.GermanText,
                 Style = ResolveAppTextStyle("Body"),
             };
-            Button speakExampleButton = BuildSpeechButton(AppStrings.WordDetailSpeakExampleButton, example.GermanText);
+            Button speakExampleButton = BuildSpeechButton(example.GermanText);
 
             exampleHeaderLayout.Add(exampleTextLabel);
             exampleHeaderLayout.Add(speakExampleButton, 1, 0);
@@ -380,18 +414,23 @@ public partial class WordDetailPage : ContentPage
     /// <summary>
     /// Creates a speech action button for a German text fragment.
     /// </summary>
-    /// <param name="buttonText">The localized button text.</param>
     /// <param name="spokenText">The German text to pronounce.</param>
     /// <returns>A configured button instance.</returns>
-    private Button BuildSpeechButton(string buttonText, string spokenText)
+    private Button BuildSpeechButton(string spokenText)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(buttonText);
         ArgumentException.ThrowIfNullOrWhiteSpace(spokenText);
 
         Button button = new()
         {
-            Text = buttonText,
+            Text = "\U0001F50A",
+            WidthRequest = 44,
+            HeightRequest = 40,
+            FontSize = 18,
+            Padding = new Thickness(0),
+            BackgroundColor = InactiveActionBackgroundColor,
+            TextColor = InactiveActionTextColor,
         };
+        SemanticProperties.SetDescription(button, AppStrings.WordDetailSpeakExampleButton);
 
         button.Clicked += async (_, _) => await SpeakGermanTextAsync(spokenText).ConfigureAwait(true);
 
@@ -685,31 +724,23 @@ public partial class WordDetailPage : ContentPage
             return;
         }
 
-        List<string> statusParts = [$"{string.Format(AppStrings.WordDetailViewCountFormat, _userWordState.ViewCount)}"];
-
-        if (_userWordState.IsKnown)
-        {
-            statusParts.Add(AppStrings.WordDetailStateKnown);
-        }
-
-        if (_userWordState.IsDifficult)
-        {
-            statusParts.Add(AppStrings.WordDetailStateDifficult);
-        }
-
-        LearningStateSectionView.SectionValue = string.Join(Environment.NewLine, statusParts);
+        LearningStateSectionView.SectionValue = string.Format(AppStrings.WordDetailViewCountFormat, _userWordState.ViewCount);
 
         KnownButton.Text = _userWordState.IsKnown
             ? AppStrings.WordDetailClearKnownButton
             : AppStrings.WordDetailMarkKnownButton;
         KnownButton.IsVisible = true;
         KnownButton.IsEnabled = true;
+        KnownButton.BackgroundColor = _userWordState.IsKnown ? ActiveKnownBackgroundColor : InactiveKnownBackgroundColor;
+        KnownButton.TextColor = _userWordState.IsKnown ? ActiveActionTextColor : InactiveActionTextColor;
 
         DifficultButton.Text = _userWordState.IsDifficult
             ? AppStrings.WordDetailClearDifficultButton
             : AppStrings.WordDetailMarkDifficultButton;
         DifficultButton.IsVisible = true;
         DifficultButton.IsEnabled = true;
+        DifficultButton.BackgroundColor = _userWordState.IsDifficult ? ActiveDifficultBackgroundColor : InactiveDifficultBackgroundColor;
+        DifficultButton.TextColor = _userWordState.IsDifficult ? ActiveActionTextColor : InactiveActionTextColor;
     }
 
     /// <summary>
@@ -772,5 +803,90 @@ public partial class WordDetailPage : ContentPage
         _speechCancellationTokenSource.Cancel();
         _speechCancellationTokenSource.Dispose();
         _speechCancellationTokenSource = null;
+    }
+
+    private void ConfigureSpeakWordButton()
+    {
+        SpeakWordButton.Text = "\U0001F50A";
+        SpeakWordButton.FontSize = 18;
+        SpeakWordButton.Padding = new Thickness(0);
+        SpeakWordButton.BackgroundColor = InactiveActionBackgroundColor;
+        SpeakWordButton.TextColor = InactiveActionTextColor;
+        SemanticProperties.SetDescription(SpeakWordButton, AppStrings.WordDetailSpeakWordButton);
+    }
+
+    private void ApplyFavoriteButtonState()
+    {
+        FavoriteButton.Text = _isFavorite ? "\u2665" : "\u2661";
+        FavoriteButton.WidthRequest = 48;
+        FavoriteButton.HeightRequest = 40;
+        FavoriteButton.FontSize = 20;
+        FavoriteButton.Padding = new Thickness(0);
+        FavoriteButton.BackgroundColor = _isFavorite ? ActiveActionBackgroundColor : InactiveActionBackgroundColor;
+        FavoriteButton.TextColor = _isFavorite ? ActiveActionTextColor : InactiveActionTextColor;
+        SemanticProperties.SetDescription(
+            FavoriteButton,
+            _isFavorite ? AppStrings.WordDetailRemoveFavoriteButton : AppStrings.WordDetailAddFavoriteButton);
+    }
+
+    private async Task ApplyCefrNavigationStateAsync(Guid currentWordPublicId)
+    {
+        if (string.IsNullOrWhiteSpace(CefrLevel))
+        {
+            _cefrBrowseNavigationState = null;
+            CefrNavigationTopGrid.IsVisible = false;
+            CefrNavigationBottomGrid.IsVisible = false;
+            return;
+        }
+
+        _cefrBrowseStateService.RememberLastViewedWord(CefrLevel, currentWordPublicId);
+        _cefrBrowseNavigationState = await _cefrBrowseStateService
+            .GetNavigationStateAsync(CefrLevel, currentWordPublicId, CancellationToken.None)
+            .ConfigureAwait(true);
+
+        bool isVisible = _cefrBrowseNavigationState.TotalCount > 0;
+        CefrNavigationTopGrid.IsVisible = isVisible;
+        CefrNavigationBottomGrid.IsVisible = isVisible;
+
+        bool hasPrevious = _cefrBrowseNavigationState.PreviousWordPublicId.HasValue;
+        bool hasNext = _cefrBrowseNavigationState.NextWordPublicId.HasValue;
+        PreviousWordButtonTop.IsEnabled = hasPrevious;
+        PreviousWordButtonBottom.IsEnabled = hasPrevious;
+        NextWordButtonTop.IsEnabled = hasNext;
+        NextWordButtonBottom.IsEnabled = hasNext;
+    }
+
+    private async void OnPreviousWordButtonClicked(object? sender, EventArgs e)
+    {
+        if (_cefrBrowseNavigationState?.PreviousWordPublicId is not Guid previousWordPublicId)
+        {
+            return;
+        }
+
+        WordPublicId = previousWordPublicId.ToString("D");
+        await RefreshAsync().ConfigureAwait(true);
+    }
+
+    private async void OnNextWordButtonClicked(object? sender, EventArgs e)
+    {
+        if (_cefrBrowseNavigationState?.NextWordPublicId is not Guid nextWordPublicId)
+        {
+            return;
+        }
+
+        WordPublicId = nextWordPublicId.ToString("D");
+        await RefreshAsync().ConfigureAwait(true);
+    }
+
+    private async void OnShowWordListButtonClicked(object? sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(CefrLevel))
+        {
+            return;
+        }
+
+        string escapedCefrLevel = Uri.EscapeDataString(CefrLevel);
+        await Shell.Current.GoToAsync($"{nameof(CefrWordsPage)}?cefrLevel={escapedCefrLevel}")
+            .ConfigureAwait(true);
     }
 }

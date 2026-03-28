@@ -298,6 +298,21 @@ public static class AppStrings
     public static string WordDetailSpeakExampleButton => GetRequiredString(nameof(WordDetailSpeakExampleButton));
 
     /// <summary>
+    /// Gets the localized caption for opening the previous word inside the current CEFR level.
+    /// </summary>
+    public static string WordDetailPreviousWordButton => GetRequiredString(nameof(WordDetailPreviousWordButton));
+
+    /// <summary>
+    /// Gets the localized caption for opening the word list inside the current CEFR level.
+    /// </summary>
+    public static string WordDetailWordListButton => GetRequiredString(nameof(WordDetailWordListButton));
+
+    /// <summary>
+    /// Gets the localized caption for opening the next word inside the current CEFR level.
+    /// </summary>
+    public static string WordDetailNextWordButton => GetRequiredString(nameof(WordDetailNextWordButton));
+
+    /// <summary>
     /// Gets the localized audio failure message shown when TTS is unavailable on the device.
     /// </summary>
     public static string WordDetailAudioNotSupported => GetRequiredString(nameof(WordDetailAudioNotSupported));

@@ -37,6 +37,8 @@
 
         <CollectionView x:Name="WordsCollectionView"
                         Grid.Row="6"
+                        RemainingItemsThreshold="6"
+                        RemainingItemsThresholdReached="OnWordsRemainingItemsThresholdReached"
                         SelectionMode="Single"
                         SelectionChanged="OnWordsSelectionChanged">
             <CollectionView.ItemTemplate>

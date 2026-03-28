@@ -19,17 +19,31 @@
                     <Label x:Name="MetadataLabel"
                            Style="{DynamicResource Body}" />
 
-                    <Grid ColumnDefinitions="*,*"
-                          ColumnSpacing="12">
+                    <HorizontalStackLayout Spacing="10">
                         <Button x:Name="SpeakWordButton"
                                 Clicked="OnSpeakWordButtonClicked"
+                                HeightRequest="40"
+                                WidthRequest="48"
                                 IsVisible="False" />
                         <Button x:Name="FavoriteButton"
-                                Grid.Column="1"
                                 Clicked="OnFavoriteButtonClicked" />
-                    </Grid>
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Border>
+
+            <Grid x:Name="CefrNavigationTopGrid"
+                  ColumnDefinitions="*,*,*"
+                  ColumnSpacing="10"
+                  IsVisible="False">
+                <Button x:Name="PreviousWordButtonTop"
+                        Clicked="OnPreviousWordButtonClicked" />
+                <Button x:Name="ShowWordListButtonTop"
+                        Grid.Column="1"
+                        Clicked="OnShowWordListButtonClicked" />
+                <Button x:Name="NextWordButtonTop"
+                        Grid.Column="2"
+                        Clicked="OnNextWordButtonClicked" />
+            </Grid>
 
             <Label x:Name="AudioStatusLabel"
                    Style="{DynamicResource Caption}"
@@ -48,6 +62,9 @@
                         Grid.Column="1"
                         Clicked="OnDifficultButtonClicked" />
             </Grid>
+
+            <VerticalStackLayout x:Name="SensesContainer"
+                                 Spacing="16" />
 
             <Border x:Name="UsageLabelsBorder"
                     Padding="20"
@@ -152,8 +169,19 @@
                    Style="{DynamicResource Body}"
                    IsVisible="False" />
 
-            <VerticalStackLayout x:Name="SensesContainer"
-                                 Spacing="16" />
+            <Grid x:Name="CefrNavigationBottomGrid"
+                  ColumnDefinitions="*,*,*"
+                  ColumnSpacing="10"
+                  IsVisible="False">
+                <Button x:Name="PreviousWordButtonBottom"
+                        Clicked="OnPreviousWordButtonClicked" />
+                <Button x:Name="ShowWordListButtonBottom"
+                        Grid.Column="1"
+                        Clicked="OnShowWordListButtonClicked" />
+                <Button x:Name="NextWordButtonBottom"
+                        Grid.Column="2"
+                        Clicked="OnNextWordButtonClicked" />
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

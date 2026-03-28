@@ -176,6 +176,15 @@
   <data name="WordDetailSpeakExampleButton" xml:space="preserve">
     <value>Speak Example</value>
   </data>
+  <data name="WordDetailPreviousWordButton" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="WordDetailWordListButton" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="WordDetailNextWordButton" xml:space="preserve">
+    <value>Next</value>
+  </data>
   <data name="WordDetailAudioNotSupported" xml:space="preserve">
     <value>Text-to-speech is not available on this device.</value>
   </data>

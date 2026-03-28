@@ -48,6 +48,7 @@ public sealed class MauiBrowseScreenSmokeTests
         Assert.Contains("StartButton", welcomeSource, StringComparison.Ordinal);
         Assert.Contains("ShouldShowWelcomeExperience", appSource, StringComparison.Ordinal);
         Assert.Contains("ISeedDatabaseProvisioningService", mauiProgramSource, StringComparison.Ordinal);
+        Assert.Contains("ICefrBrowseStateService", mauiProgramSource, StringComparison.Ordinal);
         Assert.Contains("EnsureSeedDatabaseAsync", mauiProgramSource, StringComparison.Ordinal);
         Assert.Contains("darwin-lingua.seed.db", seedProvisioningServiceSource, StringComparison.Ordinal);
     }
@@ -113,6 +114,7 @@ public sealed class MauiBrowseScreenSmokeTests
         Assert.Contains("FavoritesActionBlockView", xamlSource, StringComparison.Ordinal);
         Assert.Contains("TopicListItemView", xamlSource, StringComparison.Ordinal);
         Assert.Contains("nameof(CefrWordsPage)", codeBehindSource, StringComparison.Ordinal);
+        Assert.Contains("GetStartingWordPublicIdAsync", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("nameof(SearchWordsPage)", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("\"//favorites\"", codeBehindSource, StringComparison.Ordinal);
     }
@@ -178,6 +180,10 @@ public sealed class MauiBrowseScreenSmokeTests
         string codeBehindSource = File.ReadAllText(wordDetailCodeBehindPath);
 
         Assert.Contains("UsageLabelsBorder", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("CefrNavigationTopGrid", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("PreviousWordButtonTop", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("ShowWordListButtonTop", xamlSource, StringComparison.Ordinal);
+        Assert.Contains("NextWordButtonTop", xamlSource, StringComparison.Ordinal);
         Assert.Contains("ContextLabelsBorder", xamlSource, StringComparison.Ordinal);
         Assert.Contains("GrammarNotesBorder", xamlSource, StringComparison.Ordinal);
         Assert.Contains("CollocationsBorder", xamlSource, StringComparison.Ordinal);
@@ -195,6 +201,9 @@ public sealed class MauiBrowseScreenSmokeTests
         Assert.Contains("ApplyCollocations", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("ApplyWordFamilies", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("ApplyLexicalRelations", codeBehindSource, StringComparison.Ordinal);
+        Assert.Contains("ApplyCefrNavigationStateAsync", codeBehindSource, StringComparison.Ordinal);
+        Assert.Contains("OnPreviousWordButtonClicked", codeBehindSource, StringComparison.Ordinal);
+        Assert.Contains("OnShowWordListButtonClicked", codeBehindSource, StringComparison.Ordinal);
         Assert.Contains("LexiconTagDisplayText", codeBehindSource, StringComparison.Ordinal);
     }
 
@@ -205,15 +214,19 @@ public sealed class MauiBrowseScreenSmokeTests
     public void SearchWordsPage_ShouldExposeSearchAndResultsPanels()
     {
         string repositoryRoot = ResolveRepositoryRoot();
+        string cefrPagePath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/Pages/CefrWordsPage.xaml");
         string searchPagePath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/Pages/SearchWordsPage.xaml");
         string searchCodeBehindPath = Path.Combine(repositoryRoot, "src/Apps/DarwinDeutsch.Maui/Pages/SearchWordsPage.xaml.cs");
 
+        Assert.True(File.Exists(cefrPagePath), $"CEFR page XAML file not found: {cefrPagePath}");
         Assert.True(File.Exists(searchPagePath), $"Search page XAML file not found: {searchPagePath}");
         Assert.True(File.Exists(searchCodeBehindPath), $"Search page code-behind file not found: {searchCodeBehindPath}");
 
+        string cefrXamlSource = File.ReadAllText(cefrPagePath);
         string xamlSource = File.ReadAllText(searchPagePath);
         string codeBehindSource = File.ReadAllText(searchCodeBehindPath);
 
+        Assert.Contains("RemainingItemsThresholdReached", cefrXamlSource, StringComparison.Ordinal);
         Assert.Contains("StatusBadgeLabel", xamlSource, StringComparison.Ordinal);
         Assert.Contains("SearchSectionLabel", xamlSource, StringComparison.Ordinal);
         Assert.Contains("SearchHintLabel", xamlSource, StringComparison.Ordinal);

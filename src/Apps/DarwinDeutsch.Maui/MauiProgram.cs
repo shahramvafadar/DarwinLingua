@@ -1,5 +1,6 @@
 using DarwinDeutsch.Maui.Pages;
 using DarwinDeutsch.Maui.Services.Audio;
+using DarwinDeutsch.Maui.Services.Browse;
 using DarwinDeutsch.Maui.Services.Localization;
 using DarwinDeutsch.Maui.Services.Onboarding;
 using DarwinDeutsch.Maui.Services.Storage;
@@ -55,6 +56,7 @@ public static class MauiProgram
             .AddPracticeApplication()
             .AddPracticeInfrastructure()
             .AddSingleton<ISpeechPlaybackService, SpeechPlaybackService>()
+            .AddSingleton<ICefrBrowseStateService, CefrBrowseStateService>()
             .AddSingleton<IAppLocalizationService, AppLocalizationService>()
             .AddSingleton<IAppOnboardingService, AppOnboardingService>()
             .AddSingleton<ISeedDatabaseProvisioningService, SeedDatabaseProvisioningService>()

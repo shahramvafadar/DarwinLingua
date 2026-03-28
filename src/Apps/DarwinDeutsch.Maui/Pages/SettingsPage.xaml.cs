@@ -1,5 +1,6 @@
 using DarwinDeutsch.Maui.Resources.Strings;
 using DarwinDeutsch.Maui.Services.Localization;
+using DarwinDeutsch.Maui.Services.Browse;
 using DarwinDeutsch.Maui.Services.Storage;
 using DarwinLingua.Learning.Application.Abstractions;
 using DarwinLingua.Learning.Application.Models;
@@ -14,6 +15,7 @@ namespace DarwinDeutsch.Maui.Pages;
 public partial class SettingsPage : ContentPage
 {
     private readonly IAppLocalizationService _appLocalizationService;
+    private readonly ICefrBrowseStateService _cefrBrowseStateService;
     private readonly ISeedDatabaseProvisioningService _seedDatabaseProvisioningService;
     private readonly IUserLearningProfileService _userLearningProfileService;
     private readonly ILanguageQueryService _languageQueryService;
@@ -28,11 +30,13 @@ public partial class SettingsPage : ContentPage
     /// <param name="languageQueryService">The service that loads active language reference data.</param>
     public SettingsPage(
         IAppLocalizationService appLocalizationService,
+        ICefrBrowseStateService cefrBrowseStateService,
         ISeedDatabaseProvisioningService seedDatabaseProvisioningService,
         IUserLearningProfileService userLearningProfileService,
         ILanguageQueryService languageQueryService)
     {
         ArgumentNullException.ThrowIfNull(appLocalizationService);
+        ArgumentNullException.ThrowIfNull(cefrBrowseStateService);
         ArgumentNullException.ThrowIfNull(seedDatabaseProvisioningService);
         ArgumentNullException.ThrowIfNull(userLearningProfileService);
         ArgumentNullException.ThrowIfNull(languageQueryService);
@@ -40,6 +44,7 @@ public partial class SettingsPage : ContentPage
         InitializeComponent();
 
         _appLocalizationService = appLocalizationService;
+        _cefrBrowseStateService = cefrBrowseStateService;
         _seedDatabaseProvisioningService = seedDatabaseProvisioningService;
         _userLearningProfileService = userLearningProfileService;
         _languageQueryService = languageQueryService;
@@ -209,6 +214,8 @@ public partial class SettingsPage : ContentPage
             }
             else if (result.AppliedChanges)
             {
+                _cefrBrowseStateService.ResetCache();
+
                 await DisplayAlertAsync(
                         AppStrings.SettingsContentUpdatesCompletedTitle,
                         string.Format(AppStrings.SettingsContentUpdatesCompletedMessageFormat, result.ImportedPackages, result.ImportedWords),

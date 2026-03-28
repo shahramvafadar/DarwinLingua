@@ -1,9 +1,8 @@
 using DarwinDeutsch.Maui.Resources.Strings;
+using DarwinDeutsch.Maui.Services.Browse;
 using DarwinDeutsch.Maui.Services.Localization;
-using DarwinLingua.Catalog.Application.Abstractions;
 using DarwinLingua.Catalog.Application.Models;
-using DarwinLingua.Learning.Application.Abstractions;
-using DarwinLingua.Learning.Application.Models;
+using System.Collections.ObjectModel;
 
 namespace DarwinDeutsch.Maui.Pages;
 
@@ -13,22 +12,26 @@ namespace DarwinDeutsch.Maui.Pages;
 [QueryProperty(nameof(CefrLevel), "cefrLevel")]
 public partial class CefrWordsPage : ContentPage
 {
-    private readonly IWordQueryService _wordQueryService;
-    private readonly IUserLearningProfileService _userLearningProfileService;
+    private const int PageSize = 24;
+    private readonly ICefrBrowseStateService _cefrBrowseStateService;
+    private readonly ObservableCollection<CefrWordItemViewModel> _visibleWords = [];
+    private IReadOnlyList<CefrWordItemViewModel> _allWords = [];
+    private int _loadedWordCount;
+    private bool _isLoadingMore;
     private string _cefrLevel = string.Empty;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CefrWordsPage"/> class.
     /// </summary>
-    public CefrWordsPage(IWordQueryService wordQueryService, IUserLearningProfileService userLearningProfileService)
+    public CefrWordsPage(
+        ICefrBrowseStateService cefrBrowseStateService)
     {
-        ArgumentNullException.ThrowIfNull(wordQueryService);
-        ArgumentNullException.ThrowIfNull(userLearningProfileService);
+        ArgumentNullException.ThrowIfNull(cefrBrowseStateService);
 
         InitializeComponent();
 
-        _wordQueryService = wordQueryService;
-        _userLearningProfileService = userLearningProfileService;
+        _cefrBrowseStateService = cefrBrowseStateService;
+        WordsCollectionView.ItemsSource = _visibleWords;
     }
 
     /// <summary>
@@ -69,7 +72,7 @@ public partial class CefrWordsPage : ContentPage
 
         if (string.IsNullOrWhiteSpace(CefrLevel))
         {
-            ShowEmptyState(Array.Empty<CefrWordItemViewModel>());
+            ShowWords(Array.Empty<CefrWordItemViewModel>());
             return;
         }
 
@@ -77,21 +80,18 @@ public partial class CefrWordsPage : ContentPage
 
         try
         {
-            UserLearningProfileModel profile = await _userLearningProfileService
-                .GetCurrentProfileAsync(CancellationToken.None)
+            IReadOnlyList<WordListItemModel> words = await _cefrBrowseStateService
+                .GetWordsAsync(CefrLevel, CancellationToken.None)
                 .ConfigureAwait(true);
 
-            IReadOnlyList<WordListItemModel> words = await _wordQueryService
-                .GetWordsByCefrAsync(CefrLevel, profile.PreferredMeaningLanguage1, CancellationToken.None)
-                .ConfigureAwait(true);
-
-            ShowEmptyState(words
+            _allWords = words
                 .Select(word => new CefrWordItemViewModel(
                     word.PublicId,
                     string.IsNullOrWhiteSpace(word.Article) ? word.Lemma : $"{word.Article} {word.Lemma}",
                     word.PrimaryMeaning ?? AppStrings.TopicWordsPageMeaningUnavailable,
                     LexiconDisplayText.FormatMetadata(word.PartOfSpeech, word.CefrLevel)))
-                .ToArray());
+                .ToArray();
+            ShowWords(_allWords);
         }
         catch
         {
@@ -115,15 +115,34 @@ public partial class CefrWordsPage : ContentPage
         }
 
         CefrLevel = cefrLevel;
-        await RefreshAsync().ConfigureAwait(true);
+
+        Guid? startingWordPublicId = await _cefrBrowseStateService
+            .GetStartingWordPublicIdAsync(cefrLevel, CancellationToken.None)
+            .ConfigureAwait(true);
+
+        if (startingWordPublicId is null)
+        {
+            await RefreshAsync().ConfigureAwait(true);
+            return;
+        }
+
+        string escapedCefrLevel = Uri.EscapeDataString(cefrLevel);
+        string escapedWordPublicId = Uri.EscapeDataString(startingWordPublicId.Value.ToString("D"));
+        await Shell.Current.GoToAsync(
+                $"{nameof(WordDetailPage)}?wordPublicId={escapedWordPublicId}&cefrLevel={escapedCefrLevel}")
+            .ConfigureAwait(true);
     }
 
     /// <summary>
     /// Applies the current result set to the page.
     /// </summary>
-    private void ShowEmptyState(IReadOnlyList<CefrWordItemViewModel> words)
+    private void ShowWords(IReadOnlyList<CefrWordItemViewModel> words)
     {
-        WordsCollectionView.ItemsSource = words;
+        _allWords = words;
+        _visibleWords.Clear();
+        _loadedWordCount = 0;
+        LoadNextPage();
+
         ErrorStateLabel.IsVisible = false;
         EmptyStateLabel.IsVisible = words.Count == 0;
         WordsCollectionView.IsVisible = words.Count > 0;
@@ -145,10 +164,41 @@ public partial class CefrWordsPage : ContentPage
     /// </summary>
     private void ShowErrorState()
     {
-        WordsCollectionView.ItemsSource = Array.Empty<CefrWordItemViewModel>();
+        _allWords = [];
+        _visibleWords.Clear();
         WordsCollectionView.IsVisible = false;
         EmptyStateLabel.IsVisible = false;
         ErrorStateLabel.IsVisible = true;
+    }
+
+    /// <summary>
+    /// Loads the next visual page of words into the collection view.
+    /// </summary>
+    private void LoadNextPage()
+    {
+        if (_isLoadingMore || _loadedWordCount >= _allWords.Count)
+        {
+            return;
+        }
+
+        _isLoadingMore = true;
+
+        int nextCount = Math.Min(PageSize, _allWords.Count - _loadedWordCount);
+        foreach (CefrWordItemViewModel word in _allWords.Skip(_loadedWordCount).Take(nextCount))
+        {
+            _visibleWords.Add(word);
+        }
+
+        _loadedWordCount += nextCount;
+        _isLoadingMore = false;
+    }
+
+    /// <summary>
+    /// Loads the next result chunk when the learner scrolls near the end of the current list.
+    /// </summary>
+    private void OnWordsRemainingItemsThresholdReached(object? sender, EventArgs e)
+    {
+        LoadNextPage();
     }
 
     /// <summary>
@@ -164,7 +214,8 @@ public partial class CefrWordsPage : ContentPage
         WordsCollectionView.SelectedItem = null;
 
         string wordPublicId = Uri.EscapeDataString(selectedWord.PublicId.ToString());
-        await Shell.Current.GoToAsync($"{nameof(WordDetailPage)}?wordPublicId={wordPublicId}")
+        string escapedCefrLevel = Uri.EscapeDataString(CefrLevel);
+        await Shell.Current.GoToAsync($"{nameof(WordDetailPage)}?wordPublicId={wordPublicId}&cefrLevel={escapedCefrLevel}")
             .ConfigureAwait(true);
     }
 
